@@ -1,0 +1,22 @@
+header{
+    background: #222122;
+    display: flex;
+    padding: 50px;
+    position: fixed;
+    width: 100%;
+    z-index: 2;
+    box-sizing: border-box;
+}
+
+nav ul{
+    display: flex;
+    gap: 1em;
+    height: 100%;
+    align-items: center;
+    margin: 0;
+}
+
+a:hover, .active{
+    color: #B5FED9
+}
+
