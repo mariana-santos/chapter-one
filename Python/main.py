@@ -43,6 +43,7 @@ def incluir_autor(novo_autor: Autor):
         query = "INSERT INTO autor (id, nome, email, telefone, bio) VALUES (:id, :nome, :email, :telefone, :bio)"
         cursor.execute(query, id = novo_autor.id, nome = novo_autor.nome, email = novo_autor.email, telefone = novo_autor.telefone, bio = novo_autor.bio)
         conn.commit()
+        listaAutores.add(novo_autor)
     except Exception as e:
         print(f"OCORREU UM ERRO: {str(e)}")
         return None
@@ -58,6 +59,7 @@ def atualizar_autor(autor_atualizar: Autor, id):
         query = "UPDATE autor SET nome = :nome, email = :email, telefone = :telefone, bio = :bio WHERE id = :id"
         cursor.execute(query, nome = autor_atualizar.nome, email = autor_atualizar.email, telefone = autor_atualizar.telefone, bio = autor_atualizar.bio, id = id)
         conn.commit()
+        listaAutores.add(autor_atualizar)
     except Exception as e:
         print(f"OCORREU UM ERRO: {str(e)}")
         return None
@@ -73,6 +75,9 @@ def deletar_autor(id):
         query = "DELETE FROM autor WHERE ID = :id"
         cursor.execute(query, id = id)
         conn.commit()
+        for autor_deletar in listaAutores:
+            if autor_deletar.id == id:
+                listaAutores.remove(autor_deletar)        
     except Exception as e:
         print(f"OCORREU UM ERRO: {str(e)}")
         return None
@@ -103,6 +108,7 @@ def incluir_categoria(nova_categoria: Categoria):
         query = "INSERT INTO categoria (id, nome) VALUES (:id, :nome)"
         cursor.execute(query, id = nova_categoria.id, nome = nova_categoria.nome)
         conn.commit()
+        listaCategorias.add(nova_categoria)
     except Exception as e:
         print(f"OCORREU UM ERRO: {str(e)}")
         return None
@@ -118,6 +124,7 @@ def atualizar_categoria(categoria_atualizar: Categoria, id):
         query = "UPDATE categoria SET nome = :nome WHERE id = :id"
         cursor.execute(query, nome = categoria_atualizar.nome, id = id)
         conn.commit()
+        listaCategorias.add(categoria_atualizar)
     except Exception as e:
         print(f"OCORREU UM ERRO: {str(e)}")
         return None
@@ -133,6 +140,9 @@ def deletar_categoria(id):
         query = "DELETE FROM categoria WHERE ID = :id"
         cursor.execute(query, id = id)
         conn.commit()
+        for categoria_deletar in listaCategorias:
+            if categoria_deletar.id == id:
+                listaCategorias.remove(categoria_deletar)
     except Exception as e:
         print(f"OCORREU UM ERRO: {str(e)}")
         return None
@@ -163,6 +173,7 @@ def incluir_editora(nova_editora: Editora):
         query = "INSERT INTO editora (id, nome, endereco, telefone) VALUES (:id, :nome, :endereco, :telefone)"
         cursor.execute(query, id = nova_editora.id, nome = nova_editora.nome, endereco = nova_editora.endereco, telefone = nova_editora.telefone)
         conn.commit()
+        listaEditoras.add(nova_editora)
     except Exception as e:
         print(f"OCORREU UM ERRO: {str(e)}")
         return None
@@ -178,6 +189,7 @@ def atualizar_editora(editora_atualizar: Editora, id):
         query = "UPDATE editora SET nome = :nome, endereco = :endereco, telefone = :telefone WHERE id = :id"
         cursor.execute(query, nome = editora_atualizar.nome, endereco = editora_atualizar.endereco, telefone = editora_atualizar.telefone, id = id)
         conn.commit()
+        listaEditoras.add(editora_atualizar)
     except Exception as e:
         print(f"OCORREU UM ERRO: {str(e)}")
         return None
@@ -193,6 +205,9 @@ def deletar_editora(id):
         query = "DELETE FROM editora WHERE ID = :id"
         cursor.execute(query, id = id)
         conn.commit()
+        for editora_deletar in listaEditoras:
+            if editora_deletar.id == id:
+                listaEditoras.remove(editora_deletar)
     except Exception as e:
         print(f"OCORREU UM ERRO: {str(e)}")
         return None
@@ -223,6 +238,7 @@ def incluir_livro(novo_livro: Livro):
         query = "INSERT INTO livro (id, titulo, resumo, ano, paginas, isbn, id_categoria, id_editora, imagem) VALUES (:id, :titulo, :resumo, :ano, :paginas, :isbn, :id_categoria, :id_editora, :imagem)"
         cursor.execute(query, id = novo_livro.id, titulo = novo_livro.titulo, resumo = novo_livro.resumo, ano = novo_livro.ano, paginas = novo_livro.paginas, isbn = novo_livro.isbn, id_categoria = novo_livro.id_categoria, id_editora = novo_livro.id_editora, imagem = novo_livro.imagem)
         conn.commit()
+        listaLivros.add(novo_livro)
     except Exception as e:
         print(f"OCORREU UM ERRO: {str(e)}")
         return None
@@ -238,6 +254,7 @@ def atualizar_livro(livro_atualizar: Livro, id):
         query = "UPDATE livro SET titulo = :titulo, resumo = :resumo, ano = :ano, paginas = :paginas, isbn = :isbn, id_categoria = :id_categoria, id_editora = :id_editora, imagem = :imagem WHERE id = :id"
         cursor.execute(query, titulo = livro_atualizar.titulo, resumo = livro_atualizar.resumo, ano = livro_atualizar.ano, paginas = livro_atualizar.paginas, isbn = livro_atualizar.isbn, id_categoria = livro_atualizar.id_categoria, id_editora = livro_atualizar.id_editora, imagem = livro_atualizar.imagem, id = id)
         conn.commit()
+        listaLivros.add(livro_atualizar)
     except Exception as e:
         print(f"OCORREU UM ERRO: {str(e)}")
         return None
@@ -253,6 +270,9 @@ def deletar_livro(id):
         query = "DELETE FROM livro WHERE ID = :id"
         cursor.execute(query, id = id)
         conn.commit()
+        for livro_deletar in listaLivros:
+            if livro_deletar.id == id:
+                return livro_deletar
     except Exception as e:
         print(f"OCORREU UM ERRO: {str(e)}")
         return None
