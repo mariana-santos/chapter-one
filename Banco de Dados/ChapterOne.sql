@@ -63,3 +63,9 @@ INSERT INTO livro VALUES (2, 'Título 02', 'Resumo 02', '2002', 200, 'ISBN 02', 2
 INSERT INTO livro VALUES (3, 'Título 03', 'Resumo 03', '2003', 300, 'ISBN 03', 3, 3, 'URL 03', 50.00);
 INSERT INTO livro VALUES (4, 'Título 04', 'Resumo 04', '2004', 400, 'ISBN 04', 4, 4, 'URL 04', 9.90);
 INSERT INTO livro VALUES (5, 'Título 05', 'Resumo 05', '2005', 500, 'ISBN 05', 5, 5, 'URL 05', 19.90);
+
+INSERT INTO autor_livro VALUES (1, 1);
+INSERT INTO autor_livro VALUES (2, 2);
+INSERT INTO autor_livro VALUES (3, 3);
+INSERT INTO autor_livro VALUES (4, 4);
+INSERT INTO autor_livro VALUES (5, 5);
