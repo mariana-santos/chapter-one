@@ -29,7 +29,8 @@ CREATE TABLE livro(
     isbn VARCHAR(20) CONSTRAINT isbn_livro_nn NOT NULL CONSTRAINT isbn_livro_uk UNIQUE,
     id_categoria NUMBER(9) CONSTRAINT id_cat_fk REFERENCES categoria CONSTRAINT id_cat_nn NOT NULL,
     id_editora NUMBER(9) CONSTRAINT id_editora_fk REFERENCES editora CONSTRAINT id_editora_nn NOT NULL,
-    imagem VARCHAR(255) CONSTRAINT img_livro_nn NOT NULL
+    imagem VARCHAR(255) CONSTRAINT img_livro_nn NOT NULL,
+    preco NUMBER(9,2) CONSTRAINT preco_livro_nn NOT NULL
 );
 
 CREATE TABLE autor_livro(
@@ -57,8 +58,8 @@ INSERT INTO autor VALUES (3, 'Autor 03', 'autor03@gmail.com', '11 33000000', 'Bi
 INSERT INTO autor VALUES (4, 'Autor 04', 'autor04@gmail.com', '11 44000000', 'Bio 04');
 INSERT INTO autor VALUES (5, 'Autor 05', 'autor05@gmail.com', '11 55000000', 'Bio 05');
 
-INSERT INTO livro VALUES (1, 'Título 01', 'Resumo 01', '2001', 100, 'ISBN 01', 1, 1, 'URL 01');
-INSERT INTO livro VALUES (2, 'Título 02', 'Resumo 02', '2002', 200, 'ISBN 02', 2, 2, 'URL 02');
-INSERT INTO livro VALUES (3, 'Título 03', 'Resumo 03', '2003', 300, 'ISBN 03', 3, 3, 'URL 03');
-INSERT INTO livro VALUES (4, 'Título 04', 'Resumo 04', '2004', 400, 'ISBN 04', 4, 4, 'URL 04');
-INSERT INTO livro VALUES (5, 'Título 05', 'Resumo 05', '2005', 500, 'ISBN 05', 5, 5, 'URL 05');
+INSERT INTO livro VALUES (1, 'Título 01', 'Resumo 01', '2001', 100, 'ISBN 01', 1, 1, 'URL 01', 10.50);
+INSERT INTO livro VALUES (2, 'Título 02', 'Resumo 02', '2002', 200, 'ISBN 02', 2, 2, 'URL 02', 25.00);
+INSERT INTO livro VALUES (3, 'Título 03', 'Resumo 03', '2003', 300, 'ISBN 03', 3, 3, 'URL 03', 50.00);
+INSERT INTO livro VALUES (4, 'Título 04', 'Resumo 04', '2004', 400, 'ISBN 04', 4, 4, 'URL 04', 9.90);
+INSERT INTO livro VALUES (5, 'Título 05', 'Resumo 05', '2005', 500, 'ISBN 05', 5, 5, 'URL 05', 19.90);

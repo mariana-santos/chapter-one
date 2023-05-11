@@ -11,6 +11,7 @@ class Livro(BaseModel):
     id_categoria: int
     id_editora: int
     imagem: str
+    preco: float
 
     def buscarLivrosBanco(dsn, Livro):
         try:
@@ -18,7 +19,7 @@ class Livro(BaseModel):
             cursor = conn.cursor()
             listaLivros = []
             cursor.execute("""
-                SELECT l.id, l.titulo, l.resumo, l.ano, l.paginas, l.isbn, l.id_categoria, l.id_editora, l.imagem
+                SELECT l.id, l.titulo, l.resumo, l.ano, l.paginas, l.isbn, l.id_categoria, l.id_editora, l.imagem, l.preco
                 FROM livro l
                 ORDER BY l.titulo
             """)
@@ -32,7 +33,8 @@ class Livro(BaseModel):
                     isbn = row[5],
                     id_categoria = row[6],
                     id_editora = row[7],
-                    imagem = row[8]
+                    imagem = row[8],
+                    preco = row[9]
                 )
                 listaLivros.append(livro_banco)
             
