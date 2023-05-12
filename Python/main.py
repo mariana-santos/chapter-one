@@ -36,13 +36,21 @@ def listar_autor_por_id(id: int):
 
 # API'S - AUTOR (ADICIONAR AUTOR)
 @app.post("/incluir_autor", tags=["Autores"])
-def incluir_autor(novo_autor: Autor):
+def incluir_autor(novo_autor: Autor, livros: list):
     try:
         conn = Utils.connect(dsn)
         cursor = conn.cursor()
-        query = "INSERT INTO autor (id, nome, email, telefone, bio) VALUES (:id, :nome, :email, :telefone, :bio)"
-        cursor.execute(query, id = novo_autor.id, nome = novo_autor.nome, email = novo_autor.email, telefone = novo_autor.telefone, bio = novo_autor.bio)
+
+        query = "INSERT INTO autor (id, nome, email, telefone, bio) VALUES (SQ_AUTOR.NEXTVAL, :nome, :email, :telefone, :bio)"
+        cursor.execute(query, nome = novo_autor.nome, email = novo_autor.email, telefone = novo_autor.telefone, bio = novo_autor.bio)
         conn.commit()
+
+        for livro in livros:
+            query = "INSERT INTO autor_livro VALUES (:id_autor, :id_livro)"
+            cursor.execute(query, id_autor = novo_autor.id, id_livro = livro.id)
+            novo_autor.livros.append(livro)
+        conn.commit()
+        
         listaAutores.add(novo_autor)
     except Exception as e:
         print(f"OCORREU UM ERRO: {str(e)}")
@@ -54,11 +62,26 @@ def incluir_autor(novo_autor: Autor):
 @app.put("/atualizar_autor/{id}", tags=["Autores"])
 def atualizar_autor(autor_atualizar: Autor, id):
     try:
+        listaAutores.remove(autor_atualizar)
         conn = Utils.connect(dsn)
         cursor = conn.cursor()
+
         query = "UPDATE autor SET nome = :nome, email = :email, telefone = :telefone, bio = :bio WHERE id = :id"
         cursor.execute(query, nome = autor_atualizar.nome, email = autor_atualizar.email, telefone = autor_atualizar.telefone, bio = autor_atualizar.bio, id = id)
         conn.commit()
+        
+        query = "DELETE FROM autor_livro WHERE id_autor = :id"
+        cursor.execute(query, id = id)
+        conn.commit()
+
+        autor_atualizar.livros = []
+
+        for livro in autor_atualizar.livros:
+            query = "INSERT INTO autor_livro VALUES (:id_autor, :id_livro)"
+            cursor.execute(query, id_autor = autor_atualizar.id, id_livro = livro.id)
+            autor_atualizar.livros.append(livro)
+        conn.commit()
+
         listaAutores.add(autor_atualizar)
     except Exception as e:
         print(f"OCORREU UM ERRO: {str(e)}")
@@ -72,9 +95,15 @@ def deletar_autor(id):
     try:
         conn = Utils.connect(dsn)
         cursor = conn.cursor()
-        query = "DELETE FROM autor WHERE ID = :id"
+
+        query = "DELETE FROM autor_livro WHERE id_autor = :id"
         cursor.execute(query, id = id)
         conn.commit()
+        
+        query = "DELETE FROM autor WHERE id = :id"
+        cursor.execute(query, id = id)
+        conn.commit()
+
         for autor_deletar in listaAutores:
             if autor_deletar.id == id:
                 listaAutores.remove(autor_deletar)        
@@ -119,6 +148,7 @@ def incluir_categoria(nova_categoria: Categoria):
 @app.put("/atualizar_categoria/{id}", tags=["Categorias"])
 def atualizar_categoria(categoria_atualizar: Categoria, id):
     try:
+        listaCategorias.remove(categoria_atualizar)
         conn = Utils.connect(dsn)
         cursor = conn.cursor()
         query = "UPDATE categoria SET nome = :nome WHERE id = :id"
@@ -137,7 +167,7 @@ def deletar_categoria(id):
     try:
         conn = Utils.connect(dsn)
         cursor = conn.cursor()
-        query = "DELETE FROM categoria WHERE ID = :id"
+        query = "DELETE FROM categoria WHERE id = :id"
         cursor.execute(query, id = id)
         conn.commit()
         for categoria_deletar in listaCategorias:
@@ -184,6 +214,7 @@ def incluir_editora(nova_editora: Editora):
 @app.put("/atualizar_editora/{id}", tags=["Editoras"])
 def atualizar_editora(editora_atualizar: Editora, id):
     try:
+        listaEditoras.remove(editora_atualizar)
         conn = Utils.connect(dsn)
         cursor = conn.cursor()
         query = "UPDATE editora SET nome = :nome, endereco = :endereco, telefone = :telefone WHERE id = :id"
@@ -202,7 +233,7 @@ def deletar_editora(id):
     try:
         conn = Utils.connect(dsn)
         cursor = conn.cursor()
-        query = "DELETE FROM editora WHERE ID = :id"
+        query = "DELETE FROM editora WHERE id = :id"
         cursor.execute(query, id = id)
         conn.commit()
         for editora_deletar in listaEditoras:
@@ -231,13 +262,21 @@ def listar_livro_por_id(id: int):
 
 # API'S - LIVRO (ADICIONAR LIVRO)
 @app.post("/incluir_livro", tags=["Livros"])
-def incluir_livro(novo_livro: Livro):
+def incluir_livro(novo_livro: Livro, autores: list):
     try:
         conn = Utils.connect(dsn)
         cursor = conn.cursor()
+
+        for autor in autores:
+            query = "INSERT INTO autor_livro VALUES (:id_autor, :id_livro)"
+            cursor.execute(query, id_autor = autor.id, id_livro = novo_livro.id)
+            novo_livro.autores.append(autor)
+        conn.commit()
+
         query = "INSERT INTO livro (id, titulo, resumo, ano, paginas, isbn, id_categoria, id_editora, imagem) VALUES (:id, :titulo, :resumo, :ano, :paginas, :isbn, :id_categoria, :id_editora, :imagem)"
         cursor.execute(query, id = novo_livro.id, titulo = novo_livro.titulo, resumo = novo_livro.resumo, ano = novo_livro.ano, paginas = novo_livro.paginas, isbn = novo_livro.isbn, id_categoria = novo_livro.id_categoria, id_editora = novo_livro.id_editora, imagem = novo_livro.imagem)
         conn.commit()
+
         listaLivros.add(novo_livro)
     except Exception as e:
         print(f"OCORREU UM ERRO: {str(e)}")
@@ -249,11 +288,26 @@ def incluir_livro(novo_livro: Livro):
 @app.put("/atualizar_livro/{id}", tags=["Livros"])
 def atualizar_livro(livro_atualizar: Livro, id):
     try:
+        listaLivros.remove(livro_atualizar)
         conn = Utils.connect(dsn)
         cursor = conn.cursor()
+
         query = "UPDATE livro SET titulo = :titulo, resumo = :resumo, ano = :ano, paginas = :paginas, isbn = :isbn, id_categoria = :id_categoria, id_editora = :id_editora, imagem = :imagem WHERE id = :id"
         cursor.execute(query, titulo = livro_atualizar.titulo, resumo = livro_atualizar.resumo, ano = livro_atualizar.ano, paginas = livro_atualizar.paginas, isbn = livro_atualizar.isbn, id_categoria = livro_atualizar.id_categoria, id_editora = livro_atualizar.id_editora, imagem = livro_atualizar.imagem, id = id)
         conn.commit()
+
+        query = "DELETE FROM autor_livro WHERE id_livro = :id"
+        cursor.execute(query, id = id)
+        conn.commit()
+
+        atualizar_livro.autores = []
+
+        for autor in livro_atualizar.autores:
+            query = "INSERT INTO autor_livro VALUES (:id_autor, :id_livro)"
+            cursor.execute(query, id_autor = autor.id, id_livro = id)
+            atualizar_livro.autores.append(autor)
+        conn.commit()
+
         listaLivros.add(livro_atualizar)
     except Exception as e:
         print(f"OCORREU UM ERRO: {str(e)}")
@@ -267,9 +321,15 @@ def deletar_livro(id):
     try:
         conn = Utils.connect(dsn)
         cursor = conn.cursor()
-        query = "DELETE FROM livro WHERE ID = :id"
+
+        query = "DELETE FROM autor_livro WHERE id_livro = :id"
         cursor.execute(query, id = id)
         conn.commit()
+
+        query = "DELETE FROM livro WHERE id = :id"
+        cursor.execute(query, id = id)
+        conn.commit()
+
         for livro_deletar in listaLivros:
             if livro_deletar.id == id:
                 return livro_deletar
