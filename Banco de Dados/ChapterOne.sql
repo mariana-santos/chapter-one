@@ -69,3 +69,7 @@ INSERT INTO autor_livro VALUES (2, 2);
 INSERT INTO autor_livro VALUES (3, 3);
 INSERT INTO autor_livro VALUES (4, 4);
 INSERT INTO autor_livro VALUES (5, 5);
+
+SELECT * FROM autor_livro WHERE id_autor = 1;
+
+commit;
