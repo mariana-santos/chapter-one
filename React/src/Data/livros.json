@@ -1,1 +1,54 @@
-[]
+[
+    {
+        "id": 1,
+        "titulo": "1984",
+        "resumo": "O livro 1984 de George Orwell é uma importante sátira política de ficção científica publicada em 1949, que influencia a literatura até hoje. A história se passa em uma distopia futurista, onde o governo do superestado da Oceania controla todos os aspectos da vida de seus cidadãos. O personagem principal, Winston Smith, é um funcionário do Ministério da Verdade que secretamente odeia o Partido e deseja se rebelar contra o sistema totalitário comandado pela figura mítica do Grande Irmão.",
+        "ano": 1949,
+        "paginas": 288,
+        "isbn": "978-8535914849",
+        "id_categoria": 1,
+        "id_editora": 1,
+        "id_autora": 1,
+        "imagem": "https://m.media-amazon.com/images/I/81EStZoMf7L.jpg",
+        "preco": 45
+    },
+    {
+        "id": 2,
+        "titulo": "Título 02",
+        "resumo": "Resumo 02",
+        "ano": 2002,
+        "paginas": 200,
+        "isbn": "ISBN 02",
+        "id_categoria": 2,
+        "id_editora": 2,
+        "id_autora": 1,
+        "imagem": "https://m.media-amazon.com/images/I/81EStZoMf7L.jpg",
+        "preco": 45
+    },
+    {
+        "id": 3,
+        "titulo": "Título 03",
+        "resumo": "Resumo 03",
+        "ano": 2003,
+        "paginas": 200,
+        "isbn": "ISBN 02",
+        "id_categoria": 2,
+        "id_editora": 2,
+        "id_autora": 1,
+        "imagem": "https://m.media-amazon.com/images/I/41gUVMwl%2BDL._SX342_SY445_QL70_ML2_.jpg",
+        "preco": 45
+    },
+    {
+        "id": 4,
+        "titulo": "Título 03",
+        "resumo": "Resumo 03",
+        "ano": 2003,
+        "paginas": 200,
+        "isbn": "ISBN 02",
+        "id_categoria": 2,
+        "id_editora": 2,
+        "id_autora": 1,
+        "imagem": "https://m.media-amazon.com/images/I/41gUVMwl%2BDL._SX342_SY445_QL70_ML2_.jpg",
+        "preco": 45
+    }
+]

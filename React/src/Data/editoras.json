@@ -1,0 +1,20 @@
+[
+    {
+        "id": 1,
+        "nome": "Via Leitura",
+        "endereco": "Rua 01 - 100",
+        "telefone": "11 10000000"
+      },
+      {
+        "id": 2,
+        "nome": "Editora 02",
+        "endereco": "Rua 02 - 200",
+        "telefone": "11 20000000"
+      },
+      {
+        "id": 3,
+        "nome": "Editora 03",
+        "endereco": "Rua 03 - 300",
+        "telefone": "11 30000000"
+      }
+]

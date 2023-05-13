@@ -18,3 +18,33 @@ a{
 ul li{
   list-style: none;
 }
+
+header h1{
+  margin: 0;
+}
+
+.container{
+  padding: 200px 50px;
+}
+
+.btn{
+  text-transform: uppercase;
+  background: #3b9fe1;
+  color: #252525;
+  font-weight: bold;
+  width: 100%;
+  display: inline-block;
+  padding: .8em;
+  box-sizing: border-box;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: .8em;
+}
+
+.btn:hover{
+  color: #151515;
+  opacity: .7;
+  transform: translateY(-5px);
+}
