@@ -1,0 +1,30 @@
+.wrap_filter, #loja h3{
+    width: 65%;
+    margin: auto;
+}
+
+#loja h3{
+    font-size: 2em;
+    margin-bottom: .5em;
+}
+
+.wrap_filter input{
+    width: 70%;
+}
+
+.wrap_filter input, .wrap_filter input:active, select{
+    outline: 0;
+    padding: .5em 1em;
+    border-radius: 5px;
+    border: none;
+    background-color: #3A3A3A;
+    border: solid 1px #333;
+    color: #ccc;
+    font-family: 'inter';
+    margin-right: 1em;
+}
+
+select{
+    background: #222122;
+}
+

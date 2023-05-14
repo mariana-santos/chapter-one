@@ -14,7 +14,9 @@ export default function ListaLivros(props){
                         id={livro.id} 
                         titulo={livro.titulo} 
                         preco={livro.preco} 
+                        desconto={livro.desconto} 
                         imagem={livro.imagem} 
+                        autor={livro.autor[0].nome}
                     />
                 )
             }) }

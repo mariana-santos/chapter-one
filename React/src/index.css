@@ -1,6 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;300;500;600;700;900&family=Oswald:wght@400;700&display=swap');
+
+html{
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: 'inter', 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -29,7 +35,7 @@ header h1{
 
 .btn{
   text-transform: uppercase;
-  background: #3b9fe1;
+  background: #33A1FD;
   color: #252525;
   font-weight: bold;
   width: 100%;
@@ -47,4 +53,10 @@ header h1{
   color: #151515;
   opacity: .7;
   transform: translateY(-5px);
+}
+
+h2{
+  font-family: 'Inter';
+  font-size: 2.5em;
+  margin-top: 2.5em;
 }

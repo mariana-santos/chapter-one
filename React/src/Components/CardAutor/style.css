@@ -1,0 +1,10 @@
+.card_autor img{
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.card_autor h3{
+    font-size: 1.5em;
+    margin-bottom: 1.5em;
+}

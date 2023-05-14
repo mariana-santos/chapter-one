@@ -8,6 +8,7 @@ import Carrinho from './Pages/Carrinho'
 import Livro from './Pages/Livro'
 
 import livros from './Data/livros.json'
+import Autor from './Pages/Autor'
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
         <Route path='/contato' element={<Contato />} />
         <Route path='/carrinho' element={<Carrinho />} />
         <Route path='/livro/:id' element={<Livro />} />
+        <Route path='/autor/:id' element={<Autor />} />
       </Routes>
     </BrowserRouter>
   );

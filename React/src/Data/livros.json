@@ -2,53 +2,77 @@
     {
         "id": 1,
         "titulo": "1984",
-        "resumo": "O livro 1984 de George Orwell é uma importante sátira política de ficção científica publicada em 1949, que influencia a literatura até hoje. A história se passa em uma distopia futurista, onde o governo do superestado da Oceania controla todos os aspectos da vida de seus cidadãos. O personagem principal, Winston Smith, é um funcionário do Ministério da Verdade que secretamente odeia o Partido e deseja se rebelar contra o sistema totalitário comandado pela figura mítica do Grande Irmão.",
+        "resumo": "A obra é uma importante sátira política de ficção científica que influencia a literatura até hoje. A história se passa em uma distopia futurista, onde o governo do superestado da Oceania controla todos os aspectos da vida de seus cidadãos. O personagem principal, Winston Smith, é um funcionário do Ministério da Verdade que secretamente odeia o Partido e deseja se rebelar contra o sistema totalitário comandado pela figura mítica do Grande Irmão.",
         "ano": 1949,
         "paginas": 288,
         "isbn": "978-8535914849",
         "id_categoria": 1,
         "id_editora": 1,
-        "id_autora": 1,
+        "autor": [
+            {
+                "id": 1,
+                "nome": "George Orwell"
+            }
+        ],
         "imagem": "https://m.media-amazon.com/images/I/81EStZoMf7L.jpg",
-        "preco": 45
+        "preco": 69.9,
+        "desconto": 0.2
     },
     {
         "id": 2,
-        "titulo": "Título 02",
-        "resumo": "Resumo 02",
-        "ano": 2002,
-        "paginas": 200,
+        "titulo": "Crepúsculo",
+        "resumo": "Crepúsculo poderia ser uma história comum, não fosse um elemento irresistível: o objeto da paixão da protagonista é um vampiro. Assim, soma-se à paixão um perigo sobrenatural temperado com muito suspense, e o resultado é uma leitura de tirar o fôlego. Um romance repleto das angústias e incertezas da juventude - o arrebatamento, a atração, a ansiedade que antecede cada palavra, cada gesto, e todos os medos.",
+        "ano": 2008,
+        "paginas": 480,
         "isbn": "ISBN 02",
         "id_categoria": 2,
         "id_editora": 2,
-        "id_autora": 1,
-        "imagem": "https://m.media-amazon.com/images/I/81EStZoMf7L.jpg",
-        "preco": 45
+        "autor": [
+            {
+                "id": 2,
+                "nome": "Stephanie Meyer"
+            }
+        ],
+        "imagem": "https://m.media-amazon.com/images/I/41gUVMwl%2BDL._SX342_SY445_QL70_ML2_.jpg",
+        "preco": 69.9,
+        "desconto": 0.15
     },
     {
         "id": 3,
-        "titulo": "Título 03",
-        "resumo": "Resumo 03",
+        "titulo": "Laranja Mecânica",
+        "resumo": "Uma das mais brilhantes sátiras distópicas já escritas, Laranja Mecânica ganhou fama ao ser adaptado em uma obra magistral do cinema pelas mãos de Stanley Kubrick. O livro, entretanto, também é um clássico moderno da ficção inglesa e um marco na cultura pop, que ao lado de 1984, de George Orwell, Admirável Mundo Novo, de Aldous Huxley, e Fahrenheit 451, de Ray Bradbury, representa um dos ícones literários da alienação pós-industrial.",
         "ano": 2003,
-        "paginas": 200,
-        "isbn": "ISBN 02",
+        "paginas": 288,
+        "isbn": "8576574462",
         "id_categoria": 2,
-        "id_editora": 2,
-        "id_autora": 1,
-        "imagem": "https://m.media-amazon.com/images/I/41gUVMwl%2BDL._SX342_SY445_QL70_ML2_.jpg",
-        "preco": 45
+        "id_editora": 3,
+        "autor": [
+            {
+                "id": 3,
+                "nome": "Anthony Burgess"
+            }
+        ],
+        "imagem": "https://m.media-amazon.com/images/I/51cFreMs86L._SX347_BO1,204,203,200_.jpg",
+        "preco": 64.9,
+        "desconto": 0.36
     },
     {
         "id": 4,
-        "titulo": "Título 03",
-        "resumo": "Resumo 03",
-        "ano": 2003,
-        "paginas": 200,
-        "isbn": "ISBN 02",
+        "titulo": "O iluminado",
+        "resumo": "O romance, magistralmente levado ao cinema por Stanley Kubrick, continua apaixonando (e aterrorizando) novas gerações de leitores. A luta assustadora entre dois mundos. Um menino e o desejo assassino de poderosas forças malignas. Uma família refém do mal. Nesta guerra sem testemunhas, vencerá o mais forte. Danny Torrance não é um menino comum. É capaz de ouvir pensamentos e transportar-se no tempo. Danny é iluminado. Será uma maldição ou uma bênção? A resposta pode estar guardada na imponência assustadora do hotel Overlook. Em O iluminado, quando Jack Torrance consegue o emprego de zelador no velho hotel, todos os problemas da família parecem estar solucionados. Não mais o desemprego e as noites de bebedeiras. Não mais o sofrimento da esposa, Wendy. Tranquilidade e ar puro para o pequeno Danny livrar-se das convulsões que assustam a família. Só que o Overlook não é um hotel comum. O tempo esqueceu-se de enterrar velhos ódios e de cicatrizar antigas feridas, e espíritos malignos ainda residem nos corredores. O hotel é uma chaga aberta de ressentimento e desejo de vingança. É uma sentença de morte. E somente os poderes de Danny podem fazer frente à disseminação do mal.",
+        "ano": 2012,
+        "paginas": 464,
+        "isbn": "8581050484",
         "id_categoria": 2,
-        "id_editora": 2,
-        "id_autora": 1,
-        "imagem": "https://m.media-amazon.com/images/I/41gUVMwl%2BDL._SX342_SY445_QL70_ML2_.jpg",
-        "preco": 45
+        "id_editora": 3,
+        "autor": [
+            {
+                "id": 3,
+                "nome": "Stephen King"
+            }
+        ],
+        "imagem": "https://m.media-amazon.com/images/I/51wt58SEkUL._SX346_BO1,204,203,200_.jpg",
+        "preco": 67.9,
+        "desconto": 0.4
     }
 ]

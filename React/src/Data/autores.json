@@ -1,30 +1,47 @@
 [
     {
         "id": 1,
-        "nome": "J.K Rowling"
+        "nome": "George Orwell",
+        "imagem": "https://i.pinimg.com/originals/fa/84/da/fa84da00eb9cf1f0a1bceba90461b515.jpg",
+        "livros": [1],
+        "telefone": "(11) 9 9022-5252",
+        "email": "contato@georgeorwell.com",
+        "bio": "George Orwell, pseudônimo de Eric Arthur Blair, foi um escritor e jornalista britânico nascido em 1903 e falecido em 1950. Durante sua vida, Orwell trabalhou como professor, policial e jornalista em diferentes partes do mundo, e se envolveu em diversos movimentos políticos de esquerda. Sua obra literária mais famosa é o romance distópico '1984', que descreve um futuro sombrio e totalitário, mas ele também escreveu outros livros importantes como 'A Revolução dos Bichos' e 'Dentro da Baleia'. Orwell é considerado um dos autores mais influentes do século XX e suas obras continuam a ser estudadas e debatidas até hoje."
     },
     {
         "id": 2,
-        "nome": "Stephen King"
+        "nome": "Stephen King",
+        "imagem": "https://m.media-amazon.com/images/S/amzn-author-media-prod/fkeglaqq0pic05a0v6ieqt4iv5._SX450_.jpg",
+        "livros": [4],
+        "telefone": "(11) 9 9022-5252",
+        "email": "contato@stephenking.com",
+        "bio": "Stephen King é um dos mais bem-sucedidos autores de terror e suspense do mundo. Nascido em Portland, Maine, em 1947, ele começou a escrever desde cedo, e publicou seu primeiro livro, 'Carrie, a Estranha', em 1974. Desde então, escreveu dezenas de best-sellers, muitos deles adaptados para o cinema e a televisão. Seus livros são conhecidos por misturar elementos sobrenaturais com uma narrativa realista, criando histórias perturbadoras e imprevisíveis. King também é um ativista político e social, e tem se posicionado sobre diversos temas controversos ao longo de sua carreira."
     },
     {
         "id": 3,
-        "nome": "Jojo Moyes"
+        "nome": "Maurício de Sousa", 
+        "imagem": "https://pbs.twimg.com/profile_images/1577030175950241798/I7WVPxcY_400x400.jpg",
+        "livros": [],
+        "telefone": "(11) 9 9022-5252",
+        "email": "contato@mauricio.com",
+        "bio": "Mauricio de Sousa é um dos mais famosos cartunistas do Brasil e criador da Turma da Mônica, uma série de histórias em quadrinhos que faz parte do imaginário infantil brasileiro desde a década de 1960. Nascido em 1935 em Santa Isabel, no estado de São Paulo, Mauricio começou sua carreira desenhando charges políticas para jornais da região. Em 1959, ele publicou sua primeira tira em quadrinhos, a série 'Bidu', que seria a semente da Turma da Mônica. Hoje, Mauricio de Sousa é um dos artistas mais reconhecidos do país, tendo criado um universo de personagens que são adorados por diversas gerações de leitores. Além disso, sua trajetória é marcada pelo compromisso com a diversidade e a inclusão, promovendo personagens com deficiências, diferentes etnias e orientações sexuais."
     },
     {
         "id": 4,
-        "nome": "Laura Sebastian"
+        "nome": "Stephanie Meyer",
+        "imagem": "https://upload.wikimedia.org/wikipedia/commons/6/63/Stephenie_Meyer_by_Gage_Skidmore.jpg",
+        "livros": [2],
+        "telefone": "(11) 9 9022-5252",
+        "email": "contato@stephanie.com",
+        "bio": "Stephanie Meyer é uma escritora americana mais conhecida por sua série de livros 'Crepúsculo', que se tornou um fenômeno mundial. Ela nasceu em Hartford, Connecticut, em 1973, e estudou literatura inglesa na Brigham Young University, em Utah. Antes de escrever 'Crepúsculo', Meyer era uma dona de casa e mãe que gostava de escrever como hobby. Ela publicou o primeiro livro da série em 2005 e rapidamente se tornou um sucesso, vendendo milhões de cópias e sendo adaptado para filmes. Meyer continua a escrever e publicar livros de fantasia e ficção científica para jovens adultos."
     },
     {
         "id": 5,
-        "nome": "Maurício de Sousa"
-    },
-    {
-        "id": 6,
-        "nome": "Laura Sebastian"
-    },
-    {
-        "id": 7,
-        "nome": "Clóvis de Barros Filho"
+        "nome": "Anthony Burgess",
+        "imagem": "https://m.media-amazon.com/images/I/31mnIM5CRJL._SX450_.jpg",
+        "livros": [3],
+        "telefone": "(11) 9 9022-5252",
+        "email": "contato@stephanie.com",
+        "bio": "Anthony Burgess (1917-1993) foi um escritor, crítico literário e compositor musical inglês. Ele é mais conhecido por sua obra 'A Clockwork Orange' (Laranja Mecânica), que foi adaptada para o cinema por Stanley Kubrick em 1971. Burgess escreveu mais de 50 livros, incluindo romances, contos, peças de teatro e ensaios, além de compor óperas e música clássica. Sua obra frequentemente aborda questões como livre-arbítrio, linguagem, cultura e identidade, e ele é considerado um dos mais importantes escritores do século XX."
     }
 ]

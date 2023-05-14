@@ -10,15 +10,39 @@
     background: #3a3a3a;
     border: solid 1px #333;
     padding: 2em;
+    display: flex;
+    flex-direction: column;
 }
 
 .card h3{
-    font-size: 2em;
+    font-size: 1.7em;
     margin: .5em 0;
+    font-weight: 800;
+}
+
+.card span{
+    font-weight: 300;
+    opacity: .7;
+    font-size: .5em;
+    display: block;
+    margin-top: .2em;
 }
 
 .preco{
     font-size: 1.5em;
     margin-top: 0;
-    font-weight: bold;
+    font-weight: 700;
+}
+
+.card .btn{
+    margin-top: auto;
+}
+
+.preco span{
+    text-decoration: line-through;
+    font-weight: 300;
+    opacity: .7;
+    font-size: .7em;
+    display: inline-block;
+    margin-right: .5em;
 }

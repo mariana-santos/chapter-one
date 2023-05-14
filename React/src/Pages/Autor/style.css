@@ -1,0 +1,35 @@
+.autor{
+    width: 70%;
+    display: flex;
+    margin: auto;
+    gap: 3em;
+    align-items: center;
+}
+
+.img_autor{
+    width: 30%;
+}
+
+.autor img{
+    border-radius: 50%;
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+}
+
+.info_autor h2{
+    margin-top: 0em;
+    margin-bottom: .3em;
+}
+
+.info_autor{
+    width: 70%;
+}
+
+.info_autor p{
+    display: inline-flex;
+    align-items: center;
+    gap: .5em;
+    margin-right: 1em;
+    font-weight: 300;
+}
