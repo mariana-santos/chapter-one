@@ -72,6 +72,4 @@ INSERT INTO autor_livro VALUES (3, 3);
 INSERT INTO autor_livro VALUES (4, 4);
 INSERT INTO autor_livro VALUES (5, 5);
 
-commit;
-
-select * from autor;
+COMMIT;
