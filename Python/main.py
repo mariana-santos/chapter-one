@@ -14,47 +14,55 @@ dsn = cx_Oracle.makedsn(host='oracle.fiap.com.br', port=1521, sid='ORCL')
 # INSTANCIANDO FASTAPI
 app = FastAPI()
 
-listaCategorias = Categoria.buscarCategoriasBanco(dsn, Categoria)
-listaEditoras = Editora.buscarEditorasBanco(dsn, Editora)
-listaAutores = Autor.buscarAutoresBanco(dsn, Autor)
-listaLivros = Livro.buscarLivrosBanco(dsn, Livro)
+listaCategorias = Categoria.buscar_categorias_banco(dsn)
+listaEditoras = Editora.buscar_editoras_banco(dsn)
+listaAutores = Autor.buscar_autores_banco(dsn)
+listaLivros = Livro.buscar_livros_banco(dsn)
 
 #-----------------------------------------------------------------
 # API'S - AUTOR
 
-# API'S - AUTOR (LISTAR TODAS)
+# API'S - AUTOR (LISTAR TODOS)
 @app.get("/autores", tags=["Autores"])
 def listar_autores():
-    return listaAutores
+    try: 
+        return listaAutores
+    except Exception as e:
+        print(f"OCORREU UM ERRO AO LISTAR TODOS OS AUTORES: {str(e)}")
+        return None
 
 # API'S - AUTOR (LISTAR POR ID)
 @app.get("/autor/{id}", tags=["Autores"])
 def listar_autor_por_id(id: int):
-    for autor in listaAutores:
-        if autor.id == id:
-            return autor
+    try:
+        for autor in listaAutores:
+            if autor.id == id:
+                return autor
+    except Exception as e:
+        print(f"OCORREU UM ERRO AO LISTAR O AUTOR POR ID: {str(e)}")
+        return None
 
 # API'S - AUTOR (ADICIONAR AUTOR)
 @app.post("/incluir_autor", tags=["Autores"])
-def incluir_autor(novo_autor: Autor, livros: list):
+def incluir_autor(novo_autor: Autor):
     try:
         conn = Utils.connect(dsn)
         cursor = conn.cursor()
 
-        query = "INSERT INTO autor (id, nome, email, telefone, bio) VALUES (SQ_AUTOR.NEXTVAL, :nome, :email, :telefone, :bio)"
-        cursor.execute(query, nome = novo_autor.nome, email = novo_autor.email, telefone = novo_autor.telefone, bio = novo_autor.bio)
-        conn.commit()
-
-        for livro in livros:
-            query = "INSERT INTO autor_livro VALUES (:id_autor, :id_livro)"
-            cursor.execute(query, id_autor = novo_autor.id, id_livro = livro.id)
-            novo_autor.livros.append(livro)
+        query = "INSERT INTO autor (id, nome, email, telefone, bio, imagem) VALUES (SQ_AUTOR.NEXTVAL, :nome, :email, :telefone, :bio, :imagem)"
+        cursor.execute(query, nome = novo_autor.nome, email = novo_autor.email, telefone = novo_autor.telefone, bio = novo_autor.bio, imagem = novo_autor.imagem)
         conn.commit()
         
         listaAutores.add(novo_autor)
-    except Exception as e:
-        print(f"OCORREU UM ERRO: {str(e)}")
+
+    except cx_Oracle.DatabaseError as e:
+        print(f"OCORREU UM ERRO DE BANCO DE DADOS AO CADASTRAR NOVO AUTOR: {str(e)}")
         return None
+    
+    except Exception as e:
+        print(f"OCORREU UM ERRO INESPERADO AO CADASTRAR NOVO AUTOR NO BANCO DE DADOS: {str(e)}")
+        return None
+    
     finally:
         Utils.disconnect(conn, cursor)
 
@@ -62,30 +70,23 @@ def incluir_autor(novo_autor: Autor, livros: list):
 @app.put("/atualizar_autor/{id}", tags=["Autores"])
 def atualizar_autor(autor_atualizar: Autor, id):
     try:
-        listaAutores.remove(autor_atualizar)
         conn = Utils.connect(dsn)
         cursor = conn.cursor()
 
-        query = "UPDATE autor SET nome = :nome, email = :email, telefone = :telefone, bio = :bio WHERE id = :id"
-        cursor.execute(query, nome = autor_atualizar.nome, email = autor_atualizar.email, telefone = autor_atualizar.telefone, bio = autor_atualizar.bio, id = id)
-        conn.commit()
-        
-        query = "DELETE FROM autor_livro WHERE id_autor = :id"
-        cursor.execute(query, id = id)
-        conn.commit()
-
-        autor_atualizar.livros = []
-
-        for livro in autor_atualizar.livros:
-            query = "INSERT INTO autor_livro VALUES (:id_autor, :id_livro)"
-            cursor.execute(query, id_autor = autor_atualizar.id, id_livro = livro.id)
-            autor_atualizar.livros.append(livro)
+        query = "UPDATE autor SET nome = :nome, email = :email, telefone = :telefone, bio = :bio, imagem = :imagem WHERE id = :id"
+        cursor.execute(query, nome = autor_atualizar.nome, email = autor_atualizar.email, telefone = autor_atualizar.telefone, bio = autor_atualizar.bio,  imagem = autor_atualizar.imagem, id = id)
         conn.commit()
 
         listaAutores.add(autor_atualizar)
-    except Exception as e:
-        print(f"OCORREU UM ERRO: {str(e)}")
+
+    except cx_Oracle.DatabaseError as e:
+        print(f"OCORREU UM ERRO DE BANCO DE DADOS AO ATUALIZAR AUTOR: {str(e)}")
         return None
+    
+    except Exception as e:
+        print(f"OCORREU UM ERRO INESPERADO AO ATUALIZAR AUTOR NO BANCO DE DADOS: {str(e)}")
+        return None
+    
     finally:
         Utils.disconnect(conn, cursor)
 
@@ -106,10 +107,16 @@ def deletar_autor(id):
 
         for autor_deletar in listaAutores:
             if autor_deletar.id == id:
-                listaAutores.remove(autor_deletar)        
-    except Exception as e:
-        print(f"OCORREU UM ERRO: {str(e)}")
+                listaAutores.remove(autor_deletar)    
+
+    except cx_Oracle.DatabaseError as e:
+        print(f"OCORREU UM ERRO DE BANCO DE DADOS AO DELETAR AUTOR: {str(e)}")
         return None
+    
+    except Exception as e:
+        print(f"OCORREU UM ERRO INESPERADO AO DELETAR AUTOR NO BANCO DE DADOS: {str(e)}")
+        return None
+    
     finally:
         Utils.disconnect(conn, cursor)
 
@@ -119,28 +126,42 @@ def deletar_autor(id):
 # API'S - CATEGORIA (LISTAR TODAS)
 @app.get("/categorias", tags=["Categorias"])
 def listar_categorias():
-    return listaCategorias
+    try: 
+        return listaCategorias
+    except Exception as e:
+        print(f"OCORREU UM ERRO AO LISTAR TODAS AS CATEGORIAS: {str(e)}")
+        return None
 
 # API'S - CATEGORIA (LISTAR POR ID)
 @app.get("/categoria/{id}", tags=["Categorias"])
 def listar_categoria_por_id(id: int):
-    for categoria in listaCategorias:
-        if categoria.id == id:
-            return categoria
-
+    try:
+        for categoria in listaCategorias:
+            if categoria.id == id:
+                return categoria
+    except Exception as e:
+        print(f"OCORREU UM ERRO AO LISTAR A CATEGORIA POR ID: {str(e)}")
+        return None
+    
 # API'S - CATEGORIA (ADICIONAR CATEGORIA)
 @app.post("/incluir_categoria", tags=["Categorias"])
 def incluir_categoria(nova_categoria: Categoria):
     try:
         conn = Utils.connect(dsn)
         cursor = conn.cursor()
-        query = "INSERT INTO categoria (id, nome) VALUES (:id, :nome)"
-        cursor.execute(query, id = nova_categoria.id, nome = nova_categoria.nome)
+        query = "INSERT INTO categoria (id, nome) VALUES (SQ_CATEGORIA.NEXTVAL, :nome)"
+        cursor.execute(query, nome = nova_categoria.nome)
         conn.commit()
-        listaCategorias.add(nova_categoria)
-    except Exception as e:
-        print(f"OCORREU UM ERRO: {str(e)}")
+        listaCategorias.append(nova_categoria)
+
+    except cx_Oracle.DatabaseError as e:
+        print(f"OCORREU UM ERRO DE BANCO DE DADOS AO CADASTRAR NOVA CATEGORIA: {str(e)}")
         return None
+    
+    except Exception as e:
+        print(f"OCORREU UM ERRO INESPERADO AO CADASTRAR NOVA CATEGORIA NO BANCO DE DADOS: {str(e)}")
+        return None
+    
     finally:
         Utils.disconnect(conn, cursor)
 
@@ -148,16 +169,21 @@ def incluir_categoria(nova_categoria: Categoria):
 @app.put("/atualizar_categoria/{id}", tags=["Categorias"])
 def atualizar_categoria(categoria_atualizar: Categoria, id):
     try:
-        listaCategorias.remove(categoria_atualizar)
         conn = Utils.connect(dsn)
         cursor = conn.cursor()
         query = "UPDATE categoria SET nome = :nome WHERE id = :id"
         cursor.execute(query, nome = categoria_atualizar.nome, id = id)
         conn.commit()
         listaCategorias.add(categoria_atualizar)
-    except Exception as e:
-        print(f"OCORREU UM ERRO: {str(e)}")
+    
+    except cx_Oracle.DatabaseError as e:
+        print(f"OCORREU UM ERRO DE BANCO DE DADOS AO ATUALIZAR CATEGORIA: {str(e)}")
         return None
+    
+    except Exception as e:
+        print(f"OCORREU UM ERRO INESPERADO AO ATUALIZAR CATEGORIA NO BANCO DE DADOS: {str(e)}")
+        return None
+    
     finally:
         Utils.disconnect(conn, cursor)
 
@@ -173,9 +199,15 @@ def deletar_categoria(id):
         for categoria_deletar in listaCategorias:
             if categoria_deletar.id == id:
                 listaCategorias.remove(categoria_deletar)
-    except Exception as e:
-        print(f"OCORREU UM ERRO: {str(e)}")
+   
+    except cx_Oracle.DatabaseError as e:
+        print(f"OCORREU UM ERRO DE BANCO DE DADOS AO DELETAR CATEGORIA: {str(e)}")
         return None
+    
+    except Exception as e:
+        print(f"OCORREU UM ERRO INESPERADO AO DELETAR CATEGORIA NO BANCO DE DADOS: {str(e)}")
+        return None
+    
     finally:
         Utils.disconnect(conn, cursor)
 
@@ -185,14 +217,22 @@ def deletar_categoria(id):
 # API'S - EDITORA (LISTAR TODAS)
 @app.get("/editoras", tags=["Editoras"])
 def listar_editoras():
-    return listaEditoras
+    try: 
+        return listaEditoras
+    except Exception as e:
+        print(f"OCORREU UM ERRO AO LISTAR TODAS AS EDITORAS: {str(e)}")
+        return None
 
 # API'S - EDITORA (LISTAR POR ID)
 @app.get("/editora/{id}", tags=["Editoras"])
 def listar_editora_por_id(id: int):
-    for editora in listaEditoras:
-        if editora.id == id:
-            return editora
+    try:
+        for editora in listaEditoras:
+            if editora.id == id:
+                return editora
+    except Exception as e:
+        print(f"OCORREU UM ERRO AO LISTAR A EDITORA POR ID: {str(e)}")
+        return None
 
 # API'S - EDITORA (ADICIONAR EDITORA)
 @app.post("/incluir_editora", tags=["Editoras"])
@@ -200,13 +240,19 @@ def incluir_editora(nova_editora: Editora):
     try:
         conn = Utils.connect(dsn)
         cursor = conn.cursor()
-        query = "INSERT INTO editora (id, nome, endereco, telefone) VALUES (:id, :nome, :endereco, :telefone)"
-        cursor.execute(query, id = nova_editora.id, nome = nova_editora.nome, endereco = nova_editora.endereco, telefone = nova_editora.telefone)
+        query = "INSERT INTO editora (id, nome, endereco, telefone) VALUES (SQ_EDITORA.NEXTVAL, :nome, :endereco, :telefone)"
+        cursor.execute(query, nome = nova_editora.nome, endereco = nova_editora.endereco, telefone = nova_editora.telefone)
         conn.commit()
         listaEditoras.add(nova_editora)
-    except Exception as e:
-        print(f"OCORREU UM ERRO: {str(e)}")
+    
+    except cx_Oracle.DatabaseError as e:
+        print(f"OCORREU UM ERRO DE BANCO DE DADOS AO CADASTRAR NOVA EDITORA: {str(e)}")
         return None
+    
+    except Exception as e:
+        print(f"OCORREU UM ERRO INESPERADO AO CADASTRAR NOVA EDITORA NO BANCO DE DADOS: {str(e)}")
+        return None
+    
     finally:
         Utils.disconnect(conn, cursor)
 
@@ -214,16 +260,21 @@ def incluir_editora(nova_editora: Editora):
 @app.put("/atualizar_editora/{id}", tags=["Editoras"])
 def atualizar_editora(editora_atualizar: Editora, id):
     try:
-        listaEditoras.remove(editora_atualizar)
         conn = Utils.connect(dsn)
         cursor = conn.cursor()
         query = "UPDATE editora SET nome = :nome, endereco = :endereco, telefone = :telefone WHERE id = :id"
         cursor.execute(query, nome = editora_atualizar.nome, endereco = editora_atualizar.endereco, telefone = editora_atualizar.telefone, id = id)
         conn.commit()
         listaEditoras.add(editora_atualizar)
-    except Exception as e:
-        print(f"OCORREU UM ERRO: {str(e)}")
+   
+    except cx_Oracle.DatabaseError as e:
+        print(f"OCORREU UM ERRO DE BANCO DE DADOS AO ATUALIZAR EDITORA: {str(e)}")
         return None
+    
+    except Exception as e:
+        print(f"OCORREU UM ERRO INESPERADO AO ATUALIZAR EDITORA NO BANCO DE DADOS: {str(e)}")
+        return None
+    
     finally:
         Utils.disconnect(conn, cursor)
 
@@ -239,48 +290,62 @@ def deletar_editora(id):
         for editora_deletar in listaEditoras:
             if editora_deletar.id == id:
                 listaEditoras.remove(editora_deletar)
-    except Exception as e:
-        print(f"OCORREU UM ERRO: {str(e)}")
+    
+    except cx_Oracle.DatabaseError as e:
+        print(f"OCORREU UM ERRO DE BANCO DE DADOS AO DELETAR EDITORA: {str(e)}")
         return None
+    
+    except Exception as e:
+        print(f"OCORREU UM ERRO INESPERADO AO DELETAR EDITORA NO BANCO DE DADOS: {str(e)}")
+        return None
+    
     finally:
         Utils.disconnect(conn, cursor)
 
 # -----------------------------------------------------------------
 # API'S - LIVRO
 
-# API'S - LIVRO (LISTAR TODAS)
+# API'S - LIVRO (LISTAR TODOS)
 @app.get("/livros", tags=["Livros"])
 def listar_livros():
-    return listaLivros
+    try: 
+        return listaLivros
+    except Exception as e:
+        print(f"OCORREU UM ERRO AO LISTAR TODOS OS LIVROS: {str(e)}")
+        return None
 
 # API'S - LIVRO (LISTAR POR ID)
 @app.get("/livro/{id}", tags=["Livros"])
 def listar_livro_por_id(id: int):
-    for livro in listaLivros:
-        if livro.id == id:
-            return livro
+    try:
+        for livro in listaLivros:
+            if livro.id == id:
+                return livro
+    except Exception as e:
+        print(f"OCORREU UM ERRO AO LISTAR O LIVRO POR ID: {str(e)}")
+        return None
 
 # API'S - LIVRO (ADICIONAR LIVRO)
 @app.post("/incluir_livro", tags=["Livros"])
-def incluir_livro(novo_livro: Livro, autores: list):
+def incluir_livro(novo_livro: Livro):
     try:
         conn = Utils.connect(dsn)
         cursor = conn.cursor()
 
-        for autor in autores:
-            query = "INSERT INTO autor_livro VALUES (:id_autor, :id_livro)"
-            cursor.execute(query, id_autor = autor.id, id_livro = novo_livro.id)
-            novo_livro.autores.append(autor)
-        conn.commit()
-
-        query = "INSERT INTO livro (id, titulo, resumo, ano, paginas, isbn, id_categoria, id_editora, imagem) VALUES (:id, :titulo, :resumo, :ano, :paginas, :isbn, :id_categoria, :id_editora, :imagem)"
-        cursor.execute(query, id = novo_livro.id, titulo = novo_livro.titulo, resumo = novo_livro.resumo, ano = novo_livro.ano, paginas = novo_livro.paginas, isbn = novo_livro.isbn, id_categoria = novo_livro.id_categoria, id_editora = novo_livro.id_editora, imagem = novo_livro.imagem)
+        query = "INSERT INTO livro (id, titulo, resumo, ano, paginas, isbn, id_categoria, id_editora, imagem, preco, desconto) VALUES (SQ_LIVRO.NEXTVAL, :titulo, :resumo, :ano, :paginas, :isbn, :id_categoria, :id_editora, :imagem, :preco, :desconto)"
+        cursor.execute(query, titulo = novo_livro.titulo, resumo = novo_livro.resumo, ano = novo_livro.ano, paginas = novo_livro.paginas, isbn = novo_livro.isbn, id_categoria = novo_livro.id_categoria, id_editora = novo_livro.id_editora, imagem = novo_livro.imagem, preco = novo_livro.preco, desconto = novo_livro.desconto)
         conn.commit()
 
         listaLivros.add(novo_livro)
-    except Exception as e:
-        print(f"OCORREU UM ERRO: {str(e)}")
+    
+    except cx_Oracle.DatabaseError as e:
+        print(f"OCORREU UM ERRO DE BANCO DE DADOS AO CADASTRAR NOVO LIVRO: {str(e)}")
         return None
+    
+    except Exception as e:
+        print(f"OCORREU UM ERRO INESPERADO AO CADASTRAR NOVO LIVRO NO BANCO DE DADOS: {str(e)}")
+        return None
+    
     finally:
         Utils.disconnect(conn, cursor)
 
@@ -288,12 +353,11 @@ def incluir_livro(novo_livro: Livro, autores: list):
 @app.put("/atualizar_livro/{id}", tags=["Livros"])
 def atualizar_livro(livro_atualizar: Livro, id):
     try:
-        listaLivros.remove(livro_atualizar)
         conn = Utils.connect(dsn)
         cursor = conn.cursor()
 
-        query = "UPDATE livro SET titulo = :titulo, resumo = :resumo, ano = :ano, paginas = :paginas, isbn = :isbn, id_categoria = :id_categoria, id_editora = :id_editora, imagem = :imagem WHERE id = :id"
-        cursor.execute(query, titulo = livro_atualizar.titulo, resumo = livro_atualizar.resumo, ano = livro_atualizar.ano, paginas = livro_atualizar.paginas, isbn = livro_atualizar.isbn, id_categoria = livro_atualizar.id_categoria, id_editora = livro_atualizar.id_editora, imagem = livro_atualizar.imagem, id = id)
+        query = "UPDATE livro SET titulo = :titulo, resumo = :resumo, ano = :ano, paginas = :paginas, isbn = :isbn, id_categoria = :id_categoria, id_editora = :id_editora, imagem = :imagem, preco = :preco, desconto = :desconto WHERE id = :id"
+        cursor.execute(query, titulo = livro_atualizar.titulo, resumo = livro_atualizar.resumo, ano = livro_atualizar.ano, paginas = livro_atualizar.paginas, isbn = livro_atualizar.isbn, id_categoria = livro_atualizar.id_categoria, id_editora = livro_atualizar.id_editora, imagem = livro_atualizar.imagem, preco = livro_atualizar.preco, desconto = livro_atualizar.desconto, id = id)
         conn.commit()
 
         query = "DELETE FROM autor_livro WHERE id_livro = :id"
@@ -309,9 +373,15 @@ def atualizar_livro(livro_atualizar: Livro, id):
         conn.commit()
 
         listaLivros.add(livro_atualizar)
-    except Exception as e:
-        print(f"OCORREU UM ERRO: {str(e)}")
+    
+    except cx_Oracle.DatabaseError as e:
+        print(f"OCORREU UM ERRO DE BANCO DE DADOS AO ATUALIZAR LIVRO: {str(e)}")
         return None
+    
+    except Exception as e:
+        print(f"OCORREU UM ERRO INESPERADO AO ATUALIZAR LIVRO NO BANCO DE DADOS: {str(e)}")
+        return None
+    
     finally:
         Utils.disconnect(conn, cursor)
 
@@ -333,9 +403,15 @@ def deletar_livro(id):
         for livro_deletar in listaLivros:
             if livro_deletar.id == id:
                 return livro_deletar
-    except Exception as e:
-        print(f"OCORREU UM ERRO: {str(e)}")
+    
+    except cx_Oracle.DatabaseError as e:
+        print(f"OCORREU UM ERRO DE BANCO DE DADOS AO DELETAR LIVRO: {str(e)}")
         return None
+    
+    except Exception as e:
+        print(f"OCORREU UM ERRO INESPERADO AO DELETAR LIVRO NO BANCO DE DADOS: {str(e)}")
+        return None
+    
     finally:
         Utils.disconnect(conn, cursor)
 

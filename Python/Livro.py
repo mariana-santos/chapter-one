@@ -1,8 +1,12 @@
+import cx_Oracle
+
 from pydantic import BaseModel
+from typing import Optional, List, Dict
+
 from Utils import Utils
 
 class Livro(BaseModel):
-    id: int
+    id: Optional[int]
     titulo: str
     resumo: str
     ano: int
@@ -12,54 +16,58 @@ class Livro(BaseModel):
     id_editora: int
     imagem: str
     preco: float
-    autores: list
+    desconto: float
+    autores: Optional[List[Dict[str, int]]]
 
-    def buscarLivrosBanco(dsn, Livro):
+    def buscar_livros_banco(dsn):
         try:
             conn = Utils.connect(dsn)
             cursor_livro = conn.cursor()
-            listaLivros = []
+
             cursor_livro.execute("""
-                SELECT l.id, l.titulo, l.resumo, l.ano, l.paginas, l.isbn, l.id_categoria, l.id_editora, l.imagem, l.preco
+                SELECT l.id, l.titulo, l.resumo, l.ano, l.paginas, l.isbn, l.id_categoria, l.id_editora, l.imagem, l.preco, l.desconto
                 FROM livro l
                 ORDER BY l.titulo
             """)
+
+            lista_livros = []
             for row in cursor_livro:
                 livro_banco = Livro(
-                    id = row[0],
-                    titulo = row[1],
-                    resumo = row[2],
-                    ano = row[3],
-                    paginas = row[4],
-                    isbn = row[5],
-                    id_categoria = row[6],
-                    id_editora = row[7],
-                    imagem = row[8],
-                    preco = row[9],
-                    autores = []
+                    id=row[0],
+                    titulo=row[1],
+                    resumo=row[2],
+                    ano=row[3],
+                    paginas=row[4],
+                    isbn=row[5],
+                    id_categoria=row[6],
+                    id_editora=row[7],
+                    imagem=row[8],
+                    preco=row[9],
+                    desconto=row[10],
+                    autores=[]
                 )
 
                 cursor_autor = conn.cursor()
                 cursor_autor.execute("""
-                SELECT * FROM autor_livro WHERE id_livro = :1
-                """, (livro_banco.id,))
+                    SELECT id_autor FROM autor_livro WHERE id_livro = :id_livro
+                """, {"id_livro": livro_banco.id})
 
                 for autor_row in cursor_autor:
-                    autor = {
-                        'id': autor_row[0]
-                    }
-
+                    autor = {"id": autor_row[0]}
                     livro_banco.autores.append(autor)
-                
-                cursor_autor.close()
 
-                listaLivros.append(livro_banco)
-            
-            return listaLivros
-        
-        except Exception as e:
-            print(f"OCORREU UM ERRO: {str(e)}")
+                cursor_autor.close()
+                lista_livros.append(livro_banco)
+
+            return lista_livros
+
+        except cx_Oracle.DatabaseError as e:
+            print(f"OCORREU UM ERRO DE BANCO DE DADOS AO BUSCAR OS LIVROS: {str(e)}")
             return None
-        
+
+        except Exception as e:
+            print(f"OCORREU UM ERRO INESPERADO AO BUSCAR OS LIVROS NO BANCO DE DADOS: {str(e)}")
+            return None
+
         finally:
             Utils.disconnect(conn, cursor_livro)

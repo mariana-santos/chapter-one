@@ -1,37 +1,46 @@
+import cx_Oracle
+
 from pydantic import BaseModel
+from typing import Optional
+
 from Utils import Utils
 
 class Editora(BaseModel):
-    id: int
+    id: Optional[int]
     nome: str
     endereco: str
     telefone: str
 
-    def buscarEditorasBanco(dsn, Editora):
+    def buscar_editoras_banco(dsn):
         try:
             conn = Utils.connect(dsn)
             cursor = conn.cursor()
-            listaEditoras = []
+
             cursor.execute("""
                 SELECT e.id, e.nome, e.endereco, e.telefone
                 FROM editora e
                 ORDER BY e.nome
             """)
+
+            lista_editoras = []
             for row in cursor:
                 editora_banco = Editora(
-                    id = row[0],
-                    nome = row[1],
-                    endereco = row[2],
-                    telefone = row[3]
+                    id=row[0],
+                    nome=row[1],
+                    endereco=row[2],
+                    telefone=row[3]
                 )
-                listaEditoras.append(editora_banco)
-            
-            return listaEditoras
-        
-        except Exception as e:
-            print(f"OCORREU UM ERRO: {str(e)}")
+                lista_editoras.append(editora_banco)
+
+            return lista_editoras
+
+        except cx_Oracle.DatabaseError as e:
+            print(f"OCORREU UM ERRO DE BANCO DE DADOS AO BUSCAR AS EDITORAS: {str(e)}")
             return None
-        
+
+        except Exception as e:
+            print(f"OCORREU UM ERRO INESPERADO AO BUSCAR AS EDITORAS NO BANCO DE DADOS: {str(e)}")
+            return None
+
         finally:
             Utils.disconnect(conn, cursor)
-
