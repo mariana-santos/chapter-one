@@ -73,3 +73,5 @@ INSERT INTO autor_livro VALUES (4, 4);
 INSERT INTO autor_livro VALUES (5, 5);
 
 COMMIT;
+
+SELECT * FROM autor_livro;

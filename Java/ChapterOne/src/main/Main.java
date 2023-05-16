@@ -81,7 +81,7 @@ public class Main {
 							
 							if (opcao == 1) {
 								// CADASTRAR AUTOR (OK)
-								autorService.cadastrarAutor(id_autor, listaAutores);
+								autorService.cadastrarAutor(id_autor, listaAutores, id_livro, listaLivros);
 								id_autor++;
 								utils.voltarMenu();
 							}
