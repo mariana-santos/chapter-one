@@ -48,17 +48,17 @@ INSERT INTO categoria VALUES (3, 'Fantasia');
 INSERT INTO categoria VALUES (4, 'Ficção Científica');
 INSERT INTO categoria VALUES (5, 'Ficção Policial');
 
-INSERT INTO editora VALUES (1, 'Editora 01', 'Rua 01 - 100', '11 10000000');
-INSERT INTO editora VALUES (2, 'Editora 02', 'Rua 02 - 200', '11 20000000');
-INSERT INTO editora VALUES (3, 'Editora 03', 'Rua 03 - 300', '11 30000000');
-INSERT INTO editora VALUES (4, 'Editora 04', 'Rua 04 - 400', '11 40000000');
-INSERT INTO editora VALUES (5, 'Editora 05', 'Rua 05 - 500', '11 50000000');
+INSERT INTO editora VALUES (1, 'Editora 01', 'Rua 01 - 100', '(11) 1000-0000');
+INSERT INTO editora VALUES (2, 'Editora 02', 'Rua 02 - 200', '(11) 2000-0000');
+INSERT INTO editora VALUES (3, 'Editora 03', 'Rua 03 - 300', '(11) 3000-0000');
+INSERT INTO editora VALUES (4, 'Editora 04', 'Rua 04 - 400', '(11) 4000-0000');
+INSERT INTO editora VALUES (5, 'Editora 05', 'Rua 05 - 500', '(11) 5000-0000');
 
-INSERT INTO autor VALUES (1, 'Autor 01', 'autor01@gmail.com', '11 11000000', 'Bio 01', 'URL IMAGEM AUTOR 01');
-INSERT INTO autor VALUES (2, 'Autor 02', 'autor02@gmail.com', '11 22000000', 'Bio 02', 'URL IMAGEM AUTOR 02');
-INSERT INTO autor VALUES (3, 'Autor 03', 'autor03@gmail.com', '11 33000000', 'Bio 03', 'URL IMAGEM AUTOR 03');
-INSERT INTO autor VALUES (4, 'Autor 04', 'autor04@gmail.com', '11 44000000', 'Bio 04', 'URL IMAGEM AUTOR 04');
-INSERT INTO autor VALUES (5, 'Autor 05', 'autor05@gmail.com', '11 55000000', 'Bio 05', 'URL IMAGEM AUTOR 05');
+INSERT INTO autor VALUES (1, 'Autor 01', 'autor01@gmail.com', '(11) 1100-0000', 'Bio 01', 'URL IMAGEM AUTOR 01');
+INSERT INTO autor VALUES (2, 'Autor 02', 'autor02@gmail.com', '(11) 2200-0000', 'Bio 02', 'URL IMAGEM AUTOR 02');
+INSERT INTO autor VALUES (3, 'Autor 03', 'autor03@gmail.com', '(11) 3300-0000', 'Bio 03', 'URL IMAGEM AUTOR 03');
+INSERT INTO autor VALUES (4, 'Autor 04', 'autor04@gmail.com', '(11) 4400-0000', 'Bio 04', 'URL IMAGEM AUTOR 04');
+INSERT INTO autor VALUES (5, 'Autor 05', 'autor05@gmail.com', '(11) 5500-0000', 'Bio 05', 'URL IMAGEM AUTOR 05');
 
 INSERT INTO livro VALUES (1, 'Título 01', 'Resumo 01', '2001', 100, 'ISBN 01', 1, 1, 'URL 01', 10.50, 0.0);
 INSERT INTO livro VALUES (2, 'Título 02', 'Resumo 02', '2002', 200, 'ISBN 02', 2, 2, 'URL 02', 25.00, 5.5);
@@ -73,5 +73,3 @@ INSERT INTO autor_livro VALUES (4, 4);
 INSERT INTO autor_livro VALUES (5, 5);
 
 COMMIT;
-
-SELECT * FROM categoria ORDER BY nome;

@@ -15,10 +15,22 @@ public class Utils {
 	public void menuInicial() {
 		System.out.println("==> CHAPTER ONE <==");
 		System.out.println("------------------------------------------");
-		System.out.println("01. CATEGORIAS");
-		System.out.println("02. EDITORAS");
-		System.out.println("03. AUTORES");
+		System.out.println("01. AUTORES");
+		System.out.println("02. CATEGORIAS");
+		System.out.println("03. EDITORAS");
 		System.out.println("04. LIVROS");
+		System.out.println("05. SAIR");
+		System.out.println("------------------------------------------");
+		System.out.println("DIGITE A OPÇÃO DESEJADA: ");
+	}
+	
+	public void menuAutores() {
+		System.out.println("==> CHAPTER ONE <==");
+		System.out.println("------------------------------------------");
+		System.out.println("01. CADASTRAR AUTOR");
+		System.out.println("02. EXIBIR AUTORES");
+		System.out.println("03. EDITAR AUTOR");
+		System.out.println("04. EXCLUIR AUTOR");
 		System.out.println("05. SAIR");
 		System.out.println("------------------------------------------");
 		System.out.println("DIGITE A OPÇÃO DESEJADA: ");
@@ -43,18 +55,6 @@ public class Utils {
 		System.out.println("02. EXIBIR EDITORAS");
 		System.out.println("03. EDITAR EDITORA");
 		System.out.println("04. EXCLUIR EDITORA");
-		System.out.println("05. SAIR");
-		System.out.println("------------------------------------------");
-		System.out.println("DIGITE A OPÇÃO DESEJADA: ");
-	}
-	
-	public void menuAutores() {
-		System.out.println("==> CHAPTER ONE <==");
-		System.out.println("------------------------------------------");
-		System.out.println("01. CADASTRAR AUTOR");
-		System.out.println("02. EXIBIR AUTORES");
-		System.out.println("03. EDITAR AUTOR");
-		System.out.println("04. EXCLUIR AUTOR");
 		System.out.println("05. SAIR");
 		System.out.println("------------------------------------------");
 		System.out.println("DIGITE A OPÇÃO DESEJADA: ");
@@ -201,7 +201,25 @@ public class Utils {
 			return false;
 	}
 	
+	// FORMATAÇÕES (OK)
+	
+	public String formatarTelefone(String telefone) {
+        return("(" + telefone.substring(0, 2) + ") " + telefone.substring(2, 7) + "-" + telefone.substring(7, 11));
+    }
+	
 	// LISTAR (OK)
+	
+	public void listarAutores(HashMap<Integer, Autor> listaAutores) throws IOException {
+	    System.out.println("LISTA DE AUTORES CADASTRADOS:\n");
+
+	    if (listaAutores.size() == 0) {
+	        System.out.println("NENHUM AUTOR CADASTRADO!");
+	    } else {
+	        for (Autor autor : listaAutores.values()) {
+	        	System.out.println(autor.exibirAutor());
+	        }
+	    }
+	}
 	
 	public void listarCategorias(HashMap<Integer, Categoria> listaCategorias) throws IOException {
 	    System.out.println("LISTA DE CATEGORIAS CADASTRADAS:\n");
@@ -223,18 +241,6 @@ public class Utils {
 	    } else {
 	        for (Editora editora : listaEditoras.values()) {
 	        	System.out.println(editora.exibirEditora());
-	        }
-	    }
-	}
-	
-	public void listarAutores(HashMap<Integer, Autor> listaAutores) throws IOException {
-	    System.out.println("LISTA DE AUTORES CADASTRADOS:\n");
-
-	    if (listaAutores.size() == 0) {
-	        System.out.println("NENHUM AUTOR CADASTRADO!");
-	    } else {
-	        for (Autor autor : listaAutores.values()) {
-	        	System.out.println(autor.exibirAutor());
 	        }
 	    }
 	}

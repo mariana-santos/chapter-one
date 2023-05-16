@@ -38,21 +38,20 @@ public class CategoriaService {
 		// FAZENDO INSERT DA CATEGORIA NO BANCO DE DADOS (OK)
 		categoriaDAO.insert(nova_categoria);
 		
-		
 		System.out.println("CATEGORIA CADASTRADA COM SUCESSO!");
 	}
 	
-	public void editarNome(Categoria categoria) throws IOException, SQLException {
-		if (utils.confirmarAcao("EDITAR NOME")) {
-			System.out.println(categoria.getId_categoria() + ". DIGITE O NOVO NOME DA CATEGORIA: ");
+	public void editarNome(Categoria categoria_editar) throws IOException, SQLException {
+		if (utils.confirmarAcao("EDITAR NOME DA CATEGORIA " + categoria_editar.getId_categoria() + ". " + categoria_editar.getNome_categoria())) {
+			System.out.println(categoria_editar.getId_categoria() + ". DIGITE O NOVO NOME DA CATEGORIA " + categoria_editar.getNome_categoria() + ": ");
 			String nome = lerNome.nextLine();
-			nome = utils.validarPreenchimento(categoria.getId_categoria() + ". DIGITE O NOVO NOME DA CATEGORIA: ", nome);
+			nome = utils.validarPreenchimento(categoria_editar.getId_categoria() + ". DIGITE O NOVO NOME DA CATEGORIA " + categoria_editar.getNome_categoria() + ": ", nome);
 			
 			// EDITANDO CATEGORIA NA LISTA DE CATEGORIAS (OK)
-			categoria.setNome_categoria(nome);
+			categoria_editar.setNome_categoria(nome);
 			
 			// EDITANDO CATEGORIA NO BANCO DE DADOS (OK)
-			categoriaDAO.update(categoria);
+			categoriaDAO.update(categoria_editar);
 			
 			System.out.println("NOME ATUALIZADO COM SUCESSO!");
 		}

@@ -52,7 +52,7 @@ public class Main {
 		listaLivros = livroDAO.getAll();
 				
 		// CRIANDO VARIÁVEIS INICIAIS (OK)
-		boolean iniciar, editar, menuCategorias;
+		boolean iniciar, editar, menuAutores, menuCategorias, menuEditoras, menuLivros;
 		int opcao, id_autor, id_categoria, id_editora, id_livro;
 		
 		// SETANDO VARIÁVEIS INICIAIS (OK)
@@ -65,9 +65,136 @@ public class Main {
 		while (iniciar) {
 			utils.menuInicial();
 			opcao = ler.nextInt();
-			opcao = utils.validarOpcao(opcao, 1, 3, "menuInicial", autor, categoria, editora, livro);
+			opcao = utils.validarOpcao(opcao, 1, 5, "menuInicial", autor, categoria, editora, livro);
 			
 			if (opcao == 1) {
+				// MENU DE AUTORES (OK)
+				menuAutores = true;
+				
+				while (menuAutores) {
+					utils.menuAutores();
+					opcao = ler.nextInt();
+					opcao = utils.validarOpcao(opcao, 1, 5, "menuAutores", autor, categoria, editora, livro);
+					
+					if (opcao == 1) {
+						// CADASTRAR AUTOR (OK)
+						autorService.cadastrarAutor(id_autor, listaAutores);
+						id_autor++;
+						utils.voltarMenu();
+					}
+					
+					else if (opcao == 2) {
+						// LISTAR AUTORES (OK)
+						autorService.listarAutores(listaAutores);
+						utils.voltarMenu();
+					}
+					
+					else if (opcao == 3) {
+						// EDITAR AUTOR (OK)
+						editar = true;
+						
+						if (listaAutores.size() == 0) {
+							utils.voltarMenu();
+						}
+						
+						else {
+							autorService.listarAutores(listaAutores);
+							System.out.println("DIGITE O ID DO AUTOR QUE DESEJA DELETAR: ");
+							int id_buscado = ler.nextInt();
+							id_buscado = utils.validarId_Buscado(id_buscado, 1, (id_autor - 1), "listarAutores", listaAutores, listaCategorias, listaEditoras, listaLivros);
+							
+							Autor autor_editar = new Autor();
+							
+							if (autor_editar.indexAutor(id_buscado, listaAutores) == -1) {
+								System.out.println("ID NÃO ENCONTRADO");
+								utils.voltarMenu();
+							}
+							
+							else {
+								autor_editar = listaAutores.get(autor_editar.indexAutor(id_buscado, listaAutores));
+								
+								while (editar) {
+									autor_editar.perfilAutor(autor_editar);
+									System.out.println("DIGITE A OPÇÃO QUE DESEJA EDITAR: ");
+									opcao = ler.nextInt();
+									opcao = utils.validarOpcao(opcao, 1, 7, "perfilAutor", autor_editar, categoria, editora, livro);
+									
+									
+									if (opcao == 1) {
+										// EDITAR ID DO AUTOR (OK)
+										utils.editarNegativo("ID");
+										utils.voltarMenu();
+									}
+									
+									else if (opcao == 2) {
+										// EDITAR O NOME DO AUTOR (OK)
+										autorService.editarNome(autor_editar);
+										utils.voltarMenu();
+									}
+									
+									else if (opcao == 3) {
+										// EDITAR O EMAIL DO AUTOR (OK)
+										autorService.editarEmail(autor_editar);
+										utils.voltarMenu();
+									}
+									
+									else if (opcao == 4) {
+										// EDITAR O TELEFONE DO AUTOR (OK)
+										autorService.editarTelefone(autor_editar);
+										utils.voltarMenu();
+									}
+									
+									else if (opcao == 5) {
+										// EDITAR A BIO DO AUTOR (OK)
+										autorService.editarBio(autor_editar);
+										utils.voltarMenu();
+									}
+									
+									else if (opcao == 6) {
+										// EDITAR A IMAGEM DO AUTOR (OK)
+										autorService.editarImagem(autor_editar);
+										utils.voltarMenu();
+									}
+									
+									else if (opcao == 7) {
+										// SAIR DO MENU EDITAR AUTOR (OK)
+										editar = false;
+									}
+								}
+							}
+						}
+					}
+					
+					else if (opcao == 4) {
+						// DELETAR AUTOR (OK)
+						autorService.listarAutores(listaAutores);
+						System.out.println("DIGITE O ID DO AUTOR QUE DESEJA DELETAR: ");
+						int id_buscado = ler.nextInt();
+						id_buscado = utils.validarId_Buscado(id_buscado, 1, (id_autor - 1), "listarAutores", listaAutores, listaCategorias, listaEditoras, listaLivros);
+						
+						Autor autor_deletar = new Autor();
+						
+						if (autor_deletar.indexAutor(id_buscado, listaAutores) == -1) {
+							System.out.println("ID NÃO ENCONTRADO");
+							utils.voltarMenu();
+						}
+						
+						else {
+							autor_deletar = listaAutores.get(autor_deletar.indexAutor(id_buscado, listaAutores));
+						
+							autorService.deletarAutor(autor_deletar.getId_autor(), listaAutores);
+							utils.voltarMenu();
+						}
+					}
+					
+					else if (opcao == 5) {
+						// SAIR DO MENU DE AUTORES (OK)
+						menuAutores = false;
+					}
+				}
+			}
+			
+			if (opcao == 2) {
 				// MENU DE CATEGORIAS (OK)
 				menuCategorias = true;
 				
@@ -166,6 +293,121 @@ public class Main {
 					else if (opcao == 5) {
 						// SAIR DO MENU DE CATEGORIAS (OK)
 						menuCategorias = false;
+					}
+				}
+			}
+			
+			if (opcao == 3) {
+				// MENU DE EDITORAS (OK)
+				menuEditoras = true;
+				
+				while (menuEditoras) {
+					utils.menuEditoras();
+					opcao = ler.nextInt();
+					opcao = utils.validarOpcao(opcao, 1, 5, "menuEditoras", autor, categoria, editora, livro);
+					
+					if (opcao == 1) {
+						// CADASTRAR EDITORA (OK)
+						editoraService.cadastrarEditora(id_editora, listaEditoras);
+						id_editora++;
+						utils.voltarMenu();
+					}
+					
+					else if (opcao == 2) {
+						// LISTAR EDITORAS (OK)
+						editoraService.listarEditoras(listaEditoras);
+						utils.voltarMenu();
+					}
+					
+					else if (opcao == 3) {
+						// EDITAR EDITORAS (OK)
+						editar = true;
+						
+						if (listaEditoras.size() == 0) {
+							utils.voltarMenu();
+						}
+						
+						else {
+							editoraService.listarEditoras(listaEditoras);
+							System.out.println("DIGITE O ID DA EDITORA QUE DESEJA EDITAR: ");
+							int id_buscado = ler.nextInt();
+							id_buscado = utils.validarId_Buscado(id_buscado, 1, (id_editora - 1), "listarEditoras", listaAutores, listaCategorias, listaEditoras, listaLivros);
+							
+							Editora editora_editar = new Editora();
+							
+							if (editora_editar.indexEditora(id_buscado, listaEditoras) == -1) {
+								System.out.println("ID NÃO ENCONTRADO");
+								utils.voltarMenu();
+							}
+							
+							else {
+								editora_editar = listaEditoras.get(editora_editar.indexEditora(id_buscado, listaEditoras));
+								
+								while (editar) {
+									editora_editar.perfilEditora(editora_editar);
+									System.out.println("DIGITE A OPÇÃO QUE DESEJA EDITAR: ");
+									opcao = ler.nextInt();
+									opcao = utils.validarOpcao(opcao, 1, 5, "perfilEditora", autor, categoria, editora_editar, livro);
+									
+									
+									if (opcao == 1) {
+										// EDITAR ID DA EDITORA (OK)
+										utils.editarNegativo("ID");
+										utils.voltarMenu();
+									}
+									
+									else if (opcao == 2) {
+										// EDITAR O NOME DA EDITORA (OK)
+										editoraService.editarNome(editora_editar);
+										utils.voltarMenu();
+									}
+									
+									else if (opcao == 3) {
+										// EDITAR O ENDEREÇO DA EDITORA (OK)
+										editoraService.editarEndereco(editora_editar);
+										utils.voltarMenu();
+									}
+									
+									else if (opcao == 4) {
+										// EDITAR O TELEFONE DA EDITORA (OK)
+										editoraService.editarTelefone(editora_editar);
+										utils.voltarMenu();
+									}
+									
+									else if (opcao == 5) {
+										// SAIR DO MENU EDITAR EDITORA (OK)
+										editar = false;
+									}
+								}
+							}
+						}
+					}
+					
+					else if (opcao == 4) {
+						// DELETAR EDITORA (OK)
+						editoraService.listarEditoras(listaEditoras);
+						System.out.println("DIGITE O ID DA EDITORA QUE DESEJA EDITAR: ");
+						int id_buscado = ler.nextInt();
+						id_buscado = utils.validarId_Buscado(id_buscado, 1, (id_editora - 1), "listarEditoras", listaAutores, listaCategorias, listaEditoras, listaLivros);
+						
+						Editora editora_deletar = new Editora();
+						
+						if (editora_deletar.indexEditora(id_buscado, listaEditoras) == -1) {
+							System.out.println("ID NÃO ENCONTRADO");
+							utils.voltarMenu();
+						}
+						
+						else {
+							editora_deletar = listaEditoras.get(editora_deletar.indexEditora(id_buscado, listaEditoras));
+						
+							editoraService.deletarEditora(editora_deletar.getId_editora(), listaEditoras);
+							utils.voltarMenu();
+						}
+					}
+					
+					else if (opcao == 5) {
+						// SAIR DO MENU DE EDITORAS (OK)
+						menuEditoras = false;
 					}
 				}
 			}
