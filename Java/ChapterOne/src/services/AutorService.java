@@ -55,8 +55,7 @@ public class AutorService {
 		
 		// ADICIONANDO LIVROS NA LISTA DE LIVROS DO AUTOR (OK)
 		HashMap<Integer, Livro> listaLivrosAutor = new HashMap<Integer, Livro>();
-		HashMap<Integer, Livro> listaLivrosAdicionar = new HashMap<Integer, Livro>();
-		listaLivrosAdicionar = listaLivros;
+		HashMap<Integer, Livro> listaLivrosAdicionar = new HashMap<Integer, Livro>(listaLivros);
 		
 		boolean adicionar = false;
 		

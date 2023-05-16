@@ -230,7 +230,6 @@ public class AutorDAO {
 	    }
 	}
 	
-	
 	public void delete(int id_autor) throws SQLException {
         Connection conn = ConnectionFactory.getConnection();
         Statement statement = null;

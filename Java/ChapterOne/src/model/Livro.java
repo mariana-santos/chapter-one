@@ -16,7 +16,7 @@ public class Livro {
 	private String imagem_livro;
 	private double preco_livro;
 	private double desconto_livro;
-	private HashMap<Integer, Livro> autores_livro;
+	private HashMap<Integer, Autor> autores_livro;
 	
 	public int getId_livro() {
 		return id_livro;
@@ -105,11 +105,11 @@ public class Livro {
 		this.desconto_livro = desconto_livro;
 	}
 	
-	public HashMap<Integer, Livro> getLivros_livro() {
+	public HashMap<Integer, Autor> getAutores_livro() {
 		return autores_livro;
 	}
 	
-	public void setLivros_livro(HashMap<Integer, Livro> autores_livro) {
+	public void setAutores_livro(HashMap<Integer, Autor> autores_livro) {
 		this.autores_livro = autores_livro;
 	}
 
@@ -119,7 +119,7 @@ public class Livro {
 
 	public Livro(int id_livro, String titulo_livro, String resumo_livro, int ano_livro, int paginas_livro,
 			String isbn_livro, int id_categoria_livro, int id_editora_livro, String imagem_livro, double preco_livro,
-			double desconto_livro, HashMap<Integer, Livro> autores_livro) {
+			double desconto_livro, HashMap<Integer, Autor> autores_livro) {
 		super();
 		this.id_livro = id_livro;
 		this.titulo_livro = titulo_livro;

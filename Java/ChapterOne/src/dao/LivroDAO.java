@@ -5,8 +5,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
+import java.util.Map;
 
 import connection.ConnectionFactory;
+import model.Autor;
 import model.Livro;
 
 public class LivroDAO {
@@ -131,7 +133,7 @@ public class LivroDAO {
             statement.executeUpdate(query);
             
         } catch (SQLException e){
-            System.out.println("ERRO AO ATUALIZAR O LIVRO. ERRO: " + e.getMessage());
+            System.out.println("ERRO AO INSERIR O LIVRO. ERRO: " + e.getMessage());
             
         } finally {
             if (statement != null) {
@@ -151,6 +153,55 @@ public class LivroDAO {
             }
 	    }
 	}
+	
+	public void insertAutoresLivro(Livro novo_livro) {
+		Connection conn = ConnectionFactory.getConnection();
+        Statement statement = null;
+       
+        try {
+        	
+        	if (novo_livro.getAutores_livro().size() == 0) {
+        		if (conn != null) {
+                    try {
+                        conn.close();
+                    } catch (SQLException e) {
+                        System.out.println("ERRO AO FECHAR A CONNECTION: " + e.getMessage());
+                    }
+                }
+        	}
+        	
+        	else {
+        		for (Map.Entry<Integer, Autor> entry : novo_livro.getAutores_livro().entrySet()) {
+            	    int id_autor = entry.getKey();
+            	    int id_livro = novo_livro.getId_livro();
+    	            String query = String.format("INSERT INTO autor_livro (id_autor, id_livro) VALUES (%s, %s)", id_autor, id_livro);
+    	            statement = conn.createStatement();          
+    	            statement.executeUpdate(query);
+            	}
+        	}
+                
+        } catch (SQLException e){
+            System.out.println("ERRO AO INSERIR OS AUTORES DO LIVRO. ERRO: " + e.getMessage());
+            
+        } finally {
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    System.out.println("ERRO AO FECHAR O STATEMENT: " + e.getMessage());
+                }
+            }
+
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    System.out.println("ERRO AO FECHAR A CONNECTION: " + e.getMessage());
+                }
+            }
+        }
+	}
+
 	
 	public void update(Livro livro_atualizar) throws SQLException {
         Connection conn = ConnectionFactory.getConnection();
@@ -178,8 +229,38 @@ public class LivroDAO {
 	}
 	
 	public void delete(int id_livro) throws SQLException {
-        Connection conn = ConnectionFactory.getConnection();
+		Connection conn = ConnectionFactory.getConnection();
         Statement statement = null;
+       
+        try {
+            String query = String.format("DELETE FROM autor_livro WHERE id_livro = %s", id_livro);
+           
+            statement = conn.createStatement();          
+            statement.executeUpdate(query);
+            
+        } catch (SQLException e){
+            System.out.println("ERRO AO DELETAR OS AUTORES DO LIVRO. ERRO: " + e.getMessage());
+            
+        } finally {
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    System.out.println("ERRO AO FECHAR O STATEMENT: " + e.getMessage());
+                }
+            }
+
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    System.out.println("ERRO AO FECHAR A CONNECTION: " + e.getMessage());
+                }
+            }
+	    }
+		
+        conn = ConnectionFactory.getConnection();
+        statement = null;
        
         try {
             String query = String.format("DELETE FROM livro WHERE id = %s", id_livro);
