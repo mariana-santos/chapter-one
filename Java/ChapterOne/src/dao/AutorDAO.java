@@ -37,22 +37,33 @@ public class AutorDAO {
                 listaAutores.put(autor_banco.getId_autor(), autor_banco);
             }
             
-        } catch (Exception e){
-            System.out.println("ERRO AO LISTAR OS AUTORES! ERRO: " + e);
+        } catch (SQLException e){
+            System.out.println("ERRO AO LISTAR OS AUTORES. ERRO: " + e.getMessage());
             
         } finally {
-	    	
-	        if (rs != null) {
-	            rs.close();
-	        }
-	        
-	        if (statement != null) {
-	            statement.close();
-	        }
-	        
-	        if (conn != null) {
-	            conn.close();
-	        }
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    System.out.println("ERRO AO FECHAR O RESULTSET. ERRO: " + e.getMessage());
+                }
+            }
+
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    System.out.println("ERRO AO FECHAR O STATEMENT: " + e.getMessage());
+                }
+            }
+
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    System.out.println("ERRO AO FECHAR A CONNECTION: " + e.getMessage());
+                }
+            }
 	    }
         
         return listaAutores;
@@ -73,19 +84,34 @@ public class AutorDAO {
 	        if (rs.next()) {
 	            idMax = rs.getInt("max_id");
 	        }
-	    } finally {
-	    	
-	        if (rs != null) {
-	            rs.close();
-	        }
 	        
-	        if (statement != null) {
-	            statement.close();
-	        }
-	        
-	        if (conn != null) {
-	            conn.close();
-	        }
+	    } catch (SQLException e){
+            System.out.println("ERRO AO ENCONTRAR O ID MÁXIMO DOS AUTORES. ERRO: " + e.getMessage());
+            
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    System.out.println("ERRO AO FECHAR O RESULTSET. ERRO: " + e.getMessage());
+                }
+            }
+
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    System.out.println("ERRO AO FECHAR O STATEMENT: " + e.getMessage());
+                }
+            }
+
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    System.out.println("ERRO AO FECHAR A CONNECTION: " + e.getMessage());
+                }
+            }
 	    }
 
 	    return idMax;
@@ -100,18 +126,25 @@ public class AutorDAO {
             statement = conn.createStatement();          
             statement.executeUpdate(query);
             
-        } catch (Exception e){
-            System.out.println("ERRO AO INSERIR O AUTOR! ERRO: " + e);
+        } catch (SQLException e){
+            System.out.println("ERRO AO INSERIR O AUTOR. ERRO: " + e.getMessage());
             
         } finally {
-        	
-	        if (statement != null) {
-	            statement.close();
-	        }
-	        
-	        if (conn != null) {
-	            conn.close();
-	        }
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    System.out.println("ERRO AO FECHAR O STATEMENT: " + e.getMessage());
+                }
+            }
+
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    System.out.println("ERRO AO FECHAR A CONNECTION: " + e.getMessage());
+                }
+            }
 	    }
 	}
 	
@@ -125,18 +158,25 @@ public class AutorDAO {
             statement = conn.createStatement();          
             statement.executeUpdate(query);
             
-        } catch (Exception e){
-            System.out.println("ERRO AO ATUALIZAR O AUTOR! ERRO: " + e);
+        } catch (SQLException e){
+            System.out.println("ERRO AO ATUALIZAR O AUTOR. ERRO: " + e.getMessage());
             
         } finally {
-        	
-	        if (statement != null) {
-	            statement.close();
-	        }
-	        
-	        if (conn != null) {
-	            conn.close();
-	        }
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    System.out.println("ERRO AO FECHAR O STATEMENT: " + e.getMessage());
+                }
+            }
+
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    System.out.println("ERRO AO FECHAR A CONNECTION: " + e.getMessage());
+                }
+            }
 	    }
 	}
 	
@@ -150,19 +190,25 @@ public class AutorDAO {
             statement = conn.createStatement();          
             statement.executeUpdate(query);
             
-        } catch (Exception e){
-            System.out.println("ERRO AO EXCLUIR O AUTOR! ERRO: " + e);
+        } catch (SQLException e){
+            System.out.println("ERRO AO DELETAR O AUTOR. ERRO: " + e.getMessage());
             
         } finally {
-        	
-	        if (statement != null) {
-	            statement.close();
-	        }
-	        
-	        if (conn != null) {
-	            conn.close();
-	        }
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    System.out.println("ERRO AO FECHAR O STATEMENT: " + e.getMessage());
+                }
+            }
+
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    System.out.println("ERRO AO FECHAR A CONNECTION: " + e.getMessage());
+                }
+            }
 	    }
 	}
 }
-

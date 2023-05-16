@@ -63,7 +63,7 @@ public class AutorService {
 		if (utils.confirmarAcao("EDITAR NOME DO AUTOR " + autor_editar.getId_autor() + ". " + autor_editar.getNome_autor())) {
 			System.out.println(autor_editar.getId_autor() + ". DIGITE O NOVO NOME DO AUTOR " + autor_editar.getNome_autor() + ": ");
 			String nome = lerNome.nextLine();
-			nome = utils.validarPreenchimento(autor_editar.getId_autor() + ". DIGITE O NOVO NOME DO AUTOR " + autor_editar.getNome_autor() + ": ", nome);
+			nome = utils.validarPreenchimentoString(autor_editar.getId_autor() + ". DIGITE O NOVO NOME DO AUTOR " + autor_editar.getNome_autor() + ": ", nome);
 			
 			// EDITANDO AUTOR NA LISTA DE AUTORES (OK)
 			autor_editar.setNome_autor(nome);
@@ -79,7 +79,7 @@ public class AutorService {
 		if (utils.confirmarAcao("EDITAR EMAIL DO AUTOR " + autor_editar.getId_autor() + ". " + autor_editar.getNome_autor())) {
 			System.out.println(autor_editar.getId_autor() + ". DIGITE O NOVO EMAIL DO AUTOR " + autor_editar.getNome_autor() + ": ");
 			String email = ler.next();
-			email = utils.validarPreenchimento(autor_editar.getId_autor() + ". DIGITE O NOVO EMAIL DO AUTOR " + autor_editar.getNome_autor() + ": ", email);
+			email = utils.validarPreenchimentoString(autor_editar.getId_autor() + ". DIGITE O NOVO EMAIL DO AUTOR " + autor_editar.getNome_autor() + ": ", email);
 
 			// EDITANDO AUTOR NA LISTA DE AUTORES (OK)
 			autor_editar.setEmail_autor(email);
@@ -95,7 +95,7 @@ public class AutorService {
 		if (utils.confirmarAcao("EDITAR TELEFONE DO AUTOR " + autor_editar.getId_autor() + ". " + autor_editar.getNome_autor())) {
 			System.out.println(autor_editar.getId_autor() + ". DIGITE O NOVO TELEFONE DO AUTOR " + autor_editar.getNome_autor() + " (EXEMPLO: 11983050165): ");
 			String telefone = ler.next();
-			telefone = utils.validarPreenchimento(autor_editar.getId_autor() + ". DIGITE O NOVO TELEFONE DO AUTOR " + autor_editar.getNome_autor() + ": ", telefone);
+			telefone = utils.validarPreenchimentoString(autor_editar.getId_autor() + ". DIGITE O NOVO TELEFONE DO AUTOR " + autor_editar.getNome_autor() + ": ", telefone);
 			String telefone_formatado = utils.formatarTelefone(telefone);
 
 			// EDITANDO AUTOR NA LISTA DE AUTORES (OK)
@@ -112,7 +112,7 @@ public class AutorService {
 		if (utils.confirmarAcao("EDITAR BIO DO AUTOR " + autor_editar.getId_autor() + ". " + autor_editar.getNome_autor())) {
 			System.out.println(autor_editar.getId_autor() + ". DIGITE A NOVA BIO DO AUTOR " + autor_editar.getNome_autor() + ": ");
 			String bio = lerNome.nextLine();
-			bio = utils.validarPreenchimento(autor_editar.getId_autor() + ". DIGITE A NOVA BIO DO AUTOR " + autor_editar.getNome_autor() + ": ", bio);
+			bio = utils.validarPreenchimentoString(autor_editar.getId_autor() + ". DIGITE A NOVA BIO DO AUTOR " + autor_editar.getNome_autor() + ": ", bio);
 
 			// EDITANDO AUTOR NA LISTA DE AUTORES (OK)
 			autor_editar.setBio_autor(bio);
@@ -128,7 +128,7 @@ public class AutorService {
 		if (utils.confirmarAcao("EDITAR IMAGEM DO AUTOR " + autor_editar.getId_autor() + ". " + autor_editar.getNome_autor())) {
 			System.out.println(autor_editar.getId_autor() + ". DIGITE A NOVA URL DA IMAGEM DO AUTOR " + autor_editar.getNome_autor() + ": ");
 			String imagem = ler.next();
-			imagem = utils.validarPreenchimento(autor_editar.getId_autor() + ". DIGITE A NOVA URL DA IMAGEM DO AUTOR " + autor_editar.getNome_autor() + ": ", imagem);
+			imagem = utils.validarPreenchimentoString(autor_editar.getId_autor() + ". DIGITE A NOVA URL DA IMAGEM DO AUTOR " + autor_editar.getNome_autor() + ": ", imagem);
 
 			// EDITANDO AUTOR NA LISTA DE AUTORES (OK)
 			autor_editar.setImagem_autor(imagem);

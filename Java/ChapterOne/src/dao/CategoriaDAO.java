@@ -33,22 +33,33 @@ public class CategoriaDAO {
                 listaCategorias.put(categoria_banco.getId_categoria(), categoria_banco);
             }
             
-        } catch (Exception e){
-            System.out.println("ERRO AO LISTAR AS CATEGORIAS! ERRO: " + e);
+        } catch (SQLException e){
+            System.out.println("ERRO AO LISTAR AS CATEGORIAS. ERRO: " + e.getMessage());
             
         } finally {
-	    	
-	        if (rs != null) {
-	            rs.close();
-	        }
-	        
-	        if (statement != null) {
-	            statement.close();
-	        }
-	        
-	        if (conn != null) {
-	            conn.close();
-	        }
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    System.out.println("ERRO AO FECHAR O RESULTSET. ERRO: " + e.getMessage());
+                }
+            }
+
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    System.out.println("ERRO AO FECHAR O STATEMENT: " + e.getMessage());
+                }
+            }
+
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    System.out.println("ERRO AO FECHAR A CONNECTION: " + e.getMessage());
+                }
+            }
 	    }
         
         return listaCategorias;
@@ -69,21 +80,35 @@ public class CategoriaDAO {
 	        if (rs.next()) {
 	            idMax = rs.getInt("max_id");
 	        }
-	    } finally {
-	    	
-	        if (rs != null) {
-	            rs.close();
-	        }
-	        
-	        if (statement != null) {
-	            statement.close();
-	        }
-	        
-	        if (conn != null) {
-	            conn.close();
-	        }
-	    }
+	    } catch (SQLException e){
+            System.out.println("ERRO AO ENCONTRAR O ID MÁXIMO DAS CATEGORIAS. ERRO: " + e.getMessage());
+            
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    System.out.println("ERRO AO FECHAR O RESULTSET. ERRO: " + e.getMessage());
+                }
+            }
 
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    System.out.println("ERRO AO FECHAR O STATEMENT: " + e.getMessage());
+                }
+            }
+
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    System.out.println("ERRO AO FECHAR A CONNECTION: " + e.getMessage());
+                }
+            }
+	    }
+	    
 	    return idMax;
 	}
 	
@@ -96,18 +121,25 @@ public class CategoriaDAO {
             statement = conn.createStatement();          
             statement.executeUpdate(query);
             
-        } catch (Exception e){
-            System.out.println("ERRO AO INSERIR A CATEGORIA! ERRO: " + e);
+        } catch (SQLException e){
+            System.out.println("ERRO AO INSERIR A CATEGORIA. ERRO: " + e.getMessage());
             
         } finally {
-        	
-	        if (statement != null) {
-	            statement.close();
-	        }
-	        
-	        if (conn != null) {
-	            conn.close();
-	        }
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    System.out.println("ERRO AO FECHAR O STATEMENT: " + e.getMessage());
+                }
+            }
+
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    System.out.println("ERRO AO FECHAR A CONNECTION: " + e.getMessage());
+                }
+            }
 	    }
 	}
 	
@@ -121,18 +153,25 @@ public class CategoriaDAO {
             statement = conn.createStatement();          
             statement.executeUpdate(query);
             
-        } catch (Exception e){
-            System.out.println("ERRO AO ATUALIZAR A CATEGORIA! ERRO: " + e);
+        } catch (SQLException e){
+            System.out.println("ERRO AO ATUALIZAR A CATEGORIA. ERRO: " + e.getMessage());
             
         } finally {
-        	
-	        if (statement != null) {
-	            statement.close();
-	        }
-	        
-	        if (conn != null) {
-	            conn.close();
-	        }
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    System.out.println("ERRO AO FECHAR O STATEMENT: " + e.getMessage());
+                }
+            }
+
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    System.out.println("ERRO AO FECHAR A CONNECTION: " + e.getMessage());
+                }
+            }
 	    }
 	}
 	
@@ -146,20 +185,25 @@ public class CategoriaDAO {
             statement = conn.createStatement();          
             statement.executeUpdate(query);
             
-        } catch (Exception e){
-            System.out.println("ERRO AO EXCLUIR A CATEGORIA! ERRO: " + e);
+        } catch (SQLException e){
+            System.out.println("ERRO AO DELETAR A CATEGORIAS. ERRO: " + e.getMessage());
             
         } finally {
-        	
-	        if (statement != null) {
-	            statement.close();
-	        }
-	        
-	        if (conn != null) {
-	            conn.close();
-	        }
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    System.out.println("ERRO AO FECHAR O STATEMENT: " + e.getMessage());
+                }
+            }
+
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    System.out.println("ERRO AO FECHAR A CONNECTION: " + e.getMessage());
+                }
+            }
 	    }
 	}
-	
 }
-

@@ -16,7 +16,7 @@ public class Livro {
 	private String imagem_livro;
 	private double preco_livro;
 	private double desconto_livro;
-	private HashMap<Integer, Livro> livroes_livro;
+	private HashMap<Integer, Livro> autores_livro;
 	
 	public int getId_livro() {
 		return id_livro;
@@ -106,11 +106,11 @@ public class Livro {
 	}
 	
 	public HashMap<Integer, Livro> getLivros_livro() {
-		return livroes_livro;
+		return autores_livro;
 	}
 	
-	public void setLivros_livro(HashMap<Integer, Livro> livroes_livro) {
-		this.livroes_livro = livroes_livro;
+	public void setLivros_livro(HashMap<Integer, Livro> autores_livro) {
+		this.autores_livro = autores_livro;
 	}
 
 	public Livro() {
@@ -119,7 +119,7 @@ public class Livro {
 
 	public Livro(int id_livro, String titulo_livro, String resumo_livro, int ano_livro, int paginas_livro,
 			String isbn_livro, int id_categoria_livro, int id_editora_livro, String imagem_livro, double preco_livro,
-			double desconto_livro, HashMap<Integer, Livro> livroes_livro) {
+			double desconto_livro, HashMap<Integer, Livro> autores_livro) {
 		super();
 		this.id_livro = id_livro;
 		this.titulo_livro = titulo_livro;
@@ -132,12 +132,12 @@ public class Livro {
 		this.imagem_livro = imagem_livro;
 		this.preco_livro = preco_livro;
 		this.desconto_livro = desconto_livro;
-		this.livroes_livro = livroes_livro;
+		this.autores_livro = autores_livro;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(ano_livro, livroes_livro, desconto_livro, id_categoria_livro, id_editora_livro, id_livro,
+		return Objects.hash(ano_livro, autores_livro, desconto_livro, id_categoria_livro, id_editora_livro, id_livro,
 				imagem_livro, isbn_livro, paginas_livro, preco_livro, resumo_livro, titulo_livro);
 	}
 
@@ -150,7 +150,7 @@ public class Livro {
 		if (getClass() != obj.getClass())
 			return false;
 		Livro other = (Livro) obj;
-		return ano_livro == other.ano_livro && Objects.equals(livroes_livro, other.livroes_livro)
+		return ano_livro == other.ano_livro && Objects.equals(autores_livro, other.autores_livro)
 				&& Double.doubleToLongBits(desconto_livro) == Double.doubleToLongBits(other.desconto_livro)
 				&& id_categoria_livro == other.id_categoria_livro && id_editora_livro == other.id_editora_livro
 				&& id_livro == other.id_livro && imagem_livro == other.imagem_livro
@@ -165,7 +165,7 @@ public class Livro {
 				+ ", ano_livro=" + ano_livro + ", paginas_livro=" + paginas_livro + ", isbn_livro=" + isbn_livro
 				+ ", id_categoria_livro=" + id_categoria_livro + ", id_editora_livro=" + id_editora_livro
 				+ ", imagem_livro=" + imagem_livro + ", preco_livro=" + preco_livro + ", desconto_livro="
-				+ desconto_livro + ", livroes_livro=" + livroes_livro + "]";
+				+ desconto_livro + ", autores_livro=" + autores_livro + "]";
 	}
 	
 	public String exibirLivro() {

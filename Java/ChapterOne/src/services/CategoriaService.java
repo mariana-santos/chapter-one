@@ -45,7 +45,7 @@ public class CategoriaService {
 		if (utils.confirmarAcao("EDITAR NOME DA CATEGORIA " + categoria_editar.getId_categoria() + ". " + categoria_editar.getNome_categoria())) {
 			System.out.println(categoria_editar.getId_categoria() + ". DIGITE O NOVO NOME DA CATEGORIA " + categoria_editar.getNome_categoria() + ": ");
 			String nome = lerNome.nextLine();
-			nome = utils.validarPreenchimento(categoria_editar.getId_categoria() + ". DIGITE O NOVO NOME DA CATEGORIA " + categoria_editar.getNome_categoria() + ": ", nome);
+			nome = utils.validarPreenchimentoString(categoria_editar.getId_categoria() + ". DIGITE O NOVO NOME DA CATEGORIA " + categoria_editar.getNome_categoria() + ": ", nome);
 			
 			// EDITANDO CATEGORIA NA LISTA DE CATEGORIAS (OK)
 			categoria_editar.setNome_categoria(nome);

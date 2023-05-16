@@ -166,7 +166,7 @@ public class Utils {
 		return id_buscado;
 	}
 	
-	public String validarPreenchimento(String stringRepeticao, String campopreenchido) throws IOException {
+	public String validarPreenchimentoString(String stringRepeticao, String campopreenchido) throws IOException {
 		while ((campopreenchido.length() == 0) || (campopreenchido.equals("")) || (campopreenchido.equals(null) || (campopreenchido.equals("\r")))) {
 			System.out.println("O PREENCHIMENTO DO CAMPO É OBRIGATÓRIO.");
 			System.out.println(stringRepeticao);
@@ -176,37 +176,76 @@ public class Utils {
 		return campopreenchido;
 	}
 	
+	public int validarPreenchimentoInt(String stringRepeticao, int campopreenchido) throws IOException {
+		while ((campopreenchido == 0)) {
+			System.out.println("O PREENCHIMENTO DO CAMPO É OBRIGATÓRIO.");
+			System.out.println(stringRepeticao);
+			campopreenchido = ler.nextInt();
+		}
+		
+		return campopreenchido;
+	}
+	
+	public double validarPreenchimentoDouble(String stringRepeticao, double campopreenchido) throws IOException {
+		while ((campopreenchido == 0)) {
+			System.out.println("O PREENCHIMENTO DO CAMPO É OBRIGATÓRIO.");
+			System.out.println(stringRepeticao);
+			campopreenchido = ler.nextInt();
+		}
+		
+		return campopreenchido;
+	}
+	
 	// CONFIRMAÇÕES (OK)
 	
 	public boolean confirmarAcao(String acao) throws IOException {
-		System.out.println("TEM CERTEZA QUE DESEJA " + acao + "?");
-		System.out.println("01. SIM");
-		System.out.println("02. NÃO");
-		System.out.println("DIGITE A OPÇÃO DESEJADA: ");
-		int opcao = ler.nextInt();
-		
-		while (opcao != 1 && opcao != 2) {
-			System.out.println("OPÇÃO INVÁLIDA.");
-			voltarMenu();
-			System.out.println("TEM CERTEZA QUE DESEJA " + acao + "?");
-			System.out.println("01. SIM");
-			System.out.println("02. NÃO");
-			System.out.println("DIGITE A OPÇÃO DESEJADA: ");
-			opcao = ler.nextInt();
-		}
-		
-		if (opcao == 1)
-			return true;
-		else
-			return false;
+	    try {
+	        System.out.println("TEM CERTEZA QUE DESEJA " + acao + "?");
+	        System.out.println("01. SIM");
+	        System.out.println("02. NÃO");
+	        System.out.println("DIGITE A OPÇÃO DESEJADA: ");
+	        int opcao = ler.nextInt();
+
+	        while (opcao != 1 && opcao != 2) {
+	            System.out.println("OPÇÃO INVÁLIDA.");
+	            voltarMenu();
+	            System.out.println("TEM CERTEZA QUE DESEJA " + acao + "?");
+	            System.out.println("01. SIM");
+	            System.out.println("02. NÃO");
+	            System.out.println("DIGITE A OPÇÃO DESEJADA: ");
+	            opcao = ler.nextInt();
+	        }
+
+	        if (opcao == 1)
+	            return true;
+	        else
+	            return false;
+	    } catch (InputMismatchException e) {
+	        System.out.println("OPÇÃO INVÁLIDA! POR FAVOR DIGITE UM NÚMERO INTEIRO VÁLIDO.");
+	        ler.nextLine();
+	        return false;
+	    }
 	}
 	
 	// FORMATAÇÕES (OK)
 	
 	public String formatarTelefone(String telefone) {
-        return("(" + telefone.substring(0, 2) + ") " + telefone.substring(2, 7) + "-" + telefone.substring(7, 11));
-    }
-	
+	    String telefoneFormatado = "";
+	    
+	    while (telefone.length() != 10 && telefone.length() != 11) {
+	    	System.out.println("O TELEFONE DEVE CONTER 10 OU 11 DÍGITOS (EXEMPLO: 11983050165). DIGITE NOVAMENTE: ");
+	        telefone = ler.next();
+	    }
+	    
+	    if (telefone.length() == 10) {
+	        telefoneFormatado = "(" + telefone.substring(0, 2) + ") " + telefone.substring(2, 6) + "-" + telefone.substring(6, 10);
+	    } else if (telefone.length() == 11) {
+	        telefoneFormatado = "(" + telefone.substring(0, 2) + ") " + telefone.substring(2, 7) + "-" + telefone.substring(7, 11);
+	    }
+	    
+	    return telefoneFormatado;
+	}
+
 	// LISTAR (OK)
 	
 	public void listarAutores(HashMap<Integer, Autor> listaAutores) throws IOException {

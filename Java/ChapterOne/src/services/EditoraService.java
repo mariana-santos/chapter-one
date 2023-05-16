@@ -55,7 +55,7 @@ public class EditoraService {
 		if (utils.confirmarAcao("EDITAR NOME DA EDITORA " + editora_editar.getId_editora() + ". " + editora_editar.getNome_editora())) {
 			System.out.println(editora_editar.getId_editora() + ". DIGITE O NOVO NOME DA EDITORA " + editora_editar.getNome_editora() + ": ");
 			String nome = lerNome.nextLine();
-			nome = utils.validarPreenchimento(editora_editar.getId_editora() + ". DIGITE O NOVO NOME DA EDITORA " + editora_editar.getNome_editora() + ": ", nome);
+			nome = utils.validarPreenchimentoString(editora_editar.getId_editora() + ". DIGITE O NOVO NOME DA EDITORA " + editora_editar.getNome_editora() + ": ", nome);
 			
 			// EDITANDA EDITORA NA LISTA DE EDITORAES (OK)
 			editora_editar.setNome_editora(nome);
@@ -71,7 +71,7 @@ public class EditoraService {
 		if (utils.confirmarAcao("EDITAR ENDEREÇO DA EDITORA " + editora_editar.getId_editora() + ". " + editora_editar.getNome_editora())) {
 			System.out.println(editora_editar.getId_editora() + ". DIGITE O NOVO ENDEREÇO DA EDITORA " + editora_editar.getNome_editora() + ": ");
 			String endereco = lerNome.nextLine();
-			endereco = utils.validarPreenchimento(editora_editar.getId_editora() + ". DIGITE O NOVO ENDEREÇO DA EDITORA " + editora_editar.getNome_editora() + ": ", endereco);
+			endereco = utils.validarPreenchimentoString(editora_editar.getId_editora() + ". DIGITE O NOVO ENDEREÇO DA EDITORA " + editora_editar.getNome_editora() + ": ", endereco);
 
 			// EDITANDA EDITORA NA LISTA DE EDITORAES (OK)
 			editora_editar.setEndereco_editora(endereco);
@@ -87,7 +87,7 @@ public class EditoraService {
 		if (utils.confirmarAcao("EDITAR TELEFONE DA EDITORA " + editora_editar.getId_editora() + ". " + editora_editar.getNome_editora())) {
 			System.out.println(editora_editar.getId_editora() + ". DIGITE O NOVO TELEFONE DA EDITORA " + editora_editar.getNome_editora() + " (EXEMPLO: 11983050165): ");
 			String telefone = ler.next();
-			telefone = utils.validarPreenchimento(editora_editar.getId_editora() + ". DIGITE O NOVO TELEFONE DA EDITORA " + editora_editar.getNome_editora() + ": ", telefone);
+			telefone = utils.validarPreenchimentoString(editora_editar.getId_editora() + ". DIGITE O NOVO TELEFONE DA EDITORA " + editora_editar.getNome_editora() + ": ", telefone);
 			String telefone_formatado = utils.formatarTelefone(telefone);
 
 			// EDITANDA EDITORA NA LISTA DE EDITORAES (OK)
