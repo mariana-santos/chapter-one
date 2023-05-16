@@ -121,7 +121,7 @@ public class Main {
 												autor_editar.perfilAutor(autor_editar);
 												System.out.println("DIGITE A OPÇÃO QUE DESEJA EDITAR: ");
 												opcao = ler.nextInt();
-												opcao = utils.validarOpcao(opcao, 1, 7, "perfilAutor", autor_editar, categoria, editora, livro);
+												opcao = utils.validarOpcao(opcao, 1, 8, "perfilAutor", autor_editar, categoria, editora, livro);
 												
 												
 												if (opcao == 1) {
@@ -161,6 +161,12 @@ public class Main {
 												}
 												
 												else if (opcao == 7) {
+													// EDITAR LIVROS DO AUTOR (OK)
+													autorService.editarLivrosAutor(id_livro, listaAutores, autor_editar, listaLivros);
+													utils.voltarMenu();
+												}
+												
+												else if (opcao == 8) {
 													// SAIR DO MENU EDITAR AUTOR (OK)
 													editar = false;
 												}
@@ -565,7 +571,7 @@ public class Main {
 												livro_editar.perfilLivro(livro_editar);
 												System.out.println("DIGITE A OPÇÃO QUE DESEJA EDITAR: ");
 												opcao = ler.nextInt();
-												opcao = utils.validarOpcao(opcao, 1, 12, "perfilLivro", autor, categoria, editora, livro_editar);
+												opcao = utils.validarOpcao(opcao, 1, 13, "perfilLivro", autor, categoria, editora, livro_editar);
 												
 												
 												if (opcao == 1) {
@@ -635,6 +641,12 @@ public class Main {
 												}
 												
 												else if (opcao == 12) {
+													// EDITAR OS AUTORES DO LIVRO (OK)
+													livroService.editarAutoresLivro(id_autor, listaAutores, livro_editar, listaLivros);
+													utils.voltarMenu();
+												}
+												
+												else if (opcao == 13) {
 													// SAIR DO MENU EDITAR AUTOR (OK)
 													editar = false;
 												}

@@ -387,6 +387,116 @@ public class LivroService {
 		}
 	}
 	
+	public void editarAutoresLivro(int id_autor, HashMap<Integer, Autor> listaAutores, Livro livro_editar, HashMap<Integer, Livro> listaLivros) throws IOException {
+		if (utils.confirmarAcao("EDITAR AUTORES DO LIVRO " + livro_editar.getId_livro() + ". " + livro_editar.getTitulo_livro())) {
+			HashMap<Integer, Autor> listaAutoresLivro = new HashMap<Integer, Autor>();
+			HashMap<Integer, Autor> listaAutoresAdicionar = new HashMap<Integer, Autor>(listaAutores);
+			
+			boolean adicionar = false;
+			
+			System.out.println("------------------------------------------");
+			System.out.println("DESEJA ADICIONAR AUTORES AO LIVRO?");
+			System.out.println("01. SIM");
+	        System.out.println("02. NÃO");
+	        System.out.println("------------------------------------------");
+	        System.out.println("DIGITE A OPÇÃO DESEJADA: ");
+			int opcao = ler.nextInt();
+			
+			while (opcao != 1 && opcao != 2) {
+				System.out.println("OPÇÃO INVÁLIDA.");
+				utils.voltarMenu();
+				System.out.println("------------------------------------------");
+				System.out.println("DESEJA ADICIONAR AUTORES AO LIVRO?");
+				System.out.println("01. SIM");
+		        System.out.println("02. NÃO");
+		        System.out.println("------------------------------------------");
+		        System.out.println("DIGITE A OPÇÃO DESEJADA: ");
+				opcao = ler.nextInt();
+			}
+			
+			if (opcao == 1) {
+				adicionar = true;
+			}
+			
+			else if (opcao == 2) {
+				adicionar = false;
+				livro_editar.setAutores_livro(listaAutoresLivro);
+			}
+			
+			while (adicionar) {
+				try {
+					for (Autor autor : listaAutoresAdicionar.values()) {
+				        System.out.println(autor.exibirAutor());
+				    }
+					System.out.println("DIGITE O ID DO AUTOR QUE DESEJA ADICIONAR AO LIVRO: ");
+					int id_buscado = ler.nextInt();
+					id_buscado = utils.validarId_Buscado(id_buscado, 1, (id_autor - 1), "listarAutores", listaAutoresAdicionar, null, null, null);
+					
+					Autor autor_adicionar = new Autor();
+					
+					if (autor_adicionar.indexAutor(id_buscado, listaAutoresAdicionar) == -1) {
+						System.out.println("ID NÃO ENCONTRADO");
+						utils.voltarMenu();
+					}
+					
+					else {
+						autor_adicionar = listaAutoresAdicionar.get(autor_adicionar.indexAutor(id_buscado, listaAutoresAdicionar));
+						listaAutoresLivro.put(autor_adicionar.getId_autor(), autor_adicionar);
+						listaAutoresAdicionar.remove(autor_adicionar.getId_autor());
+						System.out.println("ATOR ADICIONADO AO LIVRO COM SUCESSO!");
+					}
+					
+					System.out.println("------------------------------------------");
+					System.out.println("DESEJA ADICIONAR NOVO AUTOR AO LIVRO?");
+					System.out.println("01. SIM");
+			        System.out.println("02. NÃO");
+			        System.out.println("------------------------------------------");
+			        System.out.println("DIGITE A OPÇÃO DESEJADA: ");
+					opcao = ler.nextInt();
+					
+					while (opcao != 1 && opcao != 2) {
+						System.out.println("OPÇÃO INVÁLIDA.");
+						utils.voltarMenu();
+						System.out.println("------------------------------------------");
+						System.out.println("DESEJA ADICIONAR NOVO AUTOR AO LIVRO?");
+						System.out.println("01. SIM");
+				        System.out.println("02. NÃO");
+				        System.out.println("------------------------------------------");
+				        System.out.println("DIGITE A OPÇÃO DESEJADA: ");
+						opcao = ler.nextInt();
+					}
+					
+					if (opcao == 1) {
+						continue;
+					}
+					
+					else if (opcao == 2) {
+						adicionar = false;					
+					}
+					
+					livro_editar.setAutores_livro(listaAutoresLivro);
+					
+				} catch (InputMismatchException e) {
+			        System.out.println("OPÇÃO INVÁLIDA. POR FAVOR, DIGITE UM NÚMERO INTEIRO VÁLIDO.");
+			        ler.nextLine();
+			        utils.voltarMenu();
+			    } catch (Exception e) {
+			        System.out.println("OCORREU UM ERRO:" + e.getMessage());
+			        ler.nextLine();
+			        utils.voltarMenu();
+			    }
+			}
+			
+			// ADICIONANDO LIVRO NA LISTA DE LIVROS (OK)
+			listaLivros.put(livro_editar.getId_livro(), livro_editar);
+			
+			// FAZENDO UPDATE DO LIVRO NO BANCO DE DADOS (OK)
+			livroDAO.updateAutoresLivro(livro_editar);
+			
+			System.out.println("AUTORES DO LIVRO EDITADOS COM SUCESSO!");
+		}
+	}
+	
 	public void deletarLivro(int id_livro, HashMap<Integer, Livro> listaLivros) throws SQLException {
 		try {
 			if (utils.confirmarAcao("EXCLUIR LIVRO")) {

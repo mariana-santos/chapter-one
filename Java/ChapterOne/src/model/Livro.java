@@ -199,7 +199,8 @@ public class Livro {
 		System.out.println("09. IMAGEM: " + this.imagem_livro);
 		System.out.println("10. PREÇO: " + this.preco_livro);
 		System.out.println("11. DESCONTO: " + this.desconto_livro);
-		System.out.println("12. SAIR");
+		System.out.println("12. AUTORES");
+		System.out.println("13. SAIR");
 		System.out.println("------------------------------------------");				
 	}
 }
