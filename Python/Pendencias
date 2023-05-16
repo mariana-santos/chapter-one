@@ -1,6 +1,0 @@
-Testar todas as APIS, além de resolver o problema do id_autor e id_livro que será gerado automaticamente...
-
-Quando criamos o livro ou o autor e o id gera automaticamente, precisamos passar esse id para o inset na tabela
-autor_livro....
-
-além disso, criar sequencias para todas as tabelas com id.
