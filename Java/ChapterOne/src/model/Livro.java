@@ -205,6 +205,7 @@ public class Livro {
 		for (Autor autor : this.autores_livro.values()) {
 			String numeroAutor = String.format("%02d", contador);
 		    System.out.println("   12." + numeroAutor + ". ID: " + autor.getId_autor() + " | NOME: " + autor.getNome_autor());
+		    contador++;
 		}
 		
 		System.out.println("13. SAIR");

@@ -190,7 +190,7 @@ public class Utils {
 		while ((campopreenchido == 0)) {
 			System.out.println("O PREENCHIMENTO DO CAMPO É OBRIGATÓRIO.");
 			System.out.println(stringRepeticao);
-			campopreenchido = ler.nextInt();
+			campopreenchido = ler.nextDouble();
 		}
 		
 		return campopreenchido;
