@@ -74,4 +74,8 @@ INSERT INTO autor_livro VALUES (5, 5);
 
 COMMIT;
 
-SELECT * FROM autor_livro;
+SELECT autor_livro.id_autor, autor_livro.id_livro
+ FROM autor_livro
+ INNER JOIN autor ON autor_livro.id_livro = autor.id
+ WHERE autor_livro.id_livro = 1
+ ORDER BY autor_livro.id_autor;

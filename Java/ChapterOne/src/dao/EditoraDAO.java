@@ -51,7 +51,7 @@ public class EditoraDAO {
                 try {
                     statement.close();
                 } catch (SQLException e) {
-                    System.out.println("ERRO AO FECHAR O STATEMENT: " + e.getMessage());
+                    System.out.println("ERRO AO FECHAR O STATEMENT. ERRO:  " + e.getMessage());
                 }
             }
 
@@ -59,7 +59,7 @@ public class EditoraDAO {
                 try {
                     conn.close();
                 } catch (SQLException e) {
-                    System.out.println("ERRO AO FECHAR A CONNECTION: " + e.getMessage());
+                    System.out.println("ERRO AO FECHAR A CONNECTION. ERRO:  " + e.getMessage());
                 }
             }
 	    }
@@ -98,7 +98,7 @@ public class EditoraDAO {
                 try {
                     statement.close();
                 } catch (SQLException e) {
-                    System.out.println("ERRO AO FECHAR O STATEMENT: " + e.getMessage());
+                    System.out.println("ERRO AO FECHAR O STATEMENT. ERRO:  " + e.getMessage());
                 }
             }
 
@@ -106,7 +106,7 @@ public class EditoraDAO {
                 try {
                     conn.close();
                 } catch (SQLException e) {
-                    System.out.println("ERRO AO FECHAR A CONNECTION: " + e.getMessage());
+                    System.out.println("ERRO AO FECHAR A CONNECTION. ERRO:  " + e.getMessage());
                 }
             }
 	    }
@@ -131,7 +131,7 @@ public class EditoraDAO {
                 try {
                     statement.close();
                 } catch (SQLException e) {
-                    System.out.println("ERRO AO FECHAR O STATEMENT: " + e.getMessage());
+                    System.out.println("ERRO AO FECHAR O STATEMENT. ERRO:  " + e.getMessage());
                 }
             }
 
@@ -139,7 +139,7 @@ public class EditoraDAO {
                 try {
                     conn.close();
                 } catch (SQLException e) {
-                    System.out.println("ERRO AO FECHAR A CONNECTION: " + e.getMessage());
+                    System.out.println("ERRO AO FECHAR A CONNECTION. ERRO:  " + e.getMessage());
                 }
             }
 	    }
@@ -163,7 +163,7 @@ public class EditoraDAO {
                 try {
                     statement.close();
                 } catch (SQLException e) {
-                    System.out.println("ERRO AO FECHAR O STATEMENT: " + e.getMessage());
+                    System.out.println("ERRO AO FECHAR O STATEMENT. ERRO:  " + e.getMessage());
                 }
             }
 
@@ -171,7 +171,7 @@ public class EditoraDAO {
                 try {
                     conn.close();
                 } catch (SQLException e) {
-                    System.out.println("ERRO AO FECHAR A CONNECTION: " + e.getMessage());
+                    System.out.println("ERRO AO FECHAR A CONNECTION. ERRO:  " + e.getMessage());
                 }
             }
 	    }
@@ -195,7 +195,7 @@ public class EditoraDAO {
                 try {
                     statement.close();
                 } catch (SQLException e) {
-                    System.out.println("ERRO AO FECHAR O STATEMENT: " + e.getMessage());
+                    System.out.println("ERRO AO FECHAR O STATEMENT. ERRO:  " + e.getMessage());
                 }
             }
 
@@ -203,7 +203,7 @@ public class EditoraDAO {
                 try {
                     conn.close();
                 } catch (SQLException e) {
-                    System.out.println("ERRO AO FECHAR A CONNECTION: " + e.getMessage());
+                    System.out.println("ERRO AO FECHAR A CONNECTION. ERRO:  " + e.getMessage());
                 }
             }
 	    }

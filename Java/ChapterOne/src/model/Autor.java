@@ -138,7 +138,14 @@ public class Autor {
 		System.out.println("04. TELEFONE: " + this.telefone_autor);
 		System.out.println("05. BIO: " + this.bio_autor);
 		System.out.println("06. IMAGEM: " + this.imagem_autor);
-		System.out.println("07. LIVROS");
+		
+		System.out.println("07. LIVROS:");
+		int contador = 1;
+		for (Livro livro : this.livros_autor.values()) {
+			String numeroLivro = String.format("%02d", contador);
+		    System.out.println("   07." + numeroLivro + ". ID: " + livro.getId_livro() + " | TÍTULO: " + livro.getTitulo_livro());
+		}
+		
 		System.out.println("08. SAIR");
 		System.out.println("------------------------------------------");				
 	}

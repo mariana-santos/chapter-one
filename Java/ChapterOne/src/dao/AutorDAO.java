@@ -14,63 +14,117 @@ import model.Livro;
 public class AutorDAO {
 	
 	public HashMap<Integer, Autor> getAll() throws SQLException {
-        Connection conn = ConnectionFactory.getConnection();
-        Statement statement = null;
-        ResultSet rs = null;
-        HashMap<Integer, Autor> listaAutores = null;
-       
-        try {
-            String query = "SELECT * FROM autor ORDER BY nome";
-            
-            statement = conn.createStatement();
-           
-            rs = statement.executeQuery(query);
-           
-            listaAutores = new HashMap<Integer, Autor>(); 
-            while(rs.next()){
-            	Autor autor_banco = new Autor();
-            	autor_banco.setId_autor(Integer.parseInt(rs.getString("id")));
-            	autor_banco.setNome_autor(rs.getString("nome"));
-            	autor_banco.setEmail_autor(rs.getString("email"));
-            	autor_banco.setTelefone_autor(rs.getString("telefone"));
-            	autor_banco.setBio_autor(rs.getString("bio"));
-            	autor_banco.setImagem_autor(rs.getString("imagem"));
-            	
-                listaAutores.put(autor_banco.getId_autor(), autor_banco);
-            }
-            
-        } catch (SQLException e){
-            System.out.println("ERRO AO LISTAR OS AUTORES. ERRO: " + e.getMessage());
-            
-        } finally {
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException e) {
-                    System.out.println("ERRO AO FECHAR O RESULTSET. ERRO: " + e.getMessage());
-                }
-            }
-
-            if (statement != null) {
-                try {
-                    statement.close();
-                } catch (SQLException e) {
-                    System.out.println("ERRO AO FECHAR O STATEMENT: " + e.getMessage());
-                }
-            }
-
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    System.out.println("ERRO AO FECHAR A CONNECTION: " + e.getMessage());
-                }
-            }
-	    }
-        
-        return listaAutores;
-	}
+	    Connection conn = ConnectionFactory.getConnection();
+	    Statement statement_autores = null;
+	    ResultSet rs_autores = null;
+	    HashMap<Integer, Autor> listaAutores = null;
 	
+	    try {
+	        String query_autores = "SELECT * FROM autor ORDER BY nome";
+	
+	        statement_autores = conn.createStatement();
+	
+	        rs_autores = statement_autores.executeQuery(query_autores);
+	
+	        listaAutores = new HashMap<Integer, Autor>();
+	        while (rs_autores.next()) {
+	            Autor autor_banco = new Autor();
+	            HashMap<Integer, Livro> listaLivrosAutor = new HashMap<Integer, Livro>();
+	
+	            autor_banco.setId_autor(Integer.parseInt(rs_autores.getString("id")));
+	            autor_banco.setNome_autor(rs_autores.getString("nome"));
+	            autor_banco.setEmail_autor(rs_autores.getString("email"));
+	            autor_banco.setTelefone_autor(rs_autores.getString("telefone"));
+	            autor_banco.setBio_autor(rs_autores.getString("bio"));
+	            autor_banco.setImagem_autor(rs_autores.getString("imagem"));
+	            
+	            Statement statement_livros = null;
+	    	    ResultSet rs_livros = null;
+	            
+	            try {
+	            	String query_livros = "SELECT autor_livro.id_autor, autor_livro.id_livro, livro.titulo, livro.resumo, livro.ano, livro.paginas, livro.isbn, livro.id_categoria, livro.id_editora, livro.imagem, livro.preco, livro.desconto " +
+		                    "FROM autor_livro " +
+		                    "INNER JOIN livro ON autor_livro.id_livro = livro.id " +
+		                    "WHERE autor_livro.id_autor = " + autor_banco.getId_autor() + " " +
+		                    "ORDER BY autor_livro.id_livro";
+		            
+		            statement_livros = conn.createStatement();
+		            rs_livros = statement_livros.executeQuery(query_livros);
+		
+		            while (rs_livros.next()) {
+		                Livro livro_autor = new Livro();
+		                livro_autor.setId_livro(rs_livros.getInt("id_livro"));
+		                livro_autor.setTitulo_livro(rs_livros.getString("titulo"));
+		                livro_autor.setResumo_livro(rs_livros.getString("resumo"));
+		                livro_autor.setAno_livro(rs_livros.getInt("ano"));
+		                livro_autor.setPaginas_livro(rs_livros.getInt("paginas"));
+		                livro_autor.setIsbn_livro(rs_livros.getString("isbn"));
+		                livro_autor.setId_categoria_livro(rs_livros.getInt("id_categoria"));
+		                livro_autor.setId_editora_livro(rs_livros.getInt("id_editora"));
+		                livro_autor.setImagem_livro(rs_livros.getString("imagem"));
+		                livro_autor.setPreco_livro(rs_livros.getDouble("preco"));
+		                livro_autor.setDesconto_livro(rs_livros.getDouble("desconto"));
+		                
+		                listaLivrosAutor.put(livro_autor.getId_livro(), livro_autor);
+		                
+		                autor_banco.setLivros_autor(listaLivrosAutor);
+		        		
+			            listaAutores.put(autor_banco.getId_autor(), autor_banco);
+		            }
+
+	            } catch (SQLException e) {
+	    	        System.out.println("ERRO AO LISTAR OS LIVROS DOS AUTORES. ERRO: " + e.getMessage());
+	    	    } finally {
+	    	        if (rs_livros != null) {
+	    	            try {
+	    	            	rs_livros.close();
+	    	            } catch (SQLException e) {
+	    	                System.out.println("ERRO AO FECHAR O RESULTSET DOS LIVROS DOS AUTORES. ERRO: " + e.getMessage());
+	    	            }
+	    	        }
+	    	
+	    	        if (statement_livros != null) {
+	    	            try {
+	    	            	statement_livros.close();
+	    	            } catch (SQLException e) {
+	    	                System.out.println("ERRO AO FECHAR O STATEMENT DOS LIVROS DOS AUTORES. ERRO: " + e.getMessage());
+	    	            }
+	    	        }
+	    	    }
+	        }
+
+	    } catch (SQLException e) {
+	        System.out.println("ERRO AO LISTAR OS AUTORES. ERRO: " + e.getMessage());
+	        
+	    } finally {
+	        if (rs_autores != null) {
+	            try {
+	            	rs_autores.close();
+	            } catch (SQLException e) {
+	                System.out.println("ERRO AO FECHAR O RESULTSET. ERRO: " + e.getMessage());
+	            }
+	        }
+	
+	        if (statement_autores != null) {
+	            try {
+	            	statement_autores.close();
+	            } catch (SQLException e) {
+	                System.out.println("ERRO AO FECHAR O STATEMENT. ERRO: " + e.getMessage());
+	            }
+	        }
+	
+	        if (conn != null) {
+	            try {
+	                conn.close();
+	            } catch (SQLException e) {
+	                System.out.println("ERRO AO FECHAR A CONNECTION. ERRO:  " + e.getMessage());
+	            }
+	        }
+	    }
+	
+	    return listaAutores;
+	}
+
 	public int getIdMax() throws SQLException {
 	    Connection conn = ConnectionFactory.getConnection();
 	    Statement statement = null;
@@ -103,7 +157,7 @@ public class AutorDAO {
                 try {
                     statement.close();
                 } catch (SQLException e) {
-                    System.out.println("ERRO AO FECHAR O STATEMENT: " + e.getMessage());
+                    System.out.println("ERRO AO FECHAR O STATEMENT. ERRO:  " + e.getMessage());
                 }
             }
 
@@ -111,7 +165,7 @@ public class AutorDAO {
                 try {
                     conn.close();
                 } catch (SQLException e) {
-                    System.out.println("ERRO AO FECHAR A CONNECTION: " + e.getMessage());
+                    System.out.println("ERRO AO FECHAR A CONNECTION. ERRO:  " + e.getMessage());
                 }
             }
 	    }
@@ -136,7 +190,7 @@ public class AutorDAO {
                 try {
                     statement.close();
                 } catch (SQLException e) {
-                    System.out.println("ERRO AO FECHAR O STATEMENT: " + e.getMessage());
+                    System.out.println("ERRO AO FECHAR O STATEMENT. ERRO:  " + e.getMessage());
                 }
             }
 
@@ -144,7 +198,7 @@ public class AutorDAO {
                 try {
                     conn.close();
                 } catch (SQLException e) {
-                    System.out.println("ERRO AO FECHAR A CONNECTION: " + e.getMessage());
+                    System.out.println("ERRO AO FECHAR A CONNECTION. ERRO:  " + e.getMessage());
                 }
             }
 	    }
@@ -161,7 +215,7 @@ public class AutorDAO {
                     try {
                         conn.close();
                     } catch (SQLException e) {
-                        System.out.println("ERRO AO FECHAR A CONNECTION: " + e.getMessage());
+                        System.out.println("ERRO AO FECHAR A CONNECTION. ERRO:  " + e.getMessage());
                     }
                 }
         	}
@@ -184,7 +238,7 @@ public class AutorDAO {
                 try {
                     statement.close();
                 } catch (SQLException e) {
-                    System.out.println("ERRO AO FECHAR O STATEMENT: " + e.getMessage());
+                    System.out.println("ERRO AO FECHAR O STATEMENT. ERRO:  " + e.getMessage());
                 }
             }
 
@@ -192,7 +246,7 @@ public class AutorDAO {
                 try {
                     conn.close();
                 } catch (SQLException e) {
-                    System.out.println("ERRO AO FECHAR A CONNECTION: " + e.getMessage());
+                    System.out.println("ERRO AO FECHAR A CONNECTION. ERRO:  " + e.getMessage());
                 }
             }
         }
@@ -216,7 +270,7 @@ public class AutorDAO {
                 try {
                     statement.close();
                 } catch (SQLException e) {
-                    System.out.println("ERRO AO FECHAR O STATEMENT: " + e.getMessage());
+                    System.out.println("ERRO AO FECHAR O STATEMENT. ERRO:  " + e.getMessage());
                 }
             }
 
@@ -224,7 +278,7 @@ public class AutorDAO {
                 try {
                     conn.close();
                 } catch (SQLException e) {
-                    System.out.println("ERRO AO FECHAR A CONNECTION: " + e.getMessage());
+                    System.out.println("ERRO AO FECHAR A CONNECTION. ERRO:  " + e.getMessage());
                 }
             }
 	    }
@@ -245,7 +299,7 @@ public class AutorDAO {
 	                try {
 	                    statement.close();
 	                } catch (SQLException e) {
-	                    System.out.println("ERRO AO FECHAR O STATEMENT: " + e.getMessage());
+	                    System.out.println("ERRO AO FECHAR O STATEMENT. ERRO:  " + e.getMessage());
 	                }
 	            }
         		
@@ -253,7 +307,7 @@ public class AutorDAO {
                     try {
                         conn.close();
                     } catch (SQLException e) {
-                        System.out.println("ERRO AO FECHAR A CONNECTION: " + e.getMessage());
+                        System.out.println("ERRO AO FECHAR A CONNECTION. ERRO:  " + e.getMessage());
                     }
                 }
         	}
@@ -267,7 +321,7 @@ public class AutorDAO {
 	                try {
 	                    statement.close();
 	                } catch (SQLException e) {
-	                    System.out.println("ERRO AO FECHAR O STATEMENT: " + e.getMessage());
+	                    System.out.println("ERRO AO FECHAR O STATEMENT. ERRO:  " + e.getMessage());
 	                }
 	            }
         		
@@ -275,7 +329,7 @@ public class AutorDAO {
                     try {
                         conn.close();
                     } catch (SQLException e) {
-                        System.out.println("ERRO AO FECHAR A CONNECTION: " + e.getMessage());
+                        System.out.println("ERRO AO FECHAR A CONNECTION. ERRO:  " + e.getMessage());
                     }
                 }
         		
@@ -299,7 +353,7 @@ public class AutorDAO {
                 try {
                     statement.close();
                 } catch (SQLException e) {
-                    System.out.println("ERRO AO FECHAR O STATEMENT: " + e.getMessage());
+                    System.out.println("ERRO AO FECHAR O STATEMENT. ERRO:  " + e.getMessage());
                 }
             }
 
@@ -307,7 +361,7 @@ public class AutorDAO {
                 try {
                     conn.close();
                 } catch (SQLException e) {
-                    System.out.println("ERRO AO FECHAR A CONNECTION: " + e.getMessage());
+                    System.out.println("ERRO AO FECHAR A CONNECTION. ERRO:  " + e.getMessage());
                 }
             }
         }
@@ -331,7 +385,7 @@ public class AutorDAO {
                 try {
                     statement.close();
                 } catch (SQLException e) {
-                    System.out.println("ERRO AO FECHAR O STATEMENT: " + e.getMessage());
+                    System.out.println("ERRO AO FECHAR O STATEMENT. ERRO:  " + e.getMessage());
                 }
             }
 
@@ -339,7 +393,7 @@ public class AutorDAO {
                 try {
                     conn.close();
                 } catch (SQLException e) {
-                    System.out.println("ERRO AO FECHAR A CONNECTION: " + e.getMessage());
+                    System.out.println("ERRO AO FECHAR A CONNECTION. ERRO:  " + e.getMessage());
                 }
             }
 	    }
@@ -361,7 +415,7 @@ public class AutorDAO {
                 try {
                     statement.close();
                 } catch (SQLException e) {
-                    System.out.println("ERRO AO FECHAR O STATEMENT: " + e.getMessage());
+                    System.out.println("ERRO AO FECHAR O STATEMENT. ERRO:  " + e.getMessage());
                 }
             }
 
@@ -369,7 +423,7 @@ public class AutorDAO {
                 try {
                     conn.close();
                 } catch (SQLException e) {
-                    System.out.println("ERRO AO FECHAR A CONNECTION: " + e.getMessage());
+                    System.out.println("ERRO AO FECHAR A CONNECTION. ERRO:  " + e.getMessage());
                 }
             }
 	    }
