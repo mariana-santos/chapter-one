@@ -87,9 +87,9 @@ public class Editora {
 	public int indexEditora(int id_buscado, HashMap<Integer, Editora> listaEditoras) {
 	    int indexEditora = -1;
 
-	    for (Map.Entry<Integer, Editora> entry : listaEditoras.entrySet()) {
-	        if (id_buscado == entry.getValue().getId_editora()) {
-	            indexEditora = entry.getKey();
+	    for (Map.Entry<Integer, Editora> editora : listaEditoras.entrySet()) {
+	        if (id_buscado == editora.getValue().getId_editora()) {
+	            indexEditora = editora.getKey();
 	            break;
 	        }
 	    }

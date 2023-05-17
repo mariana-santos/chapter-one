@@ -64,9 +64,9 @@ public class Categoria {
 	public int indexCategoria(int id_buscado, HashMap<Integer, Categoria> listaCategorias) {
 	    int indexCategoria = -1;
 
-	    for (Map.Entry<Integer, Categoria> entry : listaCategorias.entrySet()) {
-	        if (id_buscado == entry.getValue().getId_categoria()) {
-	            indexCategoria = entry.getKey();
+	    for (Map.Entry<Integer, Categoria> categoria : listaCategorias.entrySet()) {
+	        if (id_buscado == categoria.getValue().getId_categoria()) {
+	            indexCategoria = categoria.getKey();
 	            break;
 	        }
 	    }

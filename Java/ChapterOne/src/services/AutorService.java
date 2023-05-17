@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.InputMismatchException;
+import java.util.Map;
 import java.util.Scanner;
 
 import dao.AutorDAO;
@@ -369,6 +370,30 @@ public class AutorService {
 					
 					// EDITANDO AUTOR NA LISTA DE AUTORES (OK)
 					autor_editar.setLivros_autor(listaLivrosAutor);
+					
+					// EDITANDO TODOS OS LIVROS NA LISTA DE LIVROS PARA ADICIONAR O AUTOR DE ACORDO COM A NOVA LISTA DO AUTOR (OK)
+					for (Map.Entry<Integer, Livro> livro_do_autor : autor_editar.getLivros_autor().entrySet()) {
+					    Livro livro_autor = livro_do_autor.getValue();
+					    for (Map.Entry<Integer, Livro> livro_na_lista : listaLivros.entrySet()) {
+					        Livro livro_lista = livro_na_lista.getValue();
+					        if (livro_autor.equals(livro_lista)) {
+					            boolean autorAtualizado = false;
+					            for (Map.Entry<Integer, Autor> entry : livro_lista.getAutores_livro().entrySet()) {
+					                Autor autor = entry.getValue();
+					                if (autor.getId_autor() == autor_editar.getId_autor()) {
+					                    autorAtualizado = true;
+					                    break;
+					                }
+					            }
+					            
+					            if (!autorAtualizado) {
+					                livro_lista.getAutores_livro().put(autor_editar.getId_autor(), autor_editar);
+					            }
+					        } else {
+					            livro_lista.getAutores_livro().remove(autor_editar.getId_autor());
+					        }
+					    }
+					}
 					
 				} catch (InputMismatchException e) {
 			        System.out.println("OPÇÃO INVÁLIDA. POR FAVOR, DIGITE UM NÚMERO INTEIRO VÁLIDO.");

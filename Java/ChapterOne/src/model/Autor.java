@@ -120,9 +120,9 @@ public class Autor {
 	public int indexAutor(int id_buscado, HashMap<Integer, Autor> listaAutores) {
 	    int indexAutor = -1;
 
-	    for (Map.Entry<Integer, Autor> entry : listaAutores.entrySet()) {
-	        if (id_buscado == entry.getValue().getId_autor()) {
-	            indexAutor = entry.getKey();
+	    for (Map.Entry<Integer, Autor> autor : listaAutores.entrySet()) {
+	        if (id_buscado == autor.getValue().getId_autor()) {
+	            indexAutor = autor.getKey();
 	            break;
 	        }
 	    }

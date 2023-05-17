@@ -176,9 +176,9 @@ public class Livro {
 	public int indexLivro(int id_buscado, HashMap<Integer, Livro> listaLivros) {
 	    int indexLivro = -1;
 
-	    for (Map.Entry<Integer, Livro> entry : listaLivros.entrySet()) {
-	        if (id_buscado == entry.getValue().getId_livro()) {
-	            indexLivro = entry.getKey();
+	    for (Map.Entry<Integer, Livro> livro : listaLivros.entrySet()) {
+	        if (id_buscado == livro.getValue().getId_livro()) {
+	            indexLivro = livro.getKey();
 	            break;
 	        }
 	    }

@@ -230,8 +230,8 @@ public class LivroDAO {
 			}
 
 			else {
-				for (Map.Entry<Integer, Autor> entry : novo_livro.getAutores_livro().entrySet()) {
-					int id_autor = entry.getKey();
+				for (Map.Entry<Integer, Autor> autor : novo_livro.getAutores_livro().entrySet()) {
+					int id_autor = autor.getKey();
 					int id_livro = novo_livro.getId_livro();
 					String query = String.format("INSERT INTO autor_livro (id_autor, id_livro) VALUES (%s, %s)",
 							id_autor, id_livro);
@@ -354,8 +354,8 @@ public class LivroDAO {
 				conn = ConnectionFactory.getConnection();
 				statement = null;
 
-				for (Map.Entry<Integer, Autor> entry : livro_atualizar.getAutores_livro().entrySet()) {
-					int id_autor = entry.getKey();
+				for (Map.Entry<Integer, Autor> autor : livro_atualizar.getAutores_livro().entrySet()) {
+					int id_autor = autor.getKey();
 					int id_livro = livro_atualizar.getId_livro();
 					query = String.format("INSERT INTO autor_livro (id_autor, id_livro) VALUES (%s, %s)", id_autor,
 							id_livro);
