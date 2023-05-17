@@ -19,7 +19,12 @@ export default function Loja(){
 
                 <h3>Pesquisar um livro</h3>
                 <div className="wrap_filter">
-                    <input type="text" value={pesquisa} onChange={(e) => { setPesquisa(e.target.value) }} />
+                    <input 
+                        type="text" 
+                        value={pesquisa} 
+                        onChange={(e) => { setPesquisa(e.target.value) }}
+                        placeholder="O que você está procurando?"
+                    />
 
                     <select id="categoria" value={categoria} onChange={(e) => { setCategoria(e.target.value) }} >
                         { categorias.map((categoria) => {
