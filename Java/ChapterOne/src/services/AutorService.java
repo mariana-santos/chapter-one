@@ -432,8 +432,8 @@ public class AutorService {
 			            Livro livro_lista = livro_na_lista.getValue();
 			            if (livro_autor.equals(livro_lista)) {
 			                boolean autorAtualizado = false;
-			                for (Map.Entry<Integer, Autor> entry : livro_lista.getAutores_livro().entrySet()) {
-			                    Autor autor = entry.getValue();
+			                for (Map.Entry<Integer, Autor> autor_livro : livro_lista.getAutores_livro().entrySet()) {
+			                    Autor autor = autor_livro.getValue();
 			                    if (autor.getId_autor() == autor_editar.getId_autor()) {
 			                        autorAtualizado = true;
 			                        break;
