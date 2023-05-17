@@ -155,6 +155,39 @@ public class AutorService {
 		if (autorDAO.insert(novo_autor) && autorDAO.insertLivrosAutor(novo_autor)) {
 			// ADICIONANDO AUTOR NA LISTA DE AUTORES (OK)
 			listaAutores.put(novo_autor.getId_autor(), novo_autor);
+			
+			if (novo_autor.getLivros_autor().isEmpty()) {
+			    for (Map.Entry<Integer, Livro> livro_na_lista : listaLivros.entrySet()) {
+			        Livro livro_lista = livro_na_lista.getValue();
+			        livro_lista.getAutores_livro().remove(novo_autor.getId_autor());
+			    }
+			} 
+			
+			else {
+			    for (Map.Entry<Integer, Livro> livro_do_autor : novo_autor.getLivros_autor().entrySet()) {
+			        Livro livro_autor = livro_do_autor.getValue();
+			        for (Map.Entry<Integer, Livro> livro_na_lista : listaLivros.entrySet()) {
+			            Livro livro_lista = livro_na_lista.getValue();
+			            if (livro_autor.equals(livro_lista)) {
+			                boolean autorAtualizado = false;
+			                for (Map.Entry<Integer, Autor> entry : livro_lista.getAutores_livro().entrySet()) {
+			                    Autor autor = entry.getValue();
+			                    if (autor.getId_autor() == novo_autor.getId_autor()) {
+			                        autorAtualizado = true;
+			                        break;
+			                    }
+			                }
+			                
+			                if (!autorAtualizado) {
+			                    livro_lista.getAutores_livro().put(novo_autor.getId_autor(), novo_autor);
+			                }
+			            } else {
+			                livro_lista.getAutores_livro().remove(novo_autor.getId_autor());
+			            }
+			        }
+			    }
+			}
+			
 			System.out.println("AUTOR CADASTRADO COM SUCESSO!");
 		}
 		
@@ -186,6 +219,7 @@ public class AutorService {
 	        }
 		}
 	}
+	
 	
 	public void editarEmail(Autor autor_editar) throws IOException, SQLException {
 		if (utils.confirmarAcao("EDITAR EMAIL DO AUTOR " + autor_editar.getId_autor() + ". " + autor_editar.getNome_autor())) {
@@ -314,6 +348,7 @@ public class AutorService {
 			
 			else if (opcao == 2) {
 				adicionar = false;
+				// EDITANDO AUTOR NA LISTA DE AUTORES (OK)
 				autor_editar.setLivros_autor(listaLivrosAutor);
 			}
 			
@@ -368,33 +403,6 @@ public class AutorService {
 						adicionar = false;					
 					}
 					
-					// EDITANDO AUTOR NA LISTA DE AUTORES (OK)
-					autor_editar.setLivros_autor(listaLivrosAutor);
-					
-					// EDITANDO TODOS OS LIVROS NA LISTA DE LIVROS PARA ADICIONAR O AUTOR DE ACORDO COM A NOVA LISTA DO AUTOR (OK)
-					for (Map.Entry<Integer, Livro> livro_do_autor : autor_editar.getLivros_autor().entrySet()) {
-					    Livro livro_autor = livro_do_autor.getValue();
-					    for (Map.Entry<Integer, Livro> livro_na_lista : listaLivros.entrySet()) {
-					        Livro livro_lista = livro_na_lista.getValue();
-					        if (livro_autor.equals(livro_lista)) {
-					            boolean autorAtualizado = false;
-					            for (Map.Entry<Integer, Autor> entry : livro_lista.getAutores_livro().entrySet()) {
-					                Autor autor = entry.getValue();
-					                if (autor.getId_autor() == autor_editar.getId_autor()) {
-					                    autorAtualizado = true;
-					                    break;
-					                }
-					            }
-					            
-					            if (!autorAtualizado) {
-					                livro_lista.getAutores_livro().put(autor_editar.getId_autor(), autor_editar);
-					            }
-					        } else {
-					            livro_lista.getAutores_livro().remove(autor_editar.getId_autor());
-					        }
-					    }
-					}
-					
 				} catch (InputMismatchException e) {
 			        System.out.println("OPÇÃO INVÁLIDA. POR FAVOR, DIGITE UM NÚMERO INTEIRO VÁLIDO.");
 			        ler.nextLine();
@@ -406,6 +414,42 @@ public class AutorService {
 			    }
 			}
 			
+			// EDITANDO AUTOR NA LISTA DE AUTORES (OK)
+			autor_editar.setLivros_autor(listaLivrosAutor);
+			
+			// EDITANDO TODOS OS LIVROS NA LISTA DE LIVROS PARA ADICIONAR OU REMOVER O AUTOR DE ACORDO COM A NOVA LISTA DO AUTOR (OK)
+			if (autor_editar.getLivros_autor().isEmpty()) {
+			    for (Map.Entry<Integer, Livro> livro_na_lista : listaLivros.entrySet()) {
+			        Livro livro_lista = livro_na_lista.getValue();
+			        livro_lista.getAutores_livro().remove(autor_editar.getId_autor());
+			    }
+			} 
+			
+			else {
+			    for (Map.Entry<Integer, Livro> livro_do_autor : autor_editar.getLivros_autor().entrySet()) {
+			        Livro livro_autor = livro_do_autor.getValue();
+			        for (Map.Entry<Integer, Livro> livro_na_lista : listaLivros.entrySet()) {
+			            Livro livro_lista = livro_na_lista.getValue();
+			            if (livro_autor.equals(livro_lista)) {
+			                boolean autorAtualizado = false;
+			                for (Map.Entry<Integer, Autor> entry : livro_lista.getAutores_livro().entrySet()) {
+			                    Autor autor = entry.getValue();
+			                    if (autor.getId_autor() == autor_editar.getId_autor()) {
+			                        autorAtualizado = true;
+			                        break;
+			                    }
+			                }
+			                
+			                if (!autorAtualizado) {
+			                    livro_lista.getAutores_livro().put(autor_editar.getId_autor(), autor_editar);
+			                }
+			            } else {
+			                livro_lista.getAutores_livro().remove(autor_editar.getId_autor());
+			            }
+			        }
+			    }
+			}
+
 			// FAZENDO UPDATE NO BANCO DE DADOS (OK)
 	        if (autorDAO.updateLivrosAutor(autor_editar)) {
 	            System.out.println("LIVROS DO AUTOR ATUALIZADOS COM SUCESSO!");

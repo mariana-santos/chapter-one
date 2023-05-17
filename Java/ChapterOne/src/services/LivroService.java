@@ -154,7 +154,7 @@ public class LivroService {
 					autor_adicionar = listaAutoresAdicionar.get(autor_adicionar.indexAutor(id_buscado, listaAutoresAdicionar));
 					listaAutoresLivro.put(autor_adicionar.getId_autor(), autor_adicionar);
 					listaAutoresAdicionar.remove(autor_adicionar.getId_autor());
-					System.out.println("ATOR ADICIONADO AO LIVRO COM SUCESSO!");
+					System.out.println("AUTOR ADICIONADO AO LIVRO COM SUCESSO!");
 				}
 				
 				System.out.println("------------------------------------------");
@@ -202,6 +202,38 @@ public class LivroService {
 		if (livroDAO.insert(novo_livro) && livroDAO.insertAutoresLivro(novo_livro)) {
 			// ADICIONANDO LIVRO NA LISTA DE LIVROS (OK)
 			listaLivros.put(novo_livro.getId_livro(), novo_livro);
+			
+			// ADICIONANDO LIVRO AOS AUTORES DE ACORDO COM A LISTA DE AUTORES DO LIVRO (OK)
+			if (novo_livro.getAutores_livro().isEmpty()) {
+			    for (Map.Entry<Integer, Autor> autor_na_lista : listaAutores.entrySet()) {
+			        Autor autor_lista = autor_na_lista.getValue();
+			        autor_lista.getLivros_autor().remove(novo_livro.getId_livro());
+			    }
+			} else {
+			    for (Map.Entry<Integer, Autor> autor_do_livro : novo_livro.getAutores_livro().entrySet()) {
+			        Autor autor_livro = autor_do_livro.getValue();
+			        for (Map.Entry<Integer, Autor> autor_na_lista : listaAutores.entrySet()) {
+			            Autor autor_lista = autor_na_lista.getValue();
+			            if (autor_livro.equals(autor_lista)) {
+			                boolean livroAtualizado = false;
+			                for (Map.Entry<Integer, Livro> entry : autor_lista.getLivros_autor().entrySet()) {
+			                    Livro livro = entry.getValue();
+			                    if (livro.getId_livro() == novo_livro.getId_livro()) {
+			                        livroAtualizado = true;
+			                        break;
+			                    }
+			                }
+			                
+			                if (!livroAtualizado) {
+			                    autor_lista.getLivros_autor().put(novo_livro.getId_livro(), novo_livro);
+			                }
+			            } else {
+			                autor_lista.getLivros_autor().remove(novo_livro.getId_livro());
+			            }
+			        }
+			    }
+			}
+			
 			System.out.println("LIVRO CADASTRADO COM SUCESSO!");
 		}
 		
@@ -495,7 +527,39 @@ public class LivroService {
 			
 			else if (opcao == 2) {
 				adicionar = false;
+				// EDITANDO LIVRO NA LISTA DE LIVROS
 				livro_editar.setAutores_livro(listaAutoresLivro);
+				
+				// EDITANDO TODOS OS AUTORES NA LISTA DE AUTORES PARA ADICIONAR OU REMOVER O LIVRO DE ACORDO COM A NOVA LISTA DO LIVROS (OK)
+				if (livro_editar.getAutores_livro().isEmpty()) {
+				    for (Map.Entry<Integer, Autor> autor_na_lista : listaAutores.entrySet()) {
+				        Autor autor_lista = autor_na_lista.getValue();
+				        autor_lista.getLivros_autor().remove(livro_editar.getId_livro());
+				    }
+				} else {
+				    for (Map.Entry<Integer, Autor> autor_do_livro : livro_editar.getAutores_livro().entrySet()) {
+				        Autor autor_livro = autor_do_livro.getValue();
+				        for (Map.Entry<Integer, Autor> autor_na_lista : listaAutores.entrySet()) {
+				            Autor autor_lista = autor_na_lista.getValue();
+				            if (autor_livro.equals(autor_lista)) {
+				                boolean livroAtualizado = false;
+				                for (Map.Entry<Integer, Livro> entry : autor_lista.getLivros_autor().entrySet()) {
+				                    Livro livro = entry.getValue();
+				                    if (livro.getId_livro() == livro_editar.getId_livro()) {
+				                        livroAtualizado = true;
+				                        break;
+				                    }
+				                }
+				                
+				                if (!livroAtualizado) {
+				                    autor_lista.getLivros_autor().put(livro_editar.getId_livro(), livro_editar);
+				                }
+				            } else {
+				                autor_lista.getLivros_autor().remove(livro_editar.getId_livro());
+				            }
+				        }
+				    }
+				}
 			}
 			
 			while (adicionar) {
@@ -518,7 +582,7 @@ public class LivroService {
 						autor_adicionar = listaAutoresAdicionar.get(autor_adicionar.indexAutor(id_buscado, listaAutoresAdicionar));
 						listaAutoresLivro.put(autor_adicionar.getId_autor(), autor_adicionar);
 						listaAutoresAdicionar.remove(autor_adicionar.getId_autor());
-						System.out.println("ATOR ADICIONADO AO LIVRO COM SUCESSO!");
+						System.out.println("AUTOR ADICIONADO AO LIVRO COM SUCESSO!");
 					}
 					
 					System.out.println("------------------------------------------");
@@ -548,33 +612,6 @@ public class LivroService {
 					else if (opcao == 2) {
 						adicionar = false;					
 					}
-					
-					// EDITANDO LIVRO NA LISTA DE LIVROS
-					livro_editar.setAutores_livro(listaAutoresLivro);
-					
-					// EDITANDO TODOS OS AUTORES NA LISTA DE AUTORES PARA ADICIONAR O LIVRO DE ACORDO COM A NOVA LISTA DO LIVROS (OK)
-					for (Map.Entry<Integer, Autor> autor_do_livro : livro_editar.getAutores_livro().entrySet()) {
-					    Autor autor_livro = autor_do_livro.getValue();
-					    for (Map.Entry<Integer, Autor> autor_na_lista : listaAutores.entrySet()) {
-					        Autor autor_lista = autor_na_lista.getValue();
-					        if (autor_livro.equals(autor_lista)) {
-					            boolean livroAtualizado = false;
-					            for (Map.Entry<Integer, Livro> entry : autor_lista.getLivros_autor().entrySet()) {
-					                Livro livro = entry.getValue();
-					                if (livro.getId_livro() == livro_editar.getId_livro()) {
-					                	livroAtualizado = true;
-					                    break;
-					                }
-					            }
-					            
-					            if (!livroAtualizado) {
-					                autor_lista.getLivros_autor().put(livro_editar.getId_livro(), livro_editar);
-					            }
-					        } else {
-					        	autor_lista.getLivros_autor().remove(livro_editar.getId_livro());
-					        }
-					    }
-					}
 
 				} catch (InputMismatchException e) {
 			        System.out.println("OPÇÃO INVÁLIDA. POR FAVOR, DIGITE UM NÚMERO INTEIRO VÁLIDO.");
@@ -584,6 +621,33 @@ public class LivroService {
 			        System.out.println("OCORREU UM ERRO:" + e.getMessage());
 			        ler.nextLine();
 			        utils.voltarMenu();
+			    }
+			}
+			
+			// EDITANDO LIVRO NA LISTA DE LIVROS
+			livro_editar.setAutores_livro(listaAutoresLivro);
+			
+			// EDITANDO TODOS OS AUTORES NA LISTA DE AUTORES PARA ADICIONAR O LIVRO DE ACORDO COM A NOVA LISTA DO LIVROS (OK)
+			for (Map.Entry<Integer, Autor> autor_do_livro : livro_editar.getAutores_livro().entrySet()) {
+			    Autor autor_livro = autor_do_livro.getValue();
+			    for (Map.Entry<Integer, Autor> autor_na_lista : listaAutores.entrySet()) {
+			        Autor autor_lista = autor_na_lista.getValue();
+			        if (autor_livro.equals(autor_lista)) {
+			            boolean livroAtualizado = false;
+			            for (Map.Entry<Integer, Livro> entry : autor_lista.getLivros_autor().entrySet()) {
+			                Livro livro = entry.getValue();
+			                if (livro.getId_livro() == livro_editar.getId_livro()) {
+			                	livroAtualizado = true;
+			                    break;
+			                }
+			            }
+			            
+			            if (!livroAtualizado) {
+			                autor_lista.getLivros_autor().put(livro_editar.getId_livro(), livro_editar);
+			            }
+			        } else {
+			        	autor_lista.getLivros_autor().remove(livro_editar.getId_livro());
+			        }
 			    }
 			}
 			
