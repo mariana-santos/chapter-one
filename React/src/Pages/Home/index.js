@@ -12,10 +12,30 @@ import { BsChevronCompactDown } from 'react-icons/bs'
 
 import './style.css'
 import ListaAutores from "../../Components/ListaAutores"
+import { useState, useEffect } from "react"
 
 export default function Home(){
 
-    livros = livros.slice(0, 4)
+    const [livros, setLivros] = useState([])
+    const [autores, setAutores] = useState([])
+
+    useEffect(() => {
+
+        fetch('http://localhost:8000/livros')
+        .then(resp => resp.json())
+        .then((data) => {
+            setLivros(data.slice(0, 4))
+        })
+        .catch(error => console.error(error))
+
+        fetch('http://localhost:8000/autores')
+        .then(resp => resp.json())
+        .then((data) => {
+            setAutores(data)
+        })
+        .catch(error => console.error(error))
+
+    }, [])
 
     return(
         <>

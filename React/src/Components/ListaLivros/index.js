@@ -2,6 +2,8 @@ import Card from "../CardLivro"
 
 import './style.css'
 
+import { useState, useEffect } from "react"
+
 export default function ListaLivros(props){
 
     const { livros } = props
@@ -16,7 +18,7 @@ export default function ListaLivros(props){
                         preco={livro.preco} 
                         desconto={livro.desconto} 
                         imagem={livro.imagem} 
-                        autor={livro.autor[0].nome}
+                        id_autor={livro.autores[0].id}
                     />
                 )
             }) }

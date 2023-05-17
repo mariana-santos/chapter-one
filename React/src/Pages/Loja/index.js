@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Header from "../../Components/Header"
 import ListaLivros from "../../Components/ListaLivros"
 
@@ -11,13 +11,34 @@ export default function Loja(){
 
     const [pesquisa, setPesquisa] = useState()
     const [categoria, setCategoria] = useState('Todas')
+    
+    const [livros, setLivros] = useState([])
+    const [carregando, setCarregando] = useState(true)
+    const [categorias, setCategorias] = useState([])
+
+    useEffect(() => {
+
+        fetch('http://localhost:8000/livros')
+        .then(resp => resp.json())
+        .then((data) => {
+            setLivros(data)
+            console.log(data)
+        })
+        .catch(error => console.error(error))   
+
+        fetch(`http://localhost:8000/categorias`)
+        .then(resp => resp.json())
+        .then(categorias => setCategorias(categorias))
+        .catch(error => console.error(error))
+
+    }, [])
 
     return(
         <>
             <Header />
             <div className="container" id="loja">
 
-                <h3>Pesquisar um livro</h3>
+                <h3 className="titulo">Pesquisar um livro</h3>
                 <div className="wrap_filter">
                     <input type="text" value={pesquisa} onChange={(e) => { setPesquisa(e.target.value) }} />
 
