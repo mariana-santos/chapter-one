@@ -400,7 +400,6 @@ public class AutorService {
 				if (autorDAO.delete(id_autor)) {
 					// REMOVENDO AUTOR DA LISTA DE AUTORES (OK)
 					listaAutores.remove(id_autor);
-					
 					System.out.println("AUTOR EXCLUÍDO COM SUCESSO!");
 				}
 				

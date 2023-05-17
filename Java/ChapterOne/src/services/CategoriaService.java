@@ -75,7 +75,6 @@ public class CategoriaService {
 				if (categoriaDAO.delete(id_categoria)) {
 					// REMOVENDO CATEGORIA DA LISTA DE CATEGORIAS (OK)
 					listaCategorias.remove(id_categoria);
-					
 					System.out.println("CATEGORIA EXCLUÍDA COM SUCESSO!");
 				}
 				
