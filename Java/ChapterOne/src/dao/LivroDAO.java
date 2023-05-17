@@ -49,7 +49,7 @@ public class LivroDAO {
 	    	    try {
 	    	    	String query_autores = "SELECT autor_livro.id_autor, autor.nome, autor.email, autor.telefone, autor.bio, autor.imagem, autor_livro.id_livro " +
 		                    "FROM autor_livro " +
-		                    "INNER JOIN autor ON autor_livro.id_livro = autor.id " +
+		                    "INNER JOIN autor ON autor_livro.id_autor = autor.id " +
 		                    "WHERE autor_livro.id_livro = " + livro_banco.getId_livro() + " " +
 		                    "ORDER BY autor_livro.id_autor";
 	    	    	
