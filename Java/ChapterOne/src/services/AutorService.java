@@ -173,7 +173,8 @@ public class AutorService {
 
 	        // EDITANDO AUTOR NA LISTA DE AUTORES (OK)
 			autor_editar.setNome_autor(nome);
-
+			
+			// FAZENDO UPDATE NO BANCO DE DADOS (OK)
 	        if (autorDAO.update(autor_editar)) {
 	            System.out.println("NOME ATUALIZADO COM SUCESSO!");
 	        } 
@@ -195,7 +196,8 @@ public class AutorService {
 
 	        // EDITANDO AUTOR NA LISTA DE AUTORES (OK)
 	     	autor_editar.setEmail_autor(email);
-
+	     	
+	     	// FAZENDO UPDATE NO BANCO DE DADOS (OK)
 	        if (autorDAO.update(autor_editar)) {
 	            System.out.println("EMAIL ATUALIZADO COM SUCESSO!");
 	        } 
@@ -218,7 +220,8 @@ public class AutorService {
 
 	        // EDITANDO AUTOR NA LISTA DE AUTORES (OK)
 			autor_editar.setTelefone_autor(telefone_formatado);
-
+			
+			// FAZENDO UPDATE NO BANCO DE DADOS (OK)
 	        if (autorDAO.update(autor_editar)) {
 	            System.out.println("TELEFONE ATUALIZADO COM SUCESSO!");
 	        } 
@@ -240,7 +243,8 @@ public class AutorService {
 
 	        // EDITANDO AUTOR NA LISTA DE AUTORES (OK)
 			autor_editar.setBio_autor(bio);
-
+			
+			// FAZENDO UPDATE NO BANCO DE DADOS (OK)
 	        if (autorDAO.update(autor_editar)) {
 	            System.out.println("BIO ATUALIZADA COM SUCESSO!");
 	        } 
@@ -262,7 +266,8 @@ public class AutorService {
 
 	        // EDITANDO AUTOR NA LISTA DE AUTORES (OK)
 			autor_editar.setImagem_autor(imagem);
-
+			
+			// FAZENDO UPDATE NO BANCO DE DADOS (OK)
 	        if (autorDAO.update(autor_editar)) {
 	            System.out.println("IMAGEM ATUALIZADA COM SUCESSO!");
 	        } 
@@ -362,6 +367,7 @@ public class AutorService {
 						adicionar = false;					
 					}
 					
+					// EDITANDO AUTOR NA LISTA DE AUTORES (OK)
 					autor_editar.setLivros_autor(listaLivrosAutor);
 					
 				} catch (InputMismatchException e) {
@@ -374,7 +380,8 @@ public class AutorService {
 			        utils.voltarMenu();
 			    }
 			}
-
+			
+			// FAZENDO UPDATE NO BANCO DE DADOS (OK)
 	        if (autorDAO.updateLivrosAutor(autor_editar)) {
 	            System.out.println("LIVROS DO AUTOR ATUALIZADOS COM SUCESSO!");
 	        } 
@@ -389,7 +396,6 @@ public class AutorService {
 	public void deletarAutor(int id_autor, HashMap<Integer, Autor> listaAutores) throws SQLException {
 		try {
 			if (utils.confirmarAcao("EXCLUIR AUTOR")) {
-				
 				// FAZENDO DELETE DO AUTOR NO BANCO DE DADOS (OK)
 				if (autorDAO.delete(id_autor)) {
 					// REMOVENDO AUTOR DA LISTA DE AUTORES (OK)
