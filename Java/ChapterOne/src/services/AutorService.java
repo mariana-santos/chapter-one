@@ -161,7 +161,14 @@ public class AutorService {
 			        Livro livro_lista = livro_na_lista.getValue();
 			        livro_lista.getAutores_livro().remove(novo_autor.getId_autor());
 			    }
-			} 
+			}
+			
+			else if (novo_autor.getLivros_autor().equals(listaLivros)){
+				for (Map.Entry<Integer, Livro> livro_na_lista : listaLivros.entrySet()) {
+			        Livro livro_lista = livro_na_lista.getValue();
+			        livro_lista.getAutores_livro().put(novo_autor.getId_autor(), novo_autor);
+			    }
+			}
 			
 			else {
 			    for (Map.Entry<Integer, Livro> livro_do_autor : novo_autor.getLivros_autor().entrySet()) {
@@ -423,7 +430,14 @@ public class AutorService {
 			        Livro livro_lista = livro_na_lista.getValue();
 			        livro_lista.getAutores_livro().remove(autor_editar.getId_autor());
 			    }
-			} 
+			}
+			
+			else if (autor_editar.getLivros_autor().equals(listaLivros)){
+				for (Map.Entry<Integer, Livro> livro_na_lista : listaLivros.entrySet()) {
+			        Livro livro_lista = livro_na_lista.getValue();
+			        livro_lista.getAutores_livro().put(autor_editar.getId_autor(), autor_editar);
+			    }
+			}
 			
 			else {
 			    for (Map.Entry<Integer, Livro> livro_do_autor : autor_editar.getLivros_autor().entrySet()) {
@@ -462,13 +476,18 @@ public class AutorService {
 		}
 	}
 	
-	public void deletarAutor(int id_autor, HashMap<Integer, Autor> listaAutores) throws SQLException {
+	public void deletarAutor(int id_autor, HashMap<Integer, Autor> listaAutores, HashMap<Integer, Livro> listaLivros) throws SQLException {
 		try {
 			if (utils.confirmarAcao("EXCLUIR AUTOR")) {
 				// FAZENDO DELETE DO AUTOR NO BANCO DE DADOS (OK)
 				if (autorDAO.delete(id_autor)) {
 					// REMOVENDO AUTOR DA LISTA DE AUTORES (OK)
 					listaAutores.remove(id_autor);
+					// REMOVENDO AUTOR DE CADA LIVRO (OK)
+					for (Map.Entry<Integer, Livro> livro_na_lista : listaLivros.entrySet()) {
+				        Livro livro_lista = livro_na_lista.getValue();
+				        livro_lista.getAutores_livro().remove(id_autor);
+				    }
 					System.out.println("AUTOR EXCLUÍDO COM SUCESSO!");
 				}
 				

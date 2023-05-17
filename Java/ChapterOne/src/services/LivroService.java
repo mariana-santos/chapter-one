@@ -209,7 +209,16 @@ public class LivroService {
 			        Autor autor_lista = autor_na_lista.getValue();
 			        autor_lista.getLivros_autor().remove(novo_livro.getId_livro());
 			    }
-			} else {
+			}
+			
+			else if (novo_livro.getAutores_livro().equals(listaAutores)){
+				for (Map.Entry<Integer, Autor> autor_na_lista : listaAutores.entrySet()) {
+			        Autor autor_lista = autor_na_lista.getValue();
+			        autor_lista.getLivros_autor().put(novo_livro.getId_livro(), novo_livro);
+			    }
+			}
+			
+			else {
 			    for (Map.Entry<Integer, Autor> autor_do_livro : novo_livro.getAutores_livro().entrySet()) {
 			        Autor autor_livro = autor_do_livro.getValue();
 			        for (Map.Entry<Integer, Autor> autor_na_lista : listaAutores.entrySet()) {
@@ -603,7 +612,16 @@ public class LivroService {
 			        Autor autor_lista = autor_na_lista.getValue();
 			        autor_lista.getLivros_autor().remove(livro_editar.getId_livro());
 			    }
-			} else {
+			}
+			
+			else if (livro_editar.getAutores_livro().equals(listaAutores)){
+				for (Map.Entry<Integer, Autor> autor_na_lista : listaAutores.entrySet()) {
+			        Autor autor_lista = autor_na_lista.getValue();
+			        autor_lista.getLivros_autor().put(livro_editar.getId_livro(), livro_editar);
+			    }
+			}
+			    
+			else {
 			    for (Map.Entry<Integer, Autor> autor_do_livro : livro_editar.getAutores_livro().entrySet()) {
 			        Autor autor_livro = autor_do_livro.getValue();
 			        for (Map.Entry<Integer, Autor> autor_na_lista : listaAutores.entrySet()) {
@@ -640,13 +658,18 @@ public class LivroService {
 		}
 	}
 	
-	public void deletarLivro(int id_livro, HashMap<Integer, Livro> listaLivros) throws SQLException {
+	public void deletarLivro(int id_livro, HashMap<Integer, Livro> listaLivros, HashMap<Integer, Autor> listaAutores) throws SQLException {
 		try {
 			if (utils.confirmarAcao("EXCLUIR LIVRO")) {
 				// FAZENDO DELETE DO LIVRO NO BANCO DE DADOS (OK)
 				if (livroDAO.delete(id_livro)) {
 					// REMOVENDO LIVRO DA LISTA DE LIVROS (OK)
 					listaLivros.remove(id_livro);
+					// REMOVENDO LIVRO DE CADA AUTOR (OK)
+					for (Map.Entry<Integer, Autor> autor_na_lista : listaAutores.entrySet()) {
+				        Autor autor_lista = autor_na_lista.getValue();
+				        autor_lista.getLivros_autor().remove(id_livro);
+				    }
 					System.out.println("LIVRO EXCLUÍDO COM SUCESSO!");
 				}
 				

@@ -203,7 +203,7 @@ public class Main {
 									else {
 										autor_deletar = listaAutores.get(autor_deletar.indexAutor(id_buscado, listaAutores));
 									
-										autorService.deletarAutor(autor_deletar.getId_autor(), listaAutores);
+										autorService.deletarAutor(autor_deletar.getId_autor(), listaAutores, listaLivros);
 										utils.voltarMenu();
 									}
 									
@@ -683,7 +683,7 @@ public class Main {
 									else {
 										livro_deletar = listaLivros.get(livro_deletar.indexLivro(id_buscado, listaLivros));
 									
-										livroService.deletarLivro(livro_deletar.getId_livro(), listaLivros);
+										livroService.deletarLivro(livro_deletar.getId_livro(), listaLivros, listaAutores);
 										utils.voltarMenu();
 									}
 									
