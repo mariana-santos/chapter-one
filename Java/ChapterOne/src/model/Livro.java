@@ -153,7 +153,7 @@ public class Livro {
 		return ano_livro == other.ano_livro && Objects.equals(autores_livro, other.autores_livro)
 				&& Double.doubleToLongBits(desconto_livro) == Double.doubleToLongBits(other.desconto_livro)
 				&& id_categoria_livro == other.id_categoria_livro && id_editora_livro == other.id_editora_livro
-				&& id_livro == other.id_livro && imagem_livro == other.imagem_livro
+				&& id_livro == other.id_livro && Objects.equals(imagem_livro, other.imagem_livro)
 				&& Objects.equals(isbn_livro, other.isbn_livro) && paginas_livro == other.paginas_livro
 				&& Double.doubleToLongBits(preco_livro) == Double.doubleToLongBits(other.preco_livro)
 				&& Objects.equals(resumo_livro, other.resumo_livro) && Objects.equals(titulo_livro, other.titulo_livro);
