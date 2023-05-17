@@ -216,8 +216,8 @@ public class LivroService {
 			            Autor autor_lista = autor_na_lista.getValue();
 			            if (autor_livro.equals(autor_lista)) {
 			                boolean livroAtualizado = false;
-			                for (Map.Entry<Integer, Livro> entry : autor_lista.getLivros_autor().entrySet()) {
-			                    Livro livro = entry.getValue();
+			                for (Map.Entry<Integer, Livro> livro_autor : autor_lista.getLivros_autor().entrySet()) {
+			                    Livro livro = livro_autor.getValue();
 			                    if (livro.getId_livro() == novo_livro.getId_livro()) {
 			                        livroAtualizado = true;
 			                        break;
@@ -530,36 +530,6 @@ public class LivroService {
 				// EDITANDO LIVRO NA LISTA DE LIVROS
 				livro_editar.setAutores_livro(listaAutoresLivro);
 				
-				// EDITANDO TODOS OS AUTORES NA LISTA DE AUTORES PARA ADICIONAR OU REMOVER O LIVRO DE ACORDO COM A NOVA LISTA DO LIVROS (OK)
-				if (livro_editar.getAutores_livro().isEmpty()) {
-				    for (Map.Entry<Integer, Autor> autor_na_lista : listaAutores.entrySet()) {
-				        Autor autor_lista = autor_na_lista.getValue();
-				        autor_lista.getLivros_autor().remove(livro_editar.getId_livro());
-				    }
-				} else {
-				    for (Map.Entry<Integer, Autor> autor_do_livro : livro_editar.getAutores_livro().entrySet()) {
-				        Autor autor_livro = autor_do_livro.getValue();
-				        for (Map.Entry<Integer, Autor> autor_na_lista : listaAutores.entrySet()) {
-				            Autor autor_lista = autor_na_lista.getValue();
-				            if (autor_livro.equals(autor_lista)) {
-				                boolean livroAtualizado = false;
-				                for (Map.Entry<Integer, Livro> entry : autor_lista.getLivros_autor().entrySet()) {
-				                    Livro livro = entry.getValue();
-				                    if (livro.getId_livro() == livro_editar.getId_livro()) {
-				                        livroAtualizado = true;
-				                        break;
-				                    }
-				                }
-				                
-				                if (!livroAtualizado) {
-				                    autor_lista.getLivros_autor().put(livro_editar.getId_livro(), livro_editar);
-				                }
-				            } else {
-				                autor_lista.getLivros_autor().remove(livro_editar.getId_livro());
-				            }
-				        }
-				    }
-				}
 			}
 			
 			while (adicionar) {
@@ -628,25 +598,32 @@ public class LivroService {
 			livro_editar.setAutores_livro(listaAutoresLivro);
 			
 			// EDITANDO TODOS OS AUTORES NA LISTA DE AUTORES PARA ADICIONAR O LIVRO DE ACORDO COM A NOVA LISTA DO LIVROS (OK)
-			for (Map.Entry<Integer, Autor> autor_do_livro : livro_editar.getAutores_livro().entrySet()) {
-			    Autor autor_livro = autor_do_livro.getValue();
+			if (livro_editar.getAutores_livro().isEmpty()) {
 			    for (Map.Entry<Integer, Autor> autor_na_lista : listaAutores.entrySet()) {
 			        Autor autor_lista = autor_na_lista.getValue();
-			        if (autor_livro.equals(autor_lista)) {
-			            boolean livroAtualizado = false;
-			            for (Map.Entry<Integer, Livro> entry : autor_lista.getLivros_autor().entrySet()) {
-			                Livro livro = entry.getValue();
-			                if (livro.getId_livro() == livro_editar.getId_livro()) {
-			                	livroAtualizado = true;
-			                    break;
+			        autor_lista.getLivros_autor().remove(livro_editar.getId_livro());
+			    }
+			} else {
+			    for (Map.Entry<Integer, Autor> autor_do_livro : livro_editar.getAutores_livro().entrySet()) {
+			        Autor autor_livro = autor_do_livro.getValue();
+			        for (Map.Entry<Integer, Autor> autor_na_lista : listaAutores.entrySet()) {
+			            Autor autor_lista = autor_na_lista.getValue();
+			            if (autor_livro.equals(autor_lista)) {
+			                boolean livroAtualizado = false;
+			                for (Map.Entry<Integer, Livro> livro_autor : autor_lista.getLivros_autor().entrySet()) {
+			                    Livro livro = livro_autor.getValue();
+			                    if (livro.getId_livro() == livro_editar.getId_livro()) {
+			                        livroAtualizado = true;
+			                        break;
+			                    }
 			                }
+			                
+			                if (!livroAtualizado) {
+			                    autor_lista.getLivros_autor().put(livro_editar.getId_livro(), livro_editar);
+			                }
+			            } else {
+			                autor_lista.getLivros_autor().remove(livro_editar.getId_livro());
 			            }
-			            
-			            if (!livroAtualizado) {
-			                autor_lista.getLivros_autor().put(livro_editar.getId_livro(), livro_editar);
-			            }
-			        } else {
-			        	autor_lista.getLivros_autor().remove(livro_editar.getId_livro());
 			        }
 			    }
 			}
