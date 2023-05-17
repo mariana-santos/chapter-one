@@ -28,6 +28,7 @@ export default function Home(){
         })
         .catch(error => console.error(error))
 
+        
         fetch('http://localhost:8000/autores')
         .then(resp => resp.json())
         .then((data) => {
