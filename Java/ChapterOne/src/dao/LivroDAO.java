@@ -173,7 +173,7 @@ public class LivroDAO {
 		return idMax;
 	}
 
-	public void insert(Livro novo_livro) throws SQLException {
+	public boolean insert(Livro novo_livro) throws SQLException {
 		Connection conn = ConnectionFactory.getConnection();
 		Statement statement = null;
 
@@ -186,9 +186,11 @@ public class LivroDAO {
 					novo_livro.getPreco_livro(), novo_livro.getDesconto_livro());
 			statement = conn.createStatement();
 			statement.executeUpdate(query);
+			return true;
 
 		} catch (SQLException e) {
 			System.out.println("ERRO AO INSERIR O LIVRO. ERRO: " + e.getMessage());
+			return false;
 
 		} finally {
 			if (statement != null) {
@@ -209,7 +211,7 @@ public class LivroDAO {
 		}
 	}
 
-	public void insertAutoresLivro(Livro novo_livro) {
+	public boolean insertAutoresLivro(Livro novo_livro) {
 		Connection conn = ConnectionFactory.getConnection();
 		Statement statement = null;
 
@@ -223,6 +225,8 @@ public class LivroDAO {
 						System.out.println("ERRO AO FECHAR A CONNECTION. ERRO:  " + e.getMessage());
 					}
 				}
+				
+				return true;
 			}
 
 			else {
@@ -234,10 +238,13 @@ public class LivroDAO {
 					statement = conn.createStatement();
 					statement.executeUpdate(query);
 				}
+				
+				return true;
 			}
 
 		} catch (SQLException e) {
 			System.out.println("ERRO AO INSERIR OS AUTORES DO LIVRO. ERRO: " + e.getMessage());
+			return false;
 
 		} finally {
 			if (statement != null) {
@@ -258,7 +265,7 @@ public class LivroDAO {
 		}
 	}
 
-	public void update(Livro livro_atualizar) throws SQLException {
+	public boolean update(Livro livro_atualizar) throws SQLException {
 		Connection conn = ConnectionFactory.getConnection();
 		Statement statement = null;
 
@@ -273,9 +280,11 @@ public class LivroDAO {
 
 			statement = conn.createStatement();
 			statement.executeUpdate(query);
+			return true;
 
 		} catch (Exception e) {
 			System.out.println("ERRO AO ATUALIZAR O LIVRO! ERRO: " + e);
+			return false;
 
 		} finally {
 
@@ -289,7 +298,7 @@ public class LivroDAO {
 		}
 	}
 
-	public void updateAutoresLivro(Livro livro_atualizar) {
+	public boolean updateAutoresLivro(Livro livro_atualizar) {
 		Connection conn = ConnectionFactory.getConnection();
 		Statement statement = null;
 
@@ -316,6 +325,8 @@ public class LivroDAO {
 						System.out.println("ERRO AO FECHAR A CONNECTION. ERRO:  " + e.getMessage());
 					}
 				}
+				
+				return true;
 			}
 
 			else {
@@ -351,10 +362,13 @@ public class LivroDAO {
 					statement = conn.createStatement();
 					statement.executeUpdate(query);
 				}
+				
+				return true;
 			}
 
 		} catch (SQLException e) {
 			System.out.println("ERRO AO INSERIR OS AUTORES DO LIVRO. ERRO: " + e.getMessage());
+			return false;
 
 		} finally {
 			if (statement != null) {
@@ -375,7 +389,7 @@ public class LivroDAO {
 		}
 	}
 
-	public void delete(int id_livro) throws SQLException {
+	public boolean delete(int id_livro) throws SQLException {
 		Connection conn = ConnectionFactory.getConnection();
 		Statement statement = null;
 
@@ -387,6 +401,7 @@ public class LivroDAO {
 
 		} catch (SQLException e) {
 			System.out.println("ERRO AO DELETAR OS AUTORES DO LIVRO. ERRO: " + e.getMessage());
+			return false;
 
 		} finally {
 			if (statement != null) {
@@ -414,9 +429,11 @@ public class LivroDAO {
 
 			statement = conn.createStatement();
 			statement.executeUpdate(query);
+			return true;
 
 		} catch (SQLException e) {
 			System.out.println("ERRO AO DELETAR O LIVRO. ERRO: " + e.getMessage());
+			return false;
 
 		} finally {
 			if (statement != null) {

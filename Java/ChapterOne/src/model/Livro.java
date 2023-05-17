@@ -201,13 +201,20 @@ public class Livro {
 		System.out.println("11. DESCONTO: " + this.desconto_livro);
 		
 		System.out.println("12. AUTORES:");
-		int contador = 1;
-		for (Autor autor : this.autores_livro.values()) {
-			String numeroAutor = String.format("%02d", contador);
-		    System.out.println("   12." + numeroAutor + ". ID: " + autor.getId_autor() + " | NOME: " + autor.getNome_autor());
-		    contador++;
+		
+		if (this.autores_livro.size() == 0) {
+			System.out.println("   NENHUM AUTOR CADASTRADO");
 		}
 		
+		else {
+			int contador = 1;
+			for (Autor autor : this.autores_livro.values()) {
+				String numeroAutor = String.format("%02d", contador);
+			    System.out.println("   12." + numeroAutor + ". ID: " + autor.getId_autor() + " | NOME: " + autor.getNome_autor());
+			    contador++;
+			}
+		}
+
 		System.out.println("13. SAIR");
 		System.out.println("------------------------------------------");				
 	}
