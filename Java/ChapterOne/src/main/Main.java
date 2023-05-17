@@ -235,7 +235,7 @@ public class Main {
 					}	
 				}
 				
-				if (opcao == 2) {
+				else if (opcao == 2) {
 					// MENU DE CATEGORIAS (OK)
 					menuCategorias = true;
 					
@@ -371,7 +371,7 @@ public class Main {
 					}
 				}
 				
-				if (opcao == 3) {
+				else if (opcao == 3) {
 					// MENU DE EDITORAS (OK)
 					menuEditoras = true;
 					
@@ -519,7 +519,7 @@ public class Main {
 					}
 				}
 				
-				if (opcao == 4) {
+				else if (opcao == 4) {
 					// MENU DE LIVROS (OK)
 					menuLivros = true;
 					
@@ -715,6 +715,10 @@ public class Main {
 					}
 				}
 				
+				else if (opcao == 5) {
+					iniciar = false;
+				}
+
 			} catch (InputMismatchException e) {
 		        System.out.println("OPÇÃO INVÁLIDA. POR FAVOR, DIGITE UM NÚMERO INTEIRO VÁLIDO.");
 		        ler.nextLine();
@@ -724,7 +728,9 @@ public class Main {
 		        ler.nextLine();
 		        utils.voltarMenu();
 		    }
+
 		}
+
 		ler.close();
 		System.out.println("PROGRAMA ENCERRADO.");
 	}

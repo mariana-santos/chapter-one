@@ -140,11 +140,18 @@ public class Autor {
 		System.out.println("06. IMAGEM: " + this.imagem_autor);
 		
 		System.out.println("07. LIVROS:");
-		int contador = 1;
-		for (Livro livro : this.livros_autor.values()) {
-			String numeroLivro = String.format("%02d", contador);
-		    System.out.println("   07." + numeroLivro + ". ID: " + livro.getId_livro() + " | TÍTULO: " + livro.getTitulo_livro());
-		    contador++;
+		
+		if (this.livros_autor.size() == 0) {
+			System.out.println("   NENHUM LIVRO CADASTRADO.");
+		}
+		
+		else {
+			int contador = 1;
+			for (Livro livro : this.livros_autor.values()) {
+				String numeroLivro = String.format("%02d", contador);
+			    System.out.println("   07." + numeroLivro + ". ID: " + livro.getId_livro() + " | TÍTULO: " + livro.getTitulo_livro());
+			    contador++;
+			}
 		}
 		
 		System.out.println("08. SAIR");

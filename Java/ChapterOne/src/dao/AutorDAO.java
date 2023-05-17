@@ -67,10 +67,11 @@ public class AutorDAO {
 		                
 		                listaLivrosAutor.put(livro_autor.getId_livro(), livro_autor);
 		                
-		                autor_banco.setLivros_autor(listaLivrosAutor);
-		        		
-			            listaAutores.put(autor_banco.getId_autor(), autor_banco);
 		            }
+		            
+		            autor_banco.setLivros_autor(listaLivrosAutor);
+	        		
+		            listaAutores.put(autor_banco.getId_autor(), autor_banco);
 
 	            } catch (SQLException e) {
 	    	        System.out.println("ERRO AO LISTAR OS LIVROS DOS AUTORES. ERRO: " + e.getMessage());
