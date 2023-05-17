@@ -22,7 +22,7 @@ public class CategoriaService {
 	    }
 	}
 	
-	public void cadastrarCategoria(int id_categoria, HashMap<Integer, Categoria> listaCategorias) throws SQLException {
+	public void cadastrarCategoria(int id_categoria, HashMap<Integer, Categoria> listaCategorias) throws SQLException, IOException {
 		Categoria nova_categoria = new Categoria();
 		
 		// SETANDO O ID DA CATEGORIA (OK)
@@ -32,13 +32,17 @@ public class CategoriaService {
 		System.out.println(id_categoria + ". DIGITE O NOME DA CATEGORIA:");
 		nova_categoria.setNome_categoria(lerNome.nextLine());
 		
-		// ADICIONANDO CATEGORIA NA LISTA DE CATEGORIAS (OK)
-		listaCategorias.put(nova_categoria.getId_categoria(), nova_categoria);
-		
 		// FAZENDO INSERT DA CATEGORIA NO BANCO DE DADOS (OK)
-		categoriaDAO.insert(nova_categoria);
+		if (categoriaDAO.insert(nova_categoria)) {
+			// ADICIONANDO CATEGORIA NA LISTA DE CATEGORIAS (OK)
+			listaCategorias.put(nova_categoria.getId_categoria(), nova_categoria);
+			System.out.println("CATEGORIA CADASTRADA COM SUCESSO!");
+		}
 		
-		System.out.println("CATEGORIA CADASTRADA COM SUCESSO!");
+		else {
+			System.out.println("FALHA AO CADASTRAR CATEGORIA");
+			utils.voltarMenu();
+		}
 	}
 	
 	public void editarNome(Categoria categoria_editar) throws IOException, SQLException {
@@ -47,27 +51,39 @@ public class CategoriaService {
 			String nome = lerNome.nextLine();
 			nome = utils.validarPreenchimentoString(categoria_editar.getId_categoria() + ". DIGITE O NOVO NOME DA CATEGORIA " + categoria_editar.getNome_categoria() + ": ", nome);
 			
+			Categoria categoria_antiga = new Categoria(categoria_editar.getId_categoria(), categoria_editar.getNome_categoria());
+			
 			// EDITANDO CATEGORIA NA LISTA DE CATEGORIAS (OK)
 			categoria_editar.setNome_categoria(nome);
 			
-			// EDITANDO CATEGORIA NO BANCO DE DADOS (OK)
-			categoriaDAO.update(categoria_editar);
+			// FAZENDO UPDATE NO BANCO DE DADOS (OK)
+			if (categoriaDAO.update(categoria_editar)) {
+				System.out.println("NOME ATUALIZADO COM SUCESSO!");
+			}
 			
-			System.out.println("NOME ATUALIZADO COM SUCESSO!");
+			else {
+				categoria_editar.setNome_categoria(categoria_antiga.getNome_categoria());
+				System.out.println("FALHA AO ATUALIZAR O NOME!");
+			}
 		}
 	}
 	
 	public void deletarCategoria(int id_categoria, HashMap<Integer, Categoria> listaCategorias) throws SQLException {
 		try {
 			if (utils.confirmarAcao("EXCLUIR CATEGORIA")) {
-				// REMOVENDO CATEGORIA DA LISTA DE CATEGORIAS (OK)
-				listaCategorias.remove(id_categoria);
-				
 				// FAZENDO DELETE DA CATEGORIA NO BANCO DE DADOS (OK)
-				categoriaDAO.delete(id_categoria);
+				if (categoriaDAO.delete(id_categoria)) {
+					// REMOVENDO CATEGORIA DA LISTA DE CATEGORIAS (OK)
+					listaCategorias.remove(id_categoria);
+					System.out.println("CATEGORIA EXCLUÍDA COM SUCESSO!");
+				}
 				
-				System.out.println("CATEGORIA EXCLUÍDA COM SUCESSO!");
+				else {
+					System.out.println("FALHA AO EXCLUIR A CATEGORIA!");
+					utils.voltarMenu();
+				}
 			}
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 			

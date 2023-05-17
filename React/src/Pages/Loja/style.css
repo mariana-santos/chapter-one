@@ -1,6 +1,7 @@
-.wrap_filter, #loja h3{
+.wrap_filter, #loja h3.titulo{
     width: 65%;
     margin: auto;
+    margin-bottom: .5em;
 }
 
 #loja h3{

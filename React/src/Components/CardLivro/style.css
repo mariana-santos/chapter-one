@@ -5,7 +5,7 @@
 }
 
 .card{
-    width: 25%;
+    width: calc(25% - 6em);
     text-align: center;
     background: #3a3a3a;
     border: solid 1px #333;
@@ -20,7 +20,7 @@
     font-weight: 800;
 }
 
-.card span{
+.card span, .card a.autor{
     font-weight: 300;
     opacity: .7;
     font-size: .5em;

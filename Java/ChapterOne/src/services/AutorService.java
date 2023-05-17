@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.InputMismatchException;
+import java.util.Map;
 import java.util.Scanner;
 
 import dao.AutorDAO;
@@ -150,14 +151,17 @@ public class AutorService {
 		    }
 		}
 		
-		// ADICIONANDO AUTOR NA LISTA DE AUTORES (OK)
-		listaAutores.put(novo_autor.getId_autor(), novo_autor);
-		
 		// FAZENDO INSERT DO AUTOR NO BANCO DE DADOS (OK)
-		autorDAO.insert(novo_autor);
-		autorDAO.insertLivrosAutor(novo_autor);
+		if (autorDAO.insert(novo_autor) && autorDAO.insertLivrosAutor(novo_autor)) {
+			// ADICIONANDO AUTOR NA LISTA DE AUTORES (OK)
+			listaAutores.put(novo_autor.getId_autor(), novo_autor);
+			System.out.println("AUTOR CADASTRADO COM SUCESSO!");
+		}
 		
-		System.out.println("AUTOR CADASTRADO COM SUCESSO!");
+		else {
+			System.out.println("FALHA AO CADASTRAR O AUTOR!");
+			utils.voltarMenu();
+		}
 	}
 	
 	public void editarNome(Autor autor_editar) throws IOException, SQLException {
@@ -166,13 +170,20 @@ public class AutorService {
 			String nome = lerNome.nextLine();
 			nome = utils.validarPreenchimentoString(autor_editar.getId_autor() + ". DIGITE O NOVO NOME DO AUTOR " + autor_editar.getNome_autor() + ": ", nome);
 			
-			// EDITANDO AUTOR NA LISTA DE AUTORES (OK)
+			Autor autor_antigo = new Autor(autor_editar.getId_autor(), autor_editar.getNome_autor(), autor_editar.getEmail_autor(), autor_editar.getTelefone_autor(), autor_editar.getBio_autor(), autor_editar.getImagem_autor(), autor_editar.getLivros_autor());
+
+	        // EDITANDO AUTOR NA LISTA DE AUTORES (OK)
 			autor_editar.setNome_autor(nome);
 			
-			// EDITANDO AUTOR NO BANCO DE DADOS (OK)
-			autorDAO.update(autor_editar);
-			
-			System.out.println("NOME ATUALIZADO COM SUCESSO!");
+			// FAZENDO UPDATE NO BANCO DE DADOS (OK)
+	        if (autorDAO.update(autor_editar)) {
+	            System.out.println("NOME ATUALIZADO COM SUCESSO!");
+	        } 
+	        
+	        else {
+	            autor_editar.setNome_autor(autor_antigo.getNome_autor());
+	            System.out.println("FALHA AO ATUALIZAR O NOME!");
+	        }
 		}
 	}
 	
@@ -181,14 +192,21 @@ public class AutorService {
 			System.out.println(autor_editar.getId_autor() + ". DIGITE O NOVO EMAIL DO AUTOR " + autor_editar.getNome_autor() + ": ");
 			String email = ler.next();
 			email = utils.validarPreenchimentoString(autor_editar.getId_autor() + ". DIGITE O NOVO EMAIL DO AUTOR " + autor_editar.getNome_autor() + ": ", email);
+			
+	        Autor autor_antigo = new Autor(autor_editar.getId_autor(), autor_editar.getNome_autor(), autor_editar.getEmail_autor(), autor_editar.getTelefone_autor(), autor_editar.getBio_autor(), autor_editar.getImagem_autor(), autor_editar.getLivros_autor());
 
-			// EDITANDO AUTOR NA LISTA DE AUTORES (OK)
-			autor_editar.setEmail_autor(email);
-			
-			// EDITANDO AUTOR NO BANCO DE DADOS (OK)
-			autorDAO.update(autor_editar);
-			
-			System.out.println("EMAIL ATUALIZADO COM SUCESSO!");
+	        // EDITANDO AUTOR NA LISTA DE AUTORES (OK)
+	     	autor_editar.setEmail_autor(email);
+	     	
+	     	// FAZENDO UPDATE NO BANCO DE DADOS (OK)
+	        if (autorDAO.update(autor_editar)) {
+	            System.out.println("EMAIL ATUALIZADO COM SUCESSO!");
+	        } 
+	        
+	        else {
+	            autor_editar.setEmail_autor(autor_antigo.getEmail_autor());
+	            System.out.println("FALHA AO ATUALIZAR O EMAIL!");
+	        }
 		}
 	}
 	
@@ -198,14 +216,21 @@ public class AutorService {
 			String telefone = ler.next();
 			telefone = utils.validarPreenchimentoString(autor_editar.getId_autor() + ". DIGITE O NOVO TELEFONE DO AUTOR " + autor_editar.getNome_autor() + ": ", telefone);
 			String telefone_formatado = utils.formatarTelefone(telefone);
+			
+			Autor autor_antigo = new Autor(autor_editar.getId_autor(), autor_editar.getNome_autor(), autor_editar.getEmail_autor(), autor_editar.getTelefone_autor(), autor_editar.getBio_autor(), autor_editar.getImagem_autor(), autor_editar.getLivros_autor());
 
-			// EDITANDO AUTOR NA LISTA DE AUTORES (OK)
+	        // EDITANDO AUTOR NA LISTA DE AUTORES (OK)
 			autor_editar.setTelefone_autor(telefone_formatado);
 			
-			// EDITANDO AUTOR NO BANCO DE DADOS (OK)
-			autorDAO.update(autor_editar);
-			
-			System.out.println("TELEFONE ATUALIZADO COM SUCESSO!");
+			// FAZENDO UPDATE NO BANCO DE DADOS (OK)
+	        if (autorDAO.update(autor_editar)) {
+	            System.out.println("TELEFONE ATUALIZADO COM SUCESSO!");
+	        } 
+	        
+	        else {
+	        	autor_editar.setTelefone_autor(autor_antigo.getTelefone_autor());
+	            System.out.println("FALHA AO ATUALIZAR O TELEFONE!");
+	        }
 		}
 	}
 	
@@ -214,14 +239,21 @@ public class AutorService {
 			System.out.println(autor_editar.getId_autor() + ". DIGITE A NOVA BIO DO AUTOR " + autor_editar.getNome_autor() + ": ");
 			String bio = lerNome.nextLine();
 			bio = utils.validarPreenchimentoString(autor_editar.getId_autor() + ". DIGITE A NOVA BIO DO AUTOR " + autor_editar.getNome_autor() + ": ", bio);
+			
+			Autor autor_antigo = new Autor(autor_editar.getId_autor(), autor_editar.getNome_autor(), autor_editar.getEmail_autor(), autor_editar.getTelefone_autor(), autor_editar.getBio_autor(), autor_editar.getImagem_autor(), autor_editar.getLivros_autor());
 
-			// EDITANDO AUTOR NA LISTA DE AUTORES (OK)
+	        // EDITANDO AUTOR NA LISTA DE AUTORES (OK)
 			autor_editar.setBio_autor(bio);
 			
-			// EDITANDO AUTOR NO BANCO DE DADOS (OK)
-			autorDAO.update(autor_editar);
-			
-			System.out.println("BIO ATUALIZADA COM SUCESSO!");
+			// FAZENDO UPDATE NO BANCO DE DADOS (OK)
+	        if (autorDAO.update(autor_editar)) {
+	            System.out.println("BIO ATUALIZADA COM SUCESSO!");
+	        } 
+	        
+	        else {
+	            autor_editar.setBio_autor(autor_antigo.getBio_autor());
+	            System.out.println("FALHA AO ATUALIZAR A BIO!");
+	        }
 		}
 	}
 	
@@ -230,14 +262,21 @@ public class AutorService {
 			System.out.println(autor_editar.getId_autor() + ". DIGITE A NOVA URL DA IMAGEM DO AUTOR " + autor_editar.getNome_autor() + ": ");
 			String imagem = ler.next();
 			imagem = utils.validarPreenchimentoString(autor_editar.getId_autor() + ". DIGITE A NOVA URL DA IMAGEM DO AUTOR " + autor_editar.getNome_autor() + ": ", imagem);
+			
+			Autor autor_antigo = new Autor(autor_editar.getId_autor(), autor_editar.getNome_autor(), autor_editar.getEmail_autor(), autor_editar.getTelefone_autor(), autor_editar.getBio_autor(), autor_editar.getImagem_autor(), autor_editar.getLivros_autor());
 
-			// EDITANDO AUTOR NA LISTA DE AUTORES (OK)
+	        // EDITANDO AUTOR NA LISTA DE AUTORES (OK)
 			autor_editar.setImagem_autor(imagem);
 			
-			// EDITANDO AUTOR NO BANCO DE DADOS (OK)
-			autorDAO.update(autor_editar);
-			
-			System.out.println("IMAGEM ATUALIZADA COM SUCESSO!");
+			// FAZENDO UPDATE NO BANCO DE DADOS (OK)
+	        if (autorDAO.update(autor_editar)) {
+	            System.out.println("IMAGEM ATUALIZADA COM SUCESSO!");
+	        } 
+	        
+	        else {
+	            autor_editar.setImagem_autor(autor_antigo.getImagem_autor());
+	            System.out.println("FALHA AO ATUALIZAR A IMAGEM!");
+	        }
 		}
 	}
 	
@@ -245,6 +284,7 @@ public class AutorService {
 		if (utils.confirmarAcao("EDITAR LIVROS DO AUTOR " + autor_editar.getId_autor() + ". " + autor_editar.getNome_autor())) {
 			HashMap<Integer, Livro> listaLivrosAutor = new HashMap<Integer, Livro>();
 			HashMap<Integer, Livro> listaLivrosAdicionar = new HashMap<Integer, Livro>(listaLivros);
+			Autor autor_antigo = new Autor(autor_editar.getId_autor(), autor_editar.getNome_autor(), autor_editar.getEmail_autor(), autor_editar.getTelefone_autor(), autor_editar.getBio_autor(), autor_editar.getImagem_autor(), autor_editar.getLivros_autor());
 			
 			boolean adicionar = false;
 			
@@ -328,7 +368,32 @@ public class AutorService {
 						adicionar = false;					
 					}
 					
+					// EDITANDO AUTOR NA LISTA DE AUTORES (OK)
 					autor_editar.setLivros_autor(listaLivrosAutor);
+					
+					// EDITANDO TODOS OS LIVROS NA LISTA DE LIVROS PARA ADICIONAR O AUTOR DE ACORDO COM A NOVA LISTA DO AUTOR (OK)
+					for (Map.Entry<Integer, Livro> livro_do_autor : autor_editar.getLivros_autor().entrySet()) {
+					    Livro livro_autor = livro_do_autor.getValue();
+					    for (Map.Entry<Integer, Livro> livro_na_lista : listaLivros.entrySet()) {
+					        Livro livro_lista = livro_na_lista.getValue();
+					        if (livro_autor.equals(livro_lista)) {
+					            boolean autorAtualizado = false;
+					            for (Map.Entry<Integer, Autor> entry : livro_lista.getAutores_livro().entrySet()) {
+					                Autor autor = entry.getValue();
+					                if (autor.getId_autor() == autor_editar.getId_autor()) {
+					                    autorAtualizado = true;
+					                    break;
+					                }
+					            }
+					            
+					            if (!autorAtualizado) {
+					                livro_lista.getAutores_livro().put(autor_editar.getId_autor(), autor_editar);
+					            }
+					        } else {
+					            livro_lista.getAutores_livro().remove(autor_editar.getId_autor());
+					        }
+					    }
+					}
 					
 				} catch (InputMismatchException e) {
 			        System.out.println("OPÇÃO INVÁLIDA. POR FAVOR, DIGITE UM NÚMERO INTEIRO VÁLIDO.");
@@ -341,27 +406,34 @@ public class AutorService {
 			    }
 			}
 			
-			// ADICIONANDO AUTOR NA LISTA DE AUTORES (OK)
-			listaAutores.put(autor_editar.getId_autor(), autor_editar);
-			
-			// FAZENDO UPDATE DO AUTOR NO BANCO DE DADOS (OK)
-			autorDAO.updateLivrosAutor(autor_editar);
-			
-			System.out.println("LIVROS DO AUTOR EDITADOS COM SUCESSO!");
+			// FAZENDO UPDATE NO BANCO DE DADOS (OK)
+	        if (autorDAO.updateLivrosAutor(autor_editar)) {
+	            System.out.println("LIVROS DO AUTOR ATUALIZADOS COM SUCESSO!");
+	        } 
+	        
+	        else {
+	            autor_editar.setLivros_autor(autor_antigo.getLivros_autor());
+	            System.out.println("FALHA AO ATUALIZAR OS LIVROS DO AUTOR!");
+	        }
 		}
 	}
 	
 	public void deletarAutor(int id_autor, HashMap<Integer, Autor> listaAutores) throws SQLException {
 		try {
 			if (utils.confirmarAcao("EXCLUIR AUTOR")) {
-				// REMOVENDO AUTOR DA LISTA DE AUTORES (OK)
-				listaAutores.remove(id_autor);
-				
 				// FAZENDO DELETE DO AUTOR NO BANCO DE DADOS (OK)
-				autorDAO.delete(id_autor);
+				if (autorDAO.delete(id_autor)) {
+					// REMOVENDO AUTOR DA LISTA DE AUTORES (OK)
+					listaAutores.remove(id_autor);
+					System.out.println("AUTOR EXCLUÍDO COM SUCESSO!");
+				}
 				
-				System.out.println("AUTOR EXCLUÍDO COM SUCESSO!");
+				else {
+					System.out.println("FALHA AO EXCLUIR O AUTOR!");
+					utils.voltarMenu();
+				}
 			}
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 			

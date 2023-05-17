@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.InputMismatchException;
+import java.util.Map;
 import java.util.Scanner;
 
 import dao.LivroDAO;
@@ -197,14 +198,17 @@ public class LivroService {
 		    }
 		}
 		
-		// ADICIONANDO LIVRO NA LISTA DE LIVROS (OK)
-		listaLivros.put(novo_livro.getId_livro(), novo_livro);
-		
 		// FAZENDO INSERT DO LIVRO NO BANCO DE DADOS (OK)
-		livroDAO.insert(novo_livro);
-		livroDAO.insertAutoresLivro(novo_livro);
+		if (livroDAO.insert(novo_livro) && livroDAO.insertAutoresLivro(novo_livro)) {
+			// ADICIONANDO LIVRO NA LISTA DE LIVROS (OK)
+			listaLivros.put(novo_livro.getId_livro(), novo_livro);
+			System.out.println("LIVRO CADASTRADO COM SUCESSO!");
+		}
 		
-		System.out.println("LIVRO CADASTRADO COM SUCESSO!");
+		else {
+			System.out.println("FALHA AO CADASTRAR O LIVRO!");
+			utils.voltarMenu();
+		}
 	}
 	
 	public void editarTitulo(Livro livro_editar) throws IOException, SQLException {
@@ -213,13 +217,20 @@ public class LivroService {
 			String titulo = lerNome.nextLine();
 			titulo = utils.validarPreenchimentoString(livro_editar.getId_livro() + ". DIGITE O NOVO TÍTULO DO LIVRO " + livro_editar.getTitulo_livro() + ": ", titulo);
 			
+			Livro livro_antigo = new Livro(livro_editar.getId_livro(), livro_editar.getTitulo_livro(), livro_editar.getResumo_livro(), livro_editar.getAno_livro(), livro_editar.getPaginas_livro(), livro_editar.getIsbn_livro(), livro_editar.getId_categoria_livro(), livro_editar.getId_editora_livro(), livro_editar.getImagem_livro(), livro_editar.getPreco_livro(), livro_editar.getDesconto_livro(), livro_editar.getAutores_livro());
+			
 			// EDITANDO LIVRO NA LISTA DE LIVROS (OK)
 			livro_editar.setTitulo_livro(titulo);
 			
-			// EDITANDO LIVRO NO BANCO DE DADOS (OK)
-			livroDAO.update(livro_editar);
+			// FAZENDO UPDATE NO BANCO DE DADOS (OK)
+			if (livroDAO.update(livro_editar)) {
+				System.out.println("TÍTULO ATUALIZADO COM SUCESSO!");
+			}
 			
-			System.out.println("TÍTULO ATUALIZADO COM SUCESSO!");
+			else {
+				livro_editar.setTitulo_livro(livro_antigo.getTitulo_livro());
+				System.out.println("FALHA AO ATUALIZAR O TÍTULO!");
+			}
 		}
 	}
 	
@@ -229,13 +240,20 @@ public class LivroService {
 			String resumo = lerNome.nextLine();
 			resumo = utils.validarPreenchimentoString(livro_editar.getId_livro() + ". DIGITE O NOVO RESUMO DO LIVRO " + livro_editar.getTitulo_livro() + ": ", resumo);
 			
+			Livro livro_antigo = new Livro(livro_editar.getId_livro(), livro_editar.getTitulo_livro(), livro_editar.getResumo_livro(), livro_editar.getAno_livro(), livro_editar.getPaginas_livro(), livro_editar.getIsbn_livro(), livro_editar.getId_categoria_livro(), livro_editar.getId_editora_livro(), livro_editar.getImagem_livro(), livro_editar.getPreco_livro(), livro_editar.getDesconto_livro(), livro_editar.getAutores_livro());
+			
 			// EDITANDO LIVRO NA LISTA DE LIVROS (OK)
 			livro_editar.setResumo_livro(resumo);
 			
-			// EDITANDO LIVRO NO BANCO DE DADOS (OK)
-			livroDAO.update(livro_editar);
+			// FAZENDO UPDATE NO BANCO DE DADOS (OK)
+			if (livroDAO.update(livro_editar)) {
+				System.out.println("RESUMO ATUALIZADO COM SUCESSO!");
+			}
 			
-			System.out.println("RESUMO ATUALIZADO COM SUCESSO!");
+			else {
+				livro_editar.setResumo_livro(livro_antigo.getResumo_livro());
+				System.out.println("FALHA AO ATUALIZAR O RESUMO!");
+			}
 		}
 	}
 	
@@ -245,13 +263,20 @@ public class LivroService {
 			int ano = ler.nextInt();
 			ano = utils.validarPreenchimentoInt(livro_editar.getId_livro() + ". DIGITE O NOVO ANO DO LIVRO " + livro_editar.getTitulo_livro() + ": ", ano);
 			
+			Livro livro_antigo = new Livro(livro_editar.getId_livro(), livro_editar.getTitulo_livro(), livro_editar.getResumo_livro(), livro_editar.getAno_livro(), livro_editar.getPaginas_livro(), livro_editar.getIsbn_livro(), livro_editar.getId_categoria_livro(), livro_editar.getId_editora_livro(), livro_editar.getImagem_livro(), livro_editar.getPreco_livro(), livro_editar.getDesconto_livro(), livro_editar.getAutores_livro());
+			
 			// EDITANDO LIVRO NA LISTA DE LIVROS (OK)
 			livro_editar.setAno_livro(ano);
 			
-			// EDITANDO LIVRO NO BANCO DE DADOS (OK)
-			livroDAO.update(livro_editar);
+			// FAZENDO UPDATE NO BANCO DE DADOS (OK)
+			if (livroDAO.update(livro_editar)) {
+				System.out.println("ANO ATUALIZADO COM SUCESSO!");
+			}
 			
-			System.out.println("ANO ATUALIZADO COM SUCESSO!");
+			else {
+				livro_editar.setAno_livro(livro_antigo.getAno_livro());
+				System.out.println("FALHA AO ATUALIZAR O ANO!");
+			}
 		}
 	}
 	
@@ -261,13 +286,20 @@ public class LivroService {
 			int paginas = ler.nextInt();
 			paginas = utils.validarPreenchimentoInt(livro_editar.getId_livro() + ". DIGITE A NOVA QUANTIDADE DE PÁGINAS DO LIVRO " + livro_editar.getTitulo_livro() + ": ", paginas);
 			
+			Livro livro_antigo = new Livro(livro_editar.getId_livro(), livro_editar.getTitulo_livro(), livro_editar.getResumo_livro(), livro_editar.getAno_livro(), livro_editar.getPaginas_livro(), livro_editar.getIsbn_livro(), livro_editar.getId_categoria_livro(), livro_editar.getId_editora_livro(), livro_editar.getImagem_livro(), livro_editar.getPreco_livro(), livro_editar.getDesconto_livro(), livro_editar.getAutores_livro());
+			
 			// EDITANDO LIVRO NA LISTA DE LIVROS (OK)
 			livro_editar.setPaginas_livro(paginas);
 			
-			// EDITANDO LIVRO NO BANCO DE DADOS (OK)
-			livroDAO.update(livro_editar);
+			// FAZENDO UPDATE NO BANCO DE DADOS (OK)
+			if (livroDAO.update(livro_editar)) {
+				System.out.println("QUANTIDADE DE PÁGINAS ATUALIZADA COM SUCESSO!");
+			}
 			
-			System.out.println("QUANTIDADE DE PÁGINAS ATUALIZADAS COM SUCESSO!");
+			else {
+				livro_editar.setPaginas_livro(livro_antigo.getPaginas_livro());
+				System.out.println("FALHA AO ATUALIZAR A QUANTIDADE DE PÁGINAS!");
+			}
 		}
 	}
 	
@@ -277,13 +309,20 @@ public class LivroService {
 			String isbn = ler.next();
 			isbn = utils.validarPreenchimentoString(livro_editar.getId_livro() + ". DIGITE O NOVO ISBN DO LIVRO " + livro_editar.getTitulo_livro() + ": ", isbn);
 			
+			Livro livro_antigo = new Livro(livro_editar.getId_livro(), livro_editar.getTitulo_livro(), livro_editar.getResumo_livro(), livro_editar.getAno_livro(), livro_editar.getPaginas_livro(), livro_editar.getIsbn_livro(), livro_editar.getId_categoria_livro(), livro_editar.getId_editora_livro(), livro_editar.getImagem_livro(), livro_editar.getPreco_livro(), livro_editar.getDesconto_livro(), livro_editar.getAutores_livro());
+			
 			// EDITANDO LIVRO NA LISTA DE LIVROS (OK)
 			livro_editar.setIsbn_livro(isbn);
 			
-			// EDITANDO LIVRO NO BANCO DE DADOS (OK)
-			livroDAO.update(livro_editar);
+			// FAZENDO UPDATE NO BANCO DE DADOS (OK)
+			if (livroDAO.update(livro_editar)) {
+				System.out.println("ISBN ATUALIZADO COM SUCESSO!");
+			}
 			
-			System.out.println("ISBN ATUALIZADO COM SUCESSO!");
+			else {
+				livro_editar.setIsbn_livro(livro_antigo.getIsbn_livro());
+				System.out.println("FALHA AO ATUALIZAR O ISBN!");
+			}
 		}
 	}
 	
@@ -303,13 +342,20 @@ public class LivroService {
 				
 			categoria_livro = listaCategorias.get(categoria_livro.indexCategoria(id_buscado, listaCategorias));
 			
+			Livro livro_antigo = new Livro(livro_editar.getId_livro(), livro_editar.getTitulo_livro(), livro_editar.getResumo_livro(), livro_editar.getAno_livro(), livro_editar.getPaginas_livro(), livro_editar.getIsbn_livro(), livro_editar.getId_categoria_livro(), livro_editar.getId_editora_livro(), livro_editar.getImagem_livro(), livro_editar.getPreco_livro(), livro_editar.getDesconto_livro(), livro_editar.getAutores_livro());
+			
 			// EDITANDO LIVRO NA LISTA DE LIVROS (OK)
 			livro_editar.setId_categoria_livro(categoria_livro.getId_categoria());
 			
-			// EDITANDO LIVRO NO BANCO DE DADOS (OK)
-			livroDAO.update(livro_editar);
+			// FAZENDO UPDATE NO BANCO DE DADOS (OK)
+			if (livroDAO.update(livro_editar)) {
+				System.out.println("ID DA CATEGORIA ATUALIZADO COM SUCESSO!");
+			}
 			
-			System.out.println("ID DA CATEGORIA DO LIVRO ATUALIZADO COM SUCESSO!");
+			else {
+				livro_editar.setId_categoria_livro(livro_antigo.getId_categoria_livro());
+				System.out.println("FALHA AO ATUALIZAR O ID DA CATEGORIA!");
+			}
 		}
 	}
 	
@@ -329,13 +375,20 @@ public class LivroService {
 				
 			editora_livro = listaEditoras.get(editora_livro.indexEditora(id_buscado, listaEditoras));
 			
+			Livro livro_antigo = new Livro(livro_editar.getId_livro(), livro_editar.getTitulo_livro(), livro_editar.getResumo_livro(), livro_editar.getAno_livro(), livro_editar.getPaginas_livro(), livro_editar.getIsbn_livro(), livro_editar.getId_categoria_livro(), livro_editar.getId_editora_livro(), livro_editar.getImagem_livro(), livro_editar.getPreco_livro(), livro_editar.getDesconto_livro(), livro_editar.getAutores_livro());
+			
 			// EDITANDO LIVRO NA LISTA DE LIVROS (OK)
 			livro_editar.setId_editora_livro(editora_livro.getId_editora());
 			
-			// EDITANDO LIVRO NO BANCO DE DADOS (OK)
-			livroDAO.update(livro_editar);
+			// FAZENDO UPDATE NO BANCO DE DADOS (OK)
+			if (livroDAO.update(livro_editar)) {
+				System.out.println("ID DA EDITORA ATUALIZADO COM SUCESSO!");
+			}
 			
-			System.out.println("ID DA EDITORA DO LIVRO ATUALIZADO COM SUCESSO!");
+			else {
+				livro_editar.setId_editora_livro(livro_antigo.getId_editora_livro());
+				System.out.println("FALHA AO ATUALIZAR O ID DA EDITORA!");
+			}
 		}
 	}
 	
@@ -344,14 +397,21 @@ public class LivroService {
 			System.out.println(livro_editar.getId_livro() + ". DIGITE A NOVA URL DA IMAGEM DO LIVRO " + livro_editar.getTitulo_livro() + ": ");
 			String imagem = ler.next();
 			imagem = utils.validarPreenchimentoString(livro_editar.getId_livro() + ". DIGITE A NOVA URL DA IMAGEM DO LIVRO " + livro_editar.getTitulo_livro() + ": ", imagem);
-
+			
+			Livro livro_antigo = new Livro(livro_editar.getId_livro(), livro_editar.getTitulo_livro(), livro_editar.getResumo_livro(), livro_editar.getAno_livro(), livro_editar.getPaginas_livro(), livro_editar.getIsbn_livro(), livro_editar.getId_categoria_livro(), livro_editar.getId_editora_livro(), livro_editar.getImagem_livro(), livro_editar.getPreco_livro(), livro_editar.getDesconto_livro(), livro_editar.getAutores_livro());
+			
 			// EDITANDO LIVRO NA LISTA DE LIVROS (OK)
 			livro_editar.setImagem_livro(imagem);
 			
-			// EDITANDO LIVRO NO BANCO DE DADOS (OK)
-			livroDAO.update(livro_editar);
+			// FAZENDO UPDATE NO BANCO DE DADOS (OK)
+			if (livroDAO.update(livro_editar)) {
+				System.out.println("IMAGEM ATUALIZADA COM SUCESSO!");
+			}
 			
-			System.out.println("IMAGEM ATUALIZADA COM SUCESSO!");
+			else {
+				livro_editar.setImagem_livro(livro_antigo.getImagem_livro());
+				System.out.println("FALHA AO ATUALIZAR A IMAGEM!");
+			}
 		}
 	}
 	
@@ -361,13 +421,20 @@ public class LivroService {
 			double preco = ler.nextDouble();
 			preco = utils.validarPreenchimentoDouble(livro_editar.getId_livro() + ". DIGITE O NOVO PREÇO DO LIVRO " + livro_editar.getTitulo_livro() + ": ", preco);
 			
+			Livro livro_antigo = new Livro(livro_editar.getId_livro(), livro_editar.getTitulo_livro(), livro_editar.getResumo_livro(), livro_editar.getAno_livro(), livro_editar.getPaginas_livro(), livro_editar.getIsbn_livro(), livro_editar.getId_categoria_livro(), livro_editar.getId_editora_livro(), livro_editar.getImagem_livro(), livro_editar.getPreco_livro(), livro_editar.getDesconto_livro(), livro_editar.getAutores_livro());
+			
 			// EDITANDO LIVRO NA LISTA DE LIVROS (OK)
 			livro_editar.setPreco_livro(preco);
 			
-			// EDITANDO LIVRO NO BANCO DE DADOS (OK)
-			livroDAO.update(livro_editar);
+			// FAZENDO UPDATE NO BANCO DE DADOS (OK)
+			if (livroDAO.update(livro_editar)) {
+				System.out.println("PREÇO ATUALIZADO COM SUCESSO!");
+			}
 			
-			System.out.println("PREÇO ATUALIZADO COM SUCESSO!");
+			else {
+				livro_editar.setPreco_livro(livro_antigo.getPreco_livro());
+				System.out.println("FALHA AO ATUALIZAR O PREÇO!");
+			}
 		}
 	}
 	
@@ -377,13 +444,20 @@ public class LivroService {
 			double desconto = ler.nextDouble();
 			desconto = utils.validarPreenchimentoDouble(livro_editar.getId_livro() + ". DIGITE O NOVO DESCONTO DO LIVRO " + livro_editar.getTitulo_livro() + ": ", desconto);
 			
+			Livro livro_antigo = new Livro(livro_editar.getId_livro(), livro_editar.getTitulo_livro(), livro_editar.getResumo_livro(), livro_editar.getAno_livro(), livro_editar.getPaginas_livro(), livro_editar.getIsbn_livro(), livro_editar.getId_categoria_livro(), livro_editar.getId_editora_livro(), livro_editar.getImagem_livro(), livro_editar.getPreco_livro(), livro_editar.getDesconto_livro(), livro_editar.getAutores_livro());
+			
 			// EDITANDO LIVRO NA LISTA DE LIVROS (OK)
 			livro_editar.setDesconto_livro(desconto);
 			
-			// EDITANDO LIVRO NO BANCO DE DADOS (OK)
-			livroDAO.update(livro_editar);
+			// FAZENDO UPDATE NO BANCO DE DADOS (OK)
+			if (livroDAO.update(livro_editar)) {
+				System.out.println("DESCONTO ATUALIZADO COM SUCESSO!");
+			}
 			
-			System.out.println("DESCONTO ATUALIZADO COM SUCESSO!");
+			else {
+				livro_editar.setDesconto_livro(livro_antigo.getDesconto_livro());
+				System.out.println("FALHA AO ATUALIZAR O DESCONTO!");
+			}
 		}
 	}
 	
@@ -391,7 +465,8 @@ public class LivroService {
 		if (utils.confirmarAcao("EDITAR AUTORES DO LIVRO " + livro_editar.getId_livro() + ". " + livro_editar.getTitulo_livro())) {
 			HashMap<Integer, Autor> listaAutoresLivro = new HashMap<Integer, Autor>();
 			HashMap<Integer, Autor> listaAutoresAdicionar = new HashMap<Integer, Autor>(listaAutores);
-			
+			Livro livro_antigo = new Livro(livro_editar.getId_livro(), livro_editar.getTitulo_livro(), livro_editar.getResumo_livro(), livro_editar.getAno_livro(), livro_editar.getPaginas_livro(), livro_editar.getIsbn_livro(), livro_editar.getId_categoria_livro(), livro_editar.getId_editora_livro(), livro_editar.getImagem_livro(), livro_editar.getPreco_livro(), livro_editar.getDesconto_livro(), livro_editar.getAutores_livro());
+		
 			boolean adicionar = false;
 			
 			System.out.println("------------------------------------------");
@@ -474,8 +549,33 @@ public class LivroService {
 						adicionar = false;					
 					}
 					
+					// EDITANDO LIVRO NA LISTA DE LIVROS
 					livro_editar.setAutores_livro(listaAutoresLivro);
 					
+					// EDITANDO TODOS OS AUTORES NA LISTA DE AUTORES PARA ADICIONAR O LIVRO DE ACORDO COM A NOVA LISTA DO LIVROS (OK)
+					for (Map.Entry<Integer, Autor> autor_do_livro : livro_editar.getAutores_livro().entrySet()) {
+					    Autor autor_livro = autor_do_livro.getValue();
+					    for (Map.Entry<Integer, Autor> autor_na_lista : listaAutores.entrySet()) {
+					        Autor autor_lista = autor_na_lista.getValue();
+					        if (autor_livro.equals(autor_lista)) {
+					            boolean livroAtualizado = false;
+					            for (Map.Entry<Integer, Livro> entry : autor_lista.getLivros_autor().entrySet()) {
+					                Livro livro = entry.getValue();
+					                if (livro.getId_livro() == livro_editar.getId_livro()) {
+					                	livroAtualizado = true;
+					                    break;
+					                }
+					            }
+					            
+					            if (!livroAtualizado) {
+					                autor_lista.getLivros_autor().put(livro_editar.getId_livro(), livro_editar);
+					            }
+					        } else {
+					        	autor_lista.getLivros_autor().remove(livro_editar.getId_livro());
+					        }
+					    }
+					}
+
 				} catch (InputMismatchException e) {
 			        System.out.println("OPÇÃO INVÁLIDA. POR FAVOR, DIGITE UM NÚMERO INTEIRO VÁLIDO.");
 			        ler.nextLine();
@@ -487,27 +587,34 @@ public class LivroService {
 			    }
 			}
 			
-			// ADICIONANDO LIVRO NA LISTA DE LIVROS (OK)
-			listaLivros.put(livro_editar.getId_livro(), livro_editar);
-			
 			// FAZENDO UPDATE DO LIVRO NO BANCO DE DADOS (OK)
-			livroDAO.updateAutoresLivro(livro_editar);
+			if (livroDAO.updateAutoresLivro(livro_editar)) {
+				System.out.println("AUTORES DO LIVRO EDITADOS COM SUCESSO!");				
+			}
 			
-			System.out.println("AUTORES DO LIVRO EDITADOS COM SUCESSO!");
+			else {
+				livro_editar.setAutores_livro(livro_antigo.getAutores_livro());
+				System.out.println("FALHA AO EDITAR OS AUTORES DO LIVRO!");
+			}	
 		}
 	}
 	
 	public void deletarLivro(int id_livro, HashMap<Integer, Livro> listaLivros) throws SQLException {
 		try {
 			if (utils.confirmarAcao("EXCLUIR LIVRO")) {
-				// REMOVENDO LIVRO DA LISTA DE LIVROS (OK)
-				listaLivros.remove(id_livro);
-				
 				// FAZENDO DELETE DO LIVRO NO BANCO DE DADOS (OK)
-				livroDAO.delete(id_livro);
+				if (livroDAO.delete(id_livro)) {
+					// REMOVENDO LIVRO DA LISTA DE LIVROS (OK)
+					listaLivros.remove(id_livro);
+					System.out.println("LIVRO EXCLUÍDO COM SUCESSO!");
+				}
 				
-				System.out.println("LIVRO EXCLUÍDO COM SUCESSO!");
+				else {
+					System.out.println("FALHA AO EXCLUIR O LIVRO!");
+					utils.voltarMenu();
+				}
 			}
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 			

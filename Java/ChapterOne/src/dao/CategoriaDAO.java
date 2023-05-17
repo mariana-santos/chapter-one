@@ -112,7 +112,7 @@ public class CategoriaDAO {
 	    return idMax;
 	}
 	
-	public void insert(Categoria nova_categoria) throws SQLException {
+	public boolean insert(Categoria nova_categoria) throws SQLException {
         Connection conn = ConnectionFactory.getConnection();
         Statement statement = null;
        
@@ -120,9 +120,11 @@ public class CategoriaDAO {
             String query = String.format("INSERT INTO categoria (id, nome) VALUES (%s, '%s')", nova_categoria.getId_categoria(), nova_categoria.getNome_categoria());
             statement = conn.createStatement();          
             statement.executeUpdate(query);
+            return true;
             
         } catch (SQLException e){
             System.out.println("ERRO AO INSERIR A CATEGORIA. ERRO: " + e.getMessage());
+            return false;
             
         } finally {
             if (statement != null) {
@@ -143,7 +145,7 @@ public class CategoriaDAO {
 	    }
 	}
 	
-	public void update(Categoria categoria_atualizar) throws SQLException {
+	public boolean update(Categoria categoria_atualizar) throws SQLException {
         Connection conn = ConnectionFactory.getConnection();
         Statement statement = null;
        
@@ -152,9 +154,11 @@ public class CategoriaDAO {
            
             statement = conn.createStatement();          
             statement.executeUpdate(query);
+            return true;
             
         } catch (SQLException e){
             System.out.println("ERRO AO ATUALIZAR A CATEGORIA. ERRO: " + e.getMessage());
+            return false;
             
         } finally {
             if (statement != null) {
@@ -175,7 +179,7 @@ public class CategoriaDAO {
 	    }
 	}
 	
-	public void delete(int id_categoria) throws SQLException {
+	public boolean delete(int id_categoria) throws SQLException {
         Connection conn = ConnectionFactory.getConnection();
         Statement statement = null;
        
@@ -184,9 +188,11 @@ public class CategoriaDAO {
            
             statement = conn.createStatement();          
             statement.executeUpdate(query);
+            return true;
             
         } catch (SQLException e){
             System.out.println("ERRO AO DELETAR A CATEGORIAS. ERRO: " + e.getMessage());
+            return false;
             
         } finally {
             if (statement != null) {

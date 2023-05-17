@@ -114,7 +114,7 @@ public class EditoraDAO {
 	    return idMax;
 	}
 	
-	public void insert(Editora nova_editora) throws SQLException {
+	public boolean insert(Editora nova_editora) throws SQLException {
         Connection conn = ConnectionFactory.getConnection();
         Statement statement = null;
        
@@ -122,9 +122,11 @@ public class EditoraDAO {
             String query = String.format("INSERT INTO editora (id, nome, endereco, telefone) VALUES (%s, '%s', '%s', '%s')", nova_editora.getId_editora(), nova_editora.getNome_editora(), nova_editora.getEndereco_editora(), nova_editora.getTelefone_editora());
             statement = conn.createStatement();          
             statement.executeUpdate(query);
+            return true;
             
         } catch (SQLException e){
             System.out.println("ERRO AO INSERIR A EDITORA. ERRO: " + e.getMessage());
+            return false;
             
         } finally {
             if (statement != null) {
@@ -145,7 +147,7 @@ public class EditoraDAO {
 	    }
 	}
 	
-	public void update(Editora editora_atualizar) throws SQLException {
+	public boolean update(Editora editora_atualizar) throws SQLException {
         Connection conn = ConnectionFactory.getConnection();
         Statement statement = null;
        
@@ -154,9 +156,11 @@ public class EditoraDAO {
            
             statement = conn.createStatement();          
             statement.executeUpdate(query);
+            return true;
             
         } catch (SQLException e){
             System.out.println("ERRO AO ATUALIZAR A EDITORA. ERRO: " + e.getMessage());
+            return false;
             
         } finally {
             if (statement != null) {
@@ -177,7 +181,7 @@ public class EditoraDAO {
 	    }
 	}
 	
-	public void delete(int id_editora) throws SQLException {
+	public boolean delete(int id_editora) throws SQLException {
         Connection conn = ConnectionFactory.getConnection();
         Statement statement = null;
        
@@ -186,9 +190,11 @@ public class EditoraDAO {
            
             statement = conn.createStatement();          
             statement.executeUpdate(query);
+            return true;
             
         } catch (SQLException e){
             System.out.println("ERRO AO DELETAR A EDITORA. ERRO: " + e.getMessage());
+            return false;
             
         } finally {
             if (statement != null) {

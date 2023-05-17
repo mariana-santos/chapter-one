@@ -21,20 +21,20 @@ export default function Autor(){
     const [livrosBy, setLivros] = useState([])
 
     const getLivros = (autor) => {
-        const livros_by_autor = []
-        autor.livros.forEach((livro_id) => {
-            livros_by_autor.push(livros.find((livro) => livro.id === livro_id))
-        })
-
-        setLivros(livros_by_autor)
+        fetch(`http://localhost:8000/livros_por_autor/${id}`)
+        .then(resp => resp.json())
+        .then(data => setLivros(data))
+        .catch(error => console.error(error))
     }
 
     //A cada vez que o id do parâmetro da rota é atualizado, o
     //useState "setAutor" é alterado com o livro correspondente
     useEffect(() => {
 
-        const autor_obj = autores.find((autor) => autor.id === parseInt(id))
-        setAutor(autor_obj)
+        fetch(`http://localhost:8000/autor/${id}`)
+        .then(resp => resp.json())
+        .then(data => setAutor(data))
+        .catch(error => console.error(error))
 
     }, [id])
 

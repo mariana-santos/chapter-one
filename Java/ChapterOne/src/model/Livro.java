@@ -153,7 +153,7 @@ public class Livro {
 		return ano_livro == other.ano_livro && Objects.equals(autores_livro, other.autores_livro)
 				&& Double.doubleToLongBits(desconto_livro) == Double.doubleToLongBits(other.desconto_livro)
 				&& id_categoria_livro == other.id_categoria_livro && id_editora_livro == other.id_editora_livro
-				&& id_livro == other.id_livro && imagem_livro == other.imagem_livro
+				&& id_livro == other.id_livro && Objects.equals(imagem_livro, other.imagem_livro)
 				&& Objects.equals(isbn_livro, other.isbn_livro) && paginas_livro == other.paginas_livro
 				&& Double.doubleToLongBits(preco_livro) == Double.doubleToLongBits(other.preco_livro)
 				&& Objects.equals(resumo_livro, other.resumo_livro) && Objects.equals(titulo_livro, other.titulo_livro);
@@ -176,9 +176,9 @@ public class Livro {
 	public int indexLivro(int id_buscado, HashMap<Integer, Livro> listaLivros) {
 	    int indexLivro = -1;
 
-	    for (Map.Entry<Integer, Livro> entry : listaLivros.entrySet()) {
-	        if (id_buscado == entry.getValue().getId_livro()) {
-	            indexLivro = entry.getKey();
+	    for (Map.Entry<Integer, Livro> livro : listaLivros.entrySet()) {
+	        if (id_buscado == livro.getValue().getId_livro()) {
+	            indexLivro = livro.getKey();
 	            break;
 	        }
 	    }
@@ -201,12 +201,20 @@ public class Livro {
 		System.out.println("11. DESCONTO: " + this.desconto_livro);
 		
 		System.out.println("12. AUTORES:");
-		int contador = 1;
-		for (Autor autor : this.autores_livro.values()) {
-			String numeroAutor = String.format("%02d", contador);
-		    System.out.println("   12." + numeroAutor + ". ID: " + autor.getId_autor() + " | NOME: " + autor.getNome_autor());
+		
+		if (this.autores_livro.size() == 0) {
+			System.out.println("   NENHUM AUTOR CADASTRADO");
 		}
 		
+		else {
+			int contador = 1;
+			for (Autor autor : this.autores_livro.values()) {
+				String numeroAutor = String.format("%02d", contador);
+			    System.out.println("   12." + numeroAutor + ". ID: " + autor.getId_autor() + " | NOME: " + autor.getNome_autor());
+			    contador++;
+			}
+		}
+
 		System.out.println("13. SAIR");
 		System.out.println("------------------------------------------");				
 	}

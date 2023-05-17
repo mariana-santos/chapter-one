@@ -6,6 +6,7 @@ from Editora import Editora
 from Livro import Livro
 from Utils import Utils
 from fastapi import FastAPI, Response
+from fastapi.middleware.cors import CORSMiddleware
 
 # CRIANDO CONEXÃO COM O BANCO
 cx_Oracle.init_oracle_client(lib_dir=r"C:\Program Files\instantclient_21_9")
@@ -13,6 +14,11 @@ dsn = cx_Oracle.makedsn(host='oracle.fiap.com.br', port=1521, sid='ORCL')
 
 # INSTANCIANDO FASTAPI
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=['*']
+)
 
 listaCategorias = Categoria.buscar_categorias_banco(dsn)
 listaEditoras = Editora.buscar_editoras_banco(dsn)
@@ -353,6 +359,20 @@ def listar_livros():
     except Exception as e:
         print(f"OCORREU UM ERRO AO LISTAR TODOS OS LIVROS: {str(e)}")
         return Response(content="Erro ao listar livros.", media_type="text/plain", status_code=500)
+
+# API'S - LIVRO (LISTAR POR ID DO AUTOR)
+@app.get("/livros_por_autor/{id}", tags=["Livros"])
+def exibir_livros_por_autor(id: int):
+    try:
+        livrosByAutor = []
+        for livro in listaLivros:
+            if livro.autores[0]['id'] == id:
+                livrosByAutor.append(livro)
+        return livrosByAutor
+    
+    except Exception as e:
+        print(f"OCORREU UM ERRO AO EXIBIR O LIVRO POR ID: {str(e)}")
+        return Response(content=f"Erro ao exibir Livro de id = {id}.", media_type="text/plain", status_code=500)
 
 # API'S - LIVRO (LISTAR POR ID)
 @app.get("/livro/{id}", tags=["Livros"])
