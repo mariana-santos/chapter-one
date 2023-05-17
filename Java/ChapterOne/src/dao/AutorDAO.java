@@ -174,7 +174,7 @@ public class AutorDAO {
 	    return idMax;
 	}
 	
-	public void insert(Autor novo_autor) throws SQLException {
+	public boolean insert(Autor novo_autor) throws SQLException {
         Connection conn = ConnectionFactory.getConnection();
         Statement statement = null;
        
@@ -182,9 +182,11 @@ public class AutorDAO {
             String query = String.format("INSERT INTO autor (id, nome, email, telefone, bio, imagem) VALUES (%s, '%s', '%s', '%s', '%s', '%s')", novo_autor.getId_autor(), novo_autor.getNome_autor(), novo_autor.getEmail_autor(), novo_autor.getTelefone_autor(), novo_autor.getBio_autor(), novo_autor.getImagem_autor());
             statement = conn.createStatement();          
             statement.executeUpdate(query);
+            return true;
             
         } catch (SQLException e){
             System.out.println("ERRO AO INSERIR O AUTOR. ERRO: " + e.getMessage());
+            return false;
             
         } finally {
             if (statement != null) {
@@ -205,7 +207,7 @@ public class AutorDAO {
 	    }
 	}
 	
-	public void insertLivrosAutor(Autor novo_autor) {
+	public boolean insertLivrosAutor(Autor novo_autor) {
 		Connection conn = ConnectionFactory.getConnection();
         Statement statement = null;
        
@@ -219,6 +221,8 @@ public class AutorDAO {
                         System.out.println("ERRO AO FECHAR A CONNECTION. ERRO:  " + e.getMessage());
                     }
                 }
+        		
+        		return true;
         	}
         	
         	else {
@@ -229,10 +233,13 @@ public class AutorDAO {
     	            statement = conn.createStatement();          
     	            statement.executeUpdate(query);
             	}
+        		
+        		return true;
         	}
                 
         } catch (SQLException e){
             System.out.println("ERRO AO INSERIR OS LIVROS DO AUTOR. ERRO: " + e.getMessage());
+            return false;
             
         } finally {
             if (statement != null) {
@@ -253,7 +260,7 @@ public class AutorDAO {
         }
 	}
 
-	public void update(Autor autor_atualizar) throws SQLException {
+	public boolean update(Autor autor_atualizar) throws SQLException {
         Connection conn = ConnectionFactory.getConnection();
         Statement statement = null;
        
@@ -262,9 +269,11 @@ public class AutorDAO {
            
             statement = conn.createStatement();          
             statement.executeUpdate(query);
+            return true;
             
         } catch (SQLException e){
             System.out.println("ERRO AO ATUALIZAR O AUTOR. ERRO: " + e.getMessage());
+            return false;
             
         } finally {
             if (statement != null) {
@@ -285,7 +294,7 @@ public class AutorDAO {
 	    }
 	}
 	
-	public void updateLivrosAutor(Autor autor_atualizar) throws SQLException {
+	public boolean updateLivrosAutor(Autor autor_atualizar) throws SQLException {
 		Connection conn = ConnectionFactory.getConnection();
         Statement statement = null;
        
@@ -311,6 +320,8 @@ public class AutorDAO {
                         System.out.println("ERRO AO FECHAR A CONNECTION. ERRO:  " + e.getMessage());
                     }
                 }
+        		
+        		return true;
         	}
         	
             else {
@@ -344,10 +355,13 @@ public class AutorDAO {
     	            statement = conn.createStatement();          
     	            statement.executeUpdate(query);
             	}
+        		
+        		return true;
         	}
                 
         } catch (SQLException e){
             System.out.println("ERRO AO INSERIR OS AUTORES DO LIVRO. ERRO: " + e.getMessage());
+            return false;
             
         } finally {
             if (statement != null) {
@@ -368,7 +382,7 @@ public class AutorDAO {
         }
 	}
 	
-	public void delete(int id_autor) throws SQLException {
+	public boolean delete(int id_autor) throws SQLException {
         Connection conn = ConnectionFactory.getConnection();
         Statement statement = null;
         
@@ -380,6 +394,7 @@ public class AutorDAO {
             
         } catch (SQLException e){
             System.out.println("ERRO AO DELETAR OS LIVROS DO AUTOR. ERRO: " + e.getMessage());
+            return false;
             
         } finally {
             if (statement != null) {
@@ -407,9 +422,11 @@ public class AutorDAO {
            
             statement = conn.createStatement();          
             statement.executeUpdate(query);
+            return true;
             
         } catch (SQLException e){
             System.out.println("ERRO AO DELETAR O AUTOR. ERRO: " + e.getMessage());
+            return false;
             
         } finally {
             if (statement != null) {
