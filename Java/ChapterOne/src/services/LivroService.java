@@ -136,38 +136,36 @@ public class LivroService {
 		
 		while (adicionar) {
 			try {
-				for (Autor autor : listaAutoresAdicionar.values()) {
-			        System.out.println(autor.exibirAutor());
+				
+				if (listaAutoresAdicionar.isEmpty()) {
+			        System.out.println("TODOS OS AUTORES JÁ FORAM ADICIONADOS");
+			        System.out.println("TECLE ENTER PARA SEGUIR.");
+			        System.in.read();
+			        adicionar = false;
 			    }
-				System.out.println("DIGITE O ID DO AUTOR QUE DESEJA ADICIONAR AO LIVRO: ");
-				id_buscado = ler.nextInt();
-				id_buscado = utils.validarId_Buscado(id_buscado, 1, (id_autor - 1), "listarAutores", listaAutoresAdicionar, null, null, null);
-				
-				Autor autor_adicionar = new Autor();
-				
-				if (autor_adicionar.indexAutor(id_buscado, listaAutoresAdicionar) == -1) {
-					System.out.println("ID NÃO ENCONTRADO");
-					utils.voltarMenu();
-				}
 				
 				else {
-					autor_adicionar = listaAutoresAdicionar.get(autor_adicionar.indexAutor(id_buscado, listaAutoresAdicionar));
-					listaAutoresLivro.put(autor_adicionar.getId_autor(), autor_adicionar);
-					listaAutoresAdicionar.remove(autor_adicionar.getId_autor());
-					System.out.println("AUTOR ADICIONADO AO LIVRO COM SUCESSO!");
-				}
-				
-				System.out.println("------------------------------------------");
-				System.out.println("DESEJA ADICIONAR NOVO AUTOR AO LIVRO?");
-				System.out.println("01. SIM");
-		        System.out.println("02. NÃO");
-		        System.out.println("------------------------------------------");
-		        System.out.println("DIGITE A OPÇÃO DESEJADA: ");
-				opcao = ler.nextInt();
-				
-				while (opcao != 1 && opcao != 2) {
-					System.out.println("OPÇÃO INVÁLIDA.");
-					utils.voltarMenu();
+					for (Autor autor : listaAutoresAdicionar.values()) {
+				        System.out.println(autor.exibirAutor());
+				    }
+					System.out.println("DIGITE O ID DO AUTOR QUE DESEJA ADICIONAR AO LIVRO: ");
+					id_buscado = ler.nextInt();
+					id_buscado = utils.validarId_Buscado(id_buscado, 1, (id_autor - 1), "listarAutores", listaAutoresAdicionar, null, null, null);
+					
+					Autor autor_adicionar = new Autor();
+					
+					if (autor_adicionar.indexAutor(id_buscado, listaAutoresAdicionar) == -1) {
+						System.out.println("ID NÃO ENCONTRADO");
+						utils.voltarMenu();
+					}
+					
+					else {
+						autor_adicionar = listaAutoresAdicionar.get(autor_adicionar.indexAutor(id_buscado, listaAutoresAdicionar));
+						listaAutoresLivro.put(autor_adicionar.getId_autor(), autor_adicionar);
+						listaAutoresAdicionar.remove(autor_adicionar.getId_autor());
+						System.out.println("AUTOR ADICIONADO AO LIVRO COM SUCESSO!");
+					}
+					
 					System.out.println("------------------------------------------");
 					System.out.println("DESEJA ADICIONAR NOVO AUTOR AO LIVRO?");
 					System.out.println("01. SIM");
@@ -175,18 +173,27 @@ public class LivroService {
 			        System.out.println("------------------------------------------");
 			        System.out.println("DIGITE A OPÇÃO DESEJADA: ");
 					opcao = ler.nextInt();
+					
+					while (opcao != 1 && opcao != 2) {
+						System.out.println("OPÇÃO INVÁLIDA.");
+						utils.voltarMenu();
+						System.out.println("------------------------------------------");
+						System.out.println("DESEJA ADICIONAR NOVO AUTOR AO LIVRO?");
+						System.out.println("01. SIM");
+				        System.out.println("02. NÃO");
+				        System.out.println("------------------------------------------");
+				        System.out.println("DIGITE A OPÇÃO DESEJADA: ");
+						opcao = ler.nextInt();
+					}
+					
+					if (opcao == 1) {
+						continue;
+					}
+					
+					else if (opcao == 2) {
+						adicionar = false;					
+					}
 				}
-				
-				if (opcao == 1) {
-					continue;
-				}
-				
-				else if (opcao == 2) {
-					adicionar = false;					
-				}
-				
-				novo_livro.setAutores_livro(listaAutoresLivro);
-				
 			} catch (InputMismatchException e) {
 		        System.out.println("OPÇÃO INVÁLIDA. POR FAVOR, DIGITE UM NÚMERO INTEIRO VÁLIDO.");
 		        ler.nextLine();
@@ -197,6 +204,8 @@ public class LivroService {
 		        utils.voltarMenu();
 		    }
 		}
+		
+		novo_livro.setAutores_livro(listaAutoresLivro);
 		
 		// FAZENDO INSERT DO LIVRO NO BANCO DE DADOS (OK)
 		if (livroDAO.insert(novo_livro) && livroDAO.insertAutoresLivro(novo_livro)) {
@@ -543,38 +552,36 @@ public class LivroService {
 			
 			while (adicionar) {
 				try {
-					for (Autor autor : listaAutoresAdicionar.values()) {
-				        System.out.println(autor.exibirAutor());
+					
+					if (listaAutoresAdicionar.isEmpty()) {
+				        System.out.println("TODOS OS AUTORES JÁ FORAM ADICIONADOS");
+				        System.out.println("TECLE ENTER PARA SEGUIR.");
+				        System.in.read();
+				        adicionar = false;
 				    }
-					System.out.println("DIGITE O ID DO AUTOR QUE DESEJA ADICIONAR AO LIVRO: ");
-					int id_buscado = ler.nextInt();
-					id_buscado = utils.validarId_Buscado(id_buscado, 1, (id_autor - 1), "listarAutores", listaAutoresAdicionar, null, null, null);
-					
-					Autor autor_adicionar = new Autor();
-					
-					if (autor_adicionar.indexAutor(id_buscado, listaAutoresAdicionar) == -1) {
-						System.out.println("ID NÃO ENCONTRADO");
-						utils.voltarMenu();
-					}
 					
 					else {
-						autor_adicionar = listaAutoresAdicionar.get(autor_adicionar.indexAutor(id_buscado, listaAutoresAdicionar));
-						listaAutoresLivro.put(autor_adicionar.getId_autor(), autor_adicionar);
-						listaAutoresAdicionar.remove(autor_adicionar.getId_autor());
-						System.out.println("AUTOR ADICIONADO AO LIVRO COM SUCESSO!");
-					}
-					
-					System.out.println("------------------------------------------");
-					System.out.println("DESEJA ADICIONAR NOVO AUTOR AO LIVRO?");
-					System.out.println("01. SIM");
-			        System.out.println("02. NÃO");
-			        System.out.println("------------------------------------------");
-			        System.out.println("DIGITE A OPÇÃO DESEJADA: ");
-					opcao = ler.nextInt();
-					
-					while (opcao != 1 && opcao != 2) {
-						System.out.println("OPÇÃO INVÁLIDA.");
-						utils.voltarMenu();
+						for (Autor autor : listaAutoresAdicionar.values()) {
+					        System.out.println(autor.exibirAutor());
+					    }
+						System.out.println("DIGITE O ID DO AUTOR QUE DESEJA ADICIONAR AO LIVRO: ");
+						int id_buscado = ler.nextInt();
+						id_buscado = utils.validarId_Buscado(id_buscado, 1, (id_autor - 1), "listarAutores", listaAutoresAdicionar, null, null, null);
+						
+						Autor autor_adicionar = new Autor();
+						
+						if (autor_adicionar.indexAutor(id_buscado, listaAutoresAdicionar) == -1) {
+							System.out.println("ID NÃO ENCONTRADO");
+							utils.voltarMenu();
+						}
+						
+						else {
+							autor_adicionar = listaAutoresAdicionar.get(autor_adicionar.indexAutor(id_buscado, listaAutoresAdicionar));
+							listaAutoresLivro.put(autor_adicionar.getId_autor(), autor_adicionar);
+							listaAutoresAdicionar.remove(autor_adicionar.getId_autor());
+							System.out.println("AUTOR ADICIONADO AO LIVRO COM SUCESSO!");
+						}
+						
 						System.out.println("------------------------------------------");
 						System.out.println("DESEJA ADICIONAR NOVO AUTOR AO LIVRO?");
 						System.out.println("01. SIM");
@@ -582,14 +589,26 @@ public class LivroService {
 				        System.out.println("------------------------------------------");
 				        System.out.println("DIGITE A OPÇÃO DESEJADA: ");
 						opcao = ler.nextInt();
-					}
-					
-					if (opcao == 1) {
-						continue;
-					}
-					
-					else if (opcao == 2) {
-						adicionar = false;					
+						
+						while (opcao != 1 && opcao != 2) {
+							System.out.println("OPÇÃO INVÁLIDA.");
+							utils.voltarMenu();
+							System.out.println("------------------------------------------");
+							System.out.println("DESEJA ADICIONAR NOVO AUTOR AO LIVRO?");
+							System.out.println("01. SIM");
+					        System.out.println("02. NÃO");
+					        System.out.println("------------------------------------------");
+					        System.out.println("DIGITE A OPÇÃO DESEJADA: ");
+							opcao = ler.nextInt();
+						}
+						
+						if (opcao == 1) {
+							continue;
+						}
+						
+						else if (opcao == 2) {
+							adicionar = false;					
+						}
 					}
 
 				} catch (InputMismatchException e) {
