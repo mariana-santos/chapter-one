@@ -1,16 +1,12 @@
-.page-content {
-  padding-top: 100px; /* Adicione um espaço entre o header e o carrinho */
-}
-
-.carrinho-container {
+#carrinho-container {
     max-width: 600px;
     margin: auto;
-    padding: 20px;
     border-radius: 8px;
+    padding: 20px;
     box-shadow: 0 5px 25px rgb(0, 0, 0);
   }
   
-  .carrinho-container h2 {
+  #carrinho-container h2 {
     text-align: center;
     margin-top: 10px;
     margin-bottom: 20px;
@@ -22,10 +18,12 @@
   }
   
   .carrinho-item {
-    display: grid;
-    grid-template-columns: 100px 1fr 150px;
+    display: flex;
+    /* grid-template-columns: 100px 1fr 150px; */
     gap: 20px;
     align-items: center;
+    width: 100%;
+    justify-content: space-between;
   }
   
   .carrinho-item img {
@@ -48,6 +46,17 @@
   .carrinho-item-quantidade {
     display: flex;
     align-items: center;
+    /* flex-wrap: wrap; */
+    /* justify-content: flex-end; */
+    gap: 40px;
+  }
+
+  .btns-qtd{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: .5em;
   }
   
   .carrinho-total {
@@ -78,7 +87,7 @@
     font-size: 16px;
     font-weight: bold;
     text-decoration: none;
-    color: #fff;
+    color: #fff !important;
     background-color: #007bff;
     border: none;
     border-radius: 4px;
@@ -115,4 +124,12 @@
   .diminuir-qtd::before,
   .aumentar-qtd::before {
     content: none;
+  }
+
+  .subtotal{
+    color: #ccc !important;
+    font-size: 1em !important;
+    width: 100%;
+    text-align: end;
+    margin-left: auto;
   }

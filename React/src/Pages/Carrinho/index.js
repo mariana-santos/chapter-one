@@ -5,47 +5,48 @@ import Header from '../../Components/Header';
 
 import './style.css'
 
+import { useContext, useState, useEffect } from 'react';
+
+import { CarrinhoContext } from '../../App';
+
+import { formatarPreco } from '../../Assets/Utils';
+
 const CarrinhoPage = () => {
+  
+  const { carrinho } = useContext(CarrinhoContext);
+  const [total, setTotal] = useState(0)
+
+  useEffect(() => {
+    let total = 0
+
+    carrinho.forEach((livro) => {
+      total += ((livro.preco - livro.desconto) * livro.qtd)
+    })
+
+    setTotal(total)
+  }, [])
+
   return (
     <>
       <Header />
-      <div className="page-content"></div>
-      <div className="carrinho-container">
+      {/* <div className="page-content"></div> */}
+      <div className="container">
+        <div id='carrinho-container'>
         <h2>Meu Carrinho</h2>
 
         <div className="carrinho-itens">
-          <div className="carrinho-item">
-            <img src="imagem-livro-1.jpg" alt="Livro 1" />
-            <div className="carrinho-item-info">
-              <h3>Livro 1</h3>
-              <p>Descrição do livro 1</p>
-              <p>R$ 29,90</p>
-            </div>
-            <div className="carrinho-item-quantidade">
-              <button className="diminuir-qtd">-</button>
-              <span>1</span>
-              <button className="aumentar-qtd">+</button>
-            </div>
-          </div>
 
-          <div className="carrinho-item">
-            <img src="imagem-livro-2.jpg" alt="Livro 2" />
-            <div className="carrinho-item-info">
-              <h3>Livro 2</h3>
-              <p>Descrição do livro 2</p>
-              <p>R$ 19,90</p>
-            </div>
-            <div className="carrinho-item-quantidade">
-              <button className="diminuir-qtd">-</button>
-              <span>1</span>
-              <button className="aumentar-qtd">+</button>
-            </div>
-          </div>
+          { carrinho.map((livro) => {
+            return(
+              <CarrinhoItem livro={livro} />
+            )
+          }) }
+
         </div>
 
         <div className="carrinho-total">
           <h4>Total:</h4>
-          <p>R$ 49,80</p>
+          <p>{ formatarPreco(total) } </p>
         </div>
 
         <div className="carrinho-botoes">
@@ -55,8 +56,46 @@ const CarrinhoPage = () => {
           <button className="carrinho-finalizar-compra">Finalizar Compra</button>
         </div>
       </div>
+      </div>
     </>
   );
 };
+
+function CarrinhoItem(props){
+
+  const { livro } = props
+  const [qtd, setQtd] = useState(1)
+  const [subtotal, setSubtotal] = useState(livro.preco - livro.desconto)
+  const { removerDoCarrinho } = useContext(CarrinhoContext);
+
+  useEffect(() => {
+
+    setSubtotal((livro.preco - livro.desconto) * qtd)
+
+  }, [qtd])
+
+  return(
+    <div className="carrinho-item">
+      <img src={livro.imagem} alt={`Capa de ${livro.titulo}`} />
+
+      <div className="carrinho-item-info">
+        <h3>{livro.titulo}</h3>
+        <p>{ formatarPreco(livro.preco - livro.desconto) }</p>
+      </div>
+
+      <div className="carrinho-item-quantidade">
+        <div className='btns-qtd'>
+          <button className="diminuir-qtd"onClick={() => {
+            if(qtd > 1) setQtd(qtd - 1)
+            else removerDoCarrinho(livro.id)
+          }}>-</button>
+          <span>{qtd}</span>
+          <button className="aumentar-qtd" onClick={() => { setQtd(qtd + 1)}}>+</button>
+        </div>
+        <p className='subtotal'>{ formatarPreco(subtotal) }</p>
+      </div>
+    </div>
+  )
+}
 
 export default CarrinhoPage;

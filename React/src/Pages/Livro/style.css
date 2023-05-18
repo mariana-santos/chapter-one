@@ -91,11 +91,22 @@
 }
 
 .btn_secondary{
-    margin-right: auto;
+    /* margin-right: auto; */
     color: #3b9fe1;
 }
 
 .btn_secondary:hover{
     color: #3b9fe1;
     opacity: .7;
+}
+
+.livro .preco{
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    margin-top: 1em;
+}
+
+.desconto{
+    font-size: .75em !important;
 }
