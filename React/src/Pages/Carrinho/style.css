@@ -1,0 +1,118 @@
+.page-content {
+  padding-top: 100px; /* Adicione um espaço entre o header e o carrinho */
+}
+
+.carrinho-container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 5px 25px rgb(0, 0, 0);
+  }
+  
+  .carrinho-container h2 {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .carrinho-itens {
+    display: grid;
+    gap: 20px;
+  }
+  
+  .carrinho-item {
+    display: grid;
+    grid-template-columns: 100px 1fr 150px;
+    gap: 20px;
+    align-items: center;
+  }
+  
+  .carrinho-item img {
+    width: 100%;
+    max-width: 100px;
+    height: auto;
+  }
+  
+  .carrinho-item-info h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+  
+  .carrinho-item-info p {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 4px;
+  }
+  
+  .carrinho-item-quantidade {
+    display: flex;
+    align-items: center;
+  }
+  
+  .carrinho-total {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 20px;
+    font-size: 18px;
+  }
+  
+  .carrinho-total h4 {
+    margin-right: 10px;
+  }
+  
+  .carrinho-total p {
+    font-weight: bold;
+  }
+  
+  .carrinho-botoes {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+  }
+  
+  .carrinho-continuar-comprando,
+  .carrinho-finalizar-compra {
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .carrinho-continuar-comprando:hover,
+  .carrinho-finalizar-compra:hover {
+    background-color: #0056b3;
+  }
+
+  .diminuir-qtd,
+  .aumentar-qtd {
+    padding: 4px 8px;
+    font-size: 16px;
+    background-color: #ccc;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    margin: 0 5px;
+  }
+
+  .diminuir-qtd:hover,
+  .aumentar-qtd:hover {
+    background-color: #ffffff;
+    transition: 0.3s;
+  }
+
+  .diminuir-qtd::before,
+  .aumentar-qtd::before {
+    content: none;
+  }
