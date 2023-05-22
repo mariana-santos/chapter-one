@@ -56,3 +56,72 @@ a:hover, .active{
 .sub-menu a:hover{
     color: #33A1FD
 }
+
+@media screen and (max-width: 768px){
+    header{
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1.5em;
+    }
+
+    nav ul{
+        padding: 0;
+    }
+
+    #sobre{
+        flex-direction: column;
+        gap: 1em;
+    }
+
+    .container {
+        padding: 150px 20px;
+    }
+
+    .lista{
+        gap: 1em !important;
+    }
+
+    .card{
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .card h3{
+        white-space: normal;
+    }
+
+    .wrap_filter, #loja h3.titulo{
+        width: 100% !important;
+    }
+
+    .wrap_filter select, input{
+        width: 100% !important;
+    }
+
+    select{
+        margin-top: 1em !important;
+    }
+
+    h2 {
+        font-family: 'Inter';
+        font-size: 2em;
+        margin-top: 1.5em;
+    }
+
+    #carrinho-container{
+        padding: 30px !important;
+    }
+    
+    .carrinho-item{
+        flex-wrap: wrap;
+    }
+
+    .carrinho-botoes{
+        flex-wrap: wrap;
+        gap: 1em;
+    }
+
+    .carrinho-botoes .btn{
+        width: 100% !important;
+    }
+}
