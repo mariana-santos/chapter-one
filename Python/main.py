@@ -20,18 +20,14 @@ app.add_middleware(
     allow_origins=['*']
 )
 
-listaCategorias = Categoria.buscar_categorias_banco(dsn)
-listaEditoras = Editora.buscar_editoras_banco(dsn)
-listaAutores = Autor.buscar_autores_banco(dsn)
-listaLivros = Livro.buscar_livros_banco(dsn)
-
 #-----------------------------------------------------------------
 # API'S - AUTOR
 
 # API'S - AUTOR (LISTAR TODOS)
 @app.get("/autores", tags=["Autores"])
 def listar_autores():
-    try: 
+    try:
+        listaAutores = Autor.buscar_autores_banco(dsn)
         return listaAutores
     
     except Exception as e:
@@ -42,6 +38,7 @@ def listar_autores():
 @app.get("/autor/{id}", tags=["Autores"])
 def exibir_autor_por_id(id: int):
     try:
+        listaAutores = Autor.buscar_autores_banco(dsn)
         for autor in listaAutores:
             if autor.id == id:
                 return autor
@@ -55,6 +52,8 @@ def exibir_autor_por_id(id: int):
 @app.post("/incluir_autor", tags=["Autores"])
 def incluir_autor(novo_autor: Autor):
     try:
+        listaAutores = Autor.buscar_autores_banco(dsn)
+        
         conn = Utils.connect(dsn)
         cursor = conn.cursor()
 
@@ -81,6 +80,8 @@ def incluir_autor(novo_autor: Autor):
 @app.put("/atualizar_autor/{id}", tags=["Autores"])
 def atualizar_autor(autor_atualizar: Autor, id):
     try:
+        listaAutores = Autor.buscar_autores_banco(dsn)
+
         conn = Utils.connect(dsn)
         cursor = conn.cursor()
 
@@ -107,6 +108,8 @@ def atualizar_autor(autor_atualizar: Autor, id):
 @app.delete("/deletar_autor/{id}", tags=["Autores"])
 def deletar_autor(id):
     try:
+        listaAutores = Autor.buscar_autores_banco(dsn)
+
         conn = Utils.connect(dsn)
         cursor = conn.cursor()
 
@@ -141,7 +144,8 @@ def deletar_autor(id):
 # API'S - CATEGORIA (LISTAR TODAS)
 @app.get("/categorias", tags=["Categorias"])
 def listar_categorias():
-    try: 
+    try:
+        listaCategorias = Categoria.buscar_categorias_banco(dsn)
         return listaCategorias
     
     except Exception as e:
@@ -152,6 +156,8 @@ def listar_categorias():
 @app.get("/categoria/{id}", tags=["Categorias"])
 def exibir_categoria_por_id(id: int):
     try:
+        listaCategorias = Categoria.buscar_categorias_banco(dsn)
+
         for categoria in listaCategorias:
             if categoria.id == id:
                 return categoria
@@ -165,6 +171,8 @@ def exibir_categoria_por_id(id: int):
 @app.post("/incluir_categoria", tags=["Categorias"])
 def incluir_categoria(nova_categoria: Categoria):
     try:
+        listaCategorias = Categoria.buscar_categorias_banco(dsn)
+
         conn = Utils.connect(dsn)
         cursor = conn.cursor()
 
@@ -191,6 +199,8 @@ def incluir_categoria(nova_categoria: Categoria):
 @app.put("/atualizar_categoria/{id}", tags=["Categorias"])
 def atualizar_categoria(categoria_atualizar: Categoria, id):
     try:
+        listaCategorias = Categoria.buscar_categorias_banco(dsn)
+
         conn = Utils.connect(dsn)
         cursor = conn.cursor()
 
@@ -217,6 +227,8 @@ def atualizar_categoria(categoria_atualizar: Categoria, id):
 @app.delete("/deletar_categoria/{id}", tags=["Categorias"])
 def deletar_categoria(id):
     try:
+        listaCategorias = Categoria.buscar_categorias_banco(dsn)
+
         conn = Utils.connect(dsn)
         cursor = conn.cursor()
 
@@ -248,6 +260,7 @@ def deletar_categoria(id):
 @app.get("/editoras", tags=["Editoras"])
 def listar_editoras():
     try: 
+        listaEditoras = Editora.buscar_editoras_banco(dsn)
         return listaEditoras
     
     except Exception as e:
@@ -258,6 +271,8 @@ def listar_editoras():
 @app.get("/editora/{id}", tags=["Editoras"])
 def exibir_editora_por_id(id: int):
     try:
+        listaEditoras = Editora.buscar_editoras_banco(dsn)
+
         for editora in listaEditoras:
             if editora.id == id:
                 return editora
@@ -271,6 +286,8 @@ def exibir_editora_por_id(id: int):
 @app.post("/incluir_editora", tags=["Editoras"])
 def incluir_editora(nova_editora: Editora):
     try:
+        listaEditoras = Editora.buscar_editoras_banco(dsn)
+
         conn = Utils.connect(dsn)
         cursor = conn.cursor()
 
@@ -297,6 +314,8 @@ def incluir_editora(nova_editora: Editora):
 @app.put("/atualizar_editora/{id}", tags=["Editoras"])
 def atualizar_editora(editora_atualizar: Editora, id):
     try:
+        listaEditoras = Editora.buscar_editoras_banco(dsn)
+
         conn = Utils.connect(dsn)
         cursor = conn.cursor()
 
@@ -323,6 +342,8 @@ def atualizar_editora(editora_atualizar: Editora, id):
 @app.delete("/deletar_editora/{id}", tags=["Editoras"])
 def deletar_editora(id):
     try:
+        listaEditoras = Editora.buscar_editoras_banco(dsn)
+
         conn = Utils.connect(dsn)
         cursor = conn.cursor()
 
@@ -354,6 +375,7 @@ def deletar_editora(id):
 @app.get("/livros", tags=["Livros"])
 def listar_livros():
     try: 
+        listaLivros = Livro.buscar_livros_banco(dsn)
         return listaLivros
     
     except Exception as e:
@@ -364,6 +386,8 @@ def listar_livros():
 @app.get("/livros_por_autor/{id}", tags=["Livros"])
 def exibir_livros_por_autor(id: int):
     try:
+        listaLivros = Livro.buscar_livros_banco(dsn)
+
         livrosByAutor = []
         for livro in listaLivros:
             if livro.autores[0]['id'] == id:
@@ -378,6 +402,8 @@ def exibir_livros_por_autor(id: int):
 @app.get("/livro/{id}", tags=["Livros"])
 def exibir_livro_por_id(id: int):
     try:
+        listaLivros = Livro.buscar_livros_banco(dsn)
+
         for livro in listaLivros:
             if livro.id == id:
                 return livro
@@ -391,6 +417,8 @@ def exibir_livro_por_id(id: int):
 @app.post("/incluir_livro", tags=["Livros"])
 def incluir_livro(novo_livro: Livro):
     try:
+        listaLivros = Livro.buscar_livros_banco(dsn)
+
         conn = Utils.connect(dsn)
         cursor = conn.cursor()
 
@@ -417,6 +445,8 @@ def incluir_livro(novo_livro: Livro):
 @app.put("/atualizar_livro/{id}", tags=["Livros"])
 def atualizar_livro(livro_atualizar: Livro, id):
     try:
+        listaLivros = Livro.buscar_livros_banco(dsn)
+
         conn = Utils.connect(dsn)
         cursor = conn.cursor()
 
@@ -443,6 +473,8 @@ def atualizar_livro(livro_atualizar: Livro, id):
 @app.delete("/deletar_livro/{id}", tags=["Livros"])
 def deletar_livro(id):
     try:
+        listaLivros = Livro.buscar_livros_banco(dsn)
+
         conn = Utils.connect(dsn)
         cursor = conn.cursor()
 

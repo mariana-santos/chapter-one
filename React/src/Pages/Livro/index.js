@@ -30,37 +30,45 @@ export default function Livro(){
 
     const [verMais, setVerMais] = useState(false)
 
-    const getEditora = (livro) => {
-        const editora_obj = editoras.find((editora) => editora.id === livro.id_editora)
-        setEditora(editora_obj.nome)
+    const getEditora = (id) => {
+        fetch(`http://localhost:8000/editora/${id}`)
+        .then(resp => resp.json())
+        .then(data => setEditora(data.nome))
+        .catch(error => console.error(error))
     }
 
-    const getCategoria = (livro) => {
-        const categoria_obj = categorias.find((categoria) => categoria.id === livro.id_categoria)
-        setCategoria(categoria_obj.nome)
-        console.log(livro)
+    const getCategoria = (id) => {
+        fetch(`http://localhost:8000/categoria/${id}`)
+        .then(resp => resp.json())
+        .then(data => setCategoria(data.nome))
+        .catch(error => console.error(error))
     }
 
     //A cada vez que o id do parâmetro da rota é atualizado, o
     //useState "setLivro" é alterado com o livro correspondente
     useEffect(() => {
-        const livro_obj = livros.find((livro) => livro.id === parseInt(id))
-        setLivro(livro_obj)
+        fetch(`http://localhost:8000/livro/${id}`)
+        .then(resp => resp.json())
+        .then(data => setLivro(data))
+        .catch(error => console.error(error))
+
+        // const livro_obj = livros.find((livro) => livro.id === parseInt(id))
+        // setLivro(livro_obj)
     }, [id])
 
     //Toda vez que o livro o useState "setEditora" é atualizado
     useEffect(() => {
 
         if(livro) {
-            getEditora(livro)
-            getCategoria(livro)
+            getEditora(id)
+            getCategoria(id)
         }
 
     }, [livro])
 
     if (!livro) return <h2>Livro não encontrado</h2>
 
-    const { titulo, ano, imagem, paginas, resumo, isbn } = livro
+    const { titulo, ano, imagem, paginas, resumo, isbn, desconto, preco } = livro
 
     return(
         <>
@@ -95,12 +103,17 @@ export default function Livro(){
                             </span>
                             { resumo }
                         </p>
-                        
+  
                         <a  href="#" 
                             onClick={() => { setVerMais(!verMais) }}
                             className="btn_secondary">
                                 { verMais ? 'ver menos' : 'ver mais' }
                         </a>
+
+                        <p className="preco">
+                            {desconto > 0 && <span className='desconto'>{formatarPreco(preco)}</span>}
+                            {formatarPreco(preco - desconto)}
+                        </p>
 
                         <a href="/carrinho" className="btn">
                             Adicionar ao carrinho
@@ -129,3 +142,8 @@ function InfoLivro(props){
         </p>
     )
 }
+
+function formatarPreco(preco) {
+    return "R$ " + preco.toFixed(2).replace(".", ",")
+  }
+  

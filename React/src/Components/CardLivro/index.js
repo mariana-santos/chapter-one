@@ -1,53 +1,64 @@
 import './style.css'
-
 import { Link } from 'react-router-dom'
-
 import { HiShoppingCart } from 'react-icons/hi2'
+import { useState, useEffect, useContext } from 'react'
 
-import { useState, useEffect } from 'react'
+import { CarrinhoContext } from '../../App';
 
-export default function Card(props){
+import { formatarPreco } from '../../Assets/Utils'
 
-    const { id, titulo, imagem, preco, desconto, id_autor } = props
+export default function Card(props) {
+  const { id, titulo, imagem, preco, desconto, autores_id } = props
+  const [autores, setAutores] = useState([])
 
-    const [autor, setAutor] = useState({})
-    const [categorias, setCategorias] = useState([])
+  const { adicionarAoCarrinho, carrinho } = useContext(CarrinhoContext);
 
-    useEffect(() => {
-        fetch(`http://localhost:8000/autor/${id_autor}`)
-        .then(resp => resp.json())
-        .then(autor => setAutor(autor))
-        .catch(error => console.error(error))
-    }, [])
+  useEffect(() => {
+    const fetchAutores = async () => {
+      try {
+        const array_autores = await Promise.all(
+          autores_id.map(async (autor) => {
+            const response = await fetch(`http://localhost:8000/autor/${autor.id}`)
+            const data = await response.json()
+            return data
+          })
+        )
 
-    return(
-        <article className="card" key={id}>
-            <Link to={"/livro/" + id} >
-                <img src={imagem} alt={`Capa de ${titulo}`} />
-            </Link>
+        setAutores(array_autores)
+      } catch (error) {
+        console.error(error)
+      }
+    }
 
-            <h3>
-                {titulo}
-                <a className='autor'
-                    href={'/autor/' + autor.id} 
-                    target='_blank'>
-                        by {autor.nome}
-                </a>
-            </h3>
+    fetchAutores()
+  }, [])
 
-            <p className="preco">
-                <span>{formatarPreco(preco)}</span>
-                {formatarPreco(preco - desconto)}
-            </p>
+  return (
+    <article className="card" key={id}>
+      <Link to={"/livro/" + id}>
+        <img src={imagem} alt={`Capa de ${titulo}`} />
+      </Link>
 
-            <a href="/carrinho" className="btn">
-                Adicionar ao carrinho
-                <HiShoppingCart />
-            </a>
-        </article>
-    )
-}
+      <h3>
+        {titulo}
 
-function formatarPreco(preco){
-    return("R$ " + preco.toFixed(2).replace('.', ','))
+        {autores.map((autor, index) => (
+          <a className="autor" href={"/autor/" + autor.id} target="_blank">
+            {index === 0 && 'by'} {autor.nome}
+            {(autores.length > 1 && index < autores.length - 1) && ', '}
+          </a>
+        ))}
+      </h3>
+
+      <p className="preco">   
+        {formatarPreco(preco - desconto)}
+        {desconto > 0 && <span>{formatarPreco(preco)}</span>}
+      </p>
+
+      <Link to="/carrinho" className="btn" onClick={() => { adicionarAoCarrinho({ ...props, qtd: 1 }) }}>
+        Comprar
+        <HiShoppingCart />
+      </Link>
+    </article>
+  )
 }

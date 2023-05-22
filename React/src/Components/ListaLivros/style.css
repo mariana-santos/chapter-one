@@ -1,5 +1,5 @@
 .lista{
     display: flex;
     flex-wrap: wrap;
-    gap: 2em;
+    gap: 4em;
 }

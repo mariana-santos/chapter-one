@@ -1,26 +1,40 @@
-.card img{
-    width: 100%;
+.card img {
+    width: 80%;
     height: auto;
     aspect-ratio: 1 / 1.3;
+    transition: .3s;
 }
 
-.card{
-    width: calc(25% - 6em);
+.card img:hover{
+    opacity: .7;
+}
+
+.card {
+    width: calc(25% - 7.5em);
     text-align: center;
     background: #3a3a3a;
-    border: solid 1px #333;
+    border: solid 1.5px #4b4b4b;
     padding: 2em;
     display: flex;
     flex-direction: column;
+    transition: .3s;
 }
 
-.card h3{
-    font-size: 1.7em;
+.card:hover{
+    border: solid 1.5px #33a2fd7a;
+}
+
+.card h3 {
+    font-size: 1.7em !important;
     margin: .5em 0;
     font-weight: 800;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
-.card span, .card a.autor{
+.card span,
+.card a.autor {
     font-weight: 300;
     opacity: .7;
     font-size: .5em;
@@ -28,21 +42,21 @@
     margin-top: .2em;
 }
 
-.preco{
+.preco {
     font-size: 1.5em;
     margin-top: 0;
     font-weight: 700;
 }
 
-.card .btn{
+.card .btn {
     margin-top: auto;
 }
 
-.preco span{
+.preco span {
     text-decoration: line-through;
     font-weight: 300;
     opacity: .7;
     font-size: .7em;
     display: inline-block;
-    margin-right: .5em;
+    margin-left: .5em;
 }

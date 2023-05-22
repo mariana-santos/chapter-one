@@ -10,19 +10,54 @@ import Livro from './Pages/Livro'
 import livros from './Data/livros.json'
 import Autor from './Pages/Autor'
 
+import { createContext, useContext, useState } from 'react'
+
+export const CarrinhoContext = createContext();
+
 function App() {
 
+  const [carrinho, setCarrinho] = useState([]);
+
+  const adicionarAoCarrinho = (livro) => {
+    setCarrinho(prevCarrinho => [...prevCarrinho, livro]);
+  };
+
+  const atualizarLivro = (livro, id) => {
+    setCarrinho(prevCarrinho => {
+      const livroIndex = prevCarrinho.findIndex(item => item.id === id);
+      if (livroIndex !== -1) {
+        const novoCarrinho = [...prevCarrinho];
+        novoCarrinho[livroIndex] = livro;
+        return novoCarrinho;
+      }
+      return prevCarrinho;
+    });
+  };
+
+  const removerDoCarrinho = (livroId) => {
+    setCarrinho(prevCarrinho => prevCarrinho.filter(item => item.id !== livroId));
+  };
+
+  const carrinhoContextValue = {
+    carrinho,
+    adicionarAoCarrinho,
+    removerDoCarrinho,
+    atualizarLivro
+  };
+
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/loja' element={<Loja />} />
-        <Route path='/contato' element={<Contato />} />
-        <Route path='/carrinho' element={<Carrinho />} />
-        <Route path='/livro/:id' element={<Livro />} />
-        <Route path='/autor/:id' element={<Autor />} />
-      </Routes>
-    </BrowserRouter>
+    <CarrinhoContext.Provider value={ carrinhoContextValue }>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/loja' element={<Loja />} />
+          <Route path='/contato' element={<Contato />} />
+          <Route path='/carrinho' element={<Carrinho />} />
+          <Route path='/livro/:id' element={<Livro />} />
+          <Route path='/autor/:id' element={<Autor />} />
+        </Routes>
+      </BrowserRouter>
+    </CarrinhoContext.Provider>
   );
 }
 
