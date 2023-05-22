@@ -3,8 +3,21 @@ import './style.css'
 
 import categorias from '../../Data/categorias.json'
 
-export default function Header(){
-    return(
+import { useState, useEffect } from 'react'
+
+export default function Header() {
+
+    const [categorias, setCategorias] = useState([])
+
+    useEffect(() => {
+
+        fetch(`http://localhost:8000/categorias`)
+            .then(resp => resp.json())
+            .then(categorias => setCategorias(categorias))
+            .catch(error => console.error(error))
+    }, [])
+
+    return (
         <header>
             <div id='logo'>
                 <Link to='/' > <h1>ChapterOne</h1></Link>
@@ -12,31 +25,36 @@ export default function Header(){
 
             <nav>
                 <ul>
-                    <MenuItem path="/" label="início"/>
-                    <MenuItem path="/loja" label="loja" />
+                    <MenuItem path="/" label="início" />
+                    <MenuItem path="/loja" label="livros" />
                     <MenuItem path="/contato" label="contato" />
                     <MenuItem path="/carrinho" label="carrinho" />
-                    {/* <MenuItem path="#" label="categorias" subItems={categorias} /> */}
                 </ul>
             </nav>
         </header>
     )
 }
 
-function MenuItem(props){
+function MenuItem(props) {
     const { path, label, subItems } = props
-    return(
-        <li>
+
+    const [isHovered, setIsHovered] = useState(false)
+
+    return (
+        <li
+            onMouseEnter={() => setIsHovered(!isHovered)}
+            onMouseLeave={() => setIsHovered(!isHovered)}
+        >
             <NavLink to={path}>{label}</NavLink>
-            {/* { subItems && 
-                subItems.map((item) => {
-                    return(
-                        <ul>
-                            <li><NavLink to={path}>{item.nome}</NavLink></li>
-                        </ul>
-                    )
-                }) 
-            } */}
+            {(subItems && isHovered) &&
+                <ul className='sub-menu'>
+                    {subItems.map((item) => {
+                        return (
+                            <li><NavLink to={`${path}?categoria=${item.id}`}>{item.nome.toLowerCase()}</NavLink></li>
+                        )
+                    })}
+                </ul>
+            }
         </li>
     )
 }

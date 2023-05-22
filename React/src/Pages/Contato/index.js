@@ -66,7 +66,7 @@ export default function Contato() {
                 required
               ></textarea>
             </div>
-            <button className="btn-enviar" type="submit">Enviar</button>
+            <button className="btn btn-enviar" type="submit">Enviar</button>
           </form>
         </div>
       </div>
