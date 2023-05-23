@@ -10,7 +10,9 @@ import Livro from './Pages/Livro'
 import livros from './Data/livros.json'
 import Autor from './Pages/Autor'
 
-import { createContext, useContext, useState } from 'react'
+import Footer from './Components/Footer'
+
+import { createContext, useContext, useState, useEffect } from 'react'
 
 export const CarrinhoContext = createContext();
 
@@ -18,12 +20,36 @@ function App() {
 
   const [carrinho, setCarrinho] = useState([]);
 
+  useEffect(() => {
+    const carrinhoSalvo = sessionStorage.getItem('carrinho');
+    if (carrinhoSalvo) {
+      setCarrinho(JSON.parse(carrinhoSalvo));
+    }
+  }, []);
+
+  useEffect(() => {
+    carrinho.length >= 1 && sessionStorage.setItem('carrinho', JSON.stringify(carrinho));
+  }, [carrinho]);
+
   const adicionarAoCarrinho = (livro) => {
-    setCarrinho(prevCarrinho => [...prevCarrinho, livro]);
+    const livroExistente = carrinho.find((item) => item.id === livro.id);
+    if (livroExistente) {
+      console.log('Livro já está no carrinho');
+      return;
+    }
+    setCarrinho((prevCarrinho) => [...prevCarrinho, livro]);
   };
 
   const atualizarLivro = (livro, id) => {
-    setCarrinho(prevCarrinho => [...prevCarrinho, livro]);
+    setCarrinho(prevCarrinho => {
+      const livroIndex = prevCarrinho.findIndex(item => item.id === id);
+      if (livroIndex !== -1) {
+        const novoCarrinho = [...prevCarrinho];
+        novoCarrinho[livroIndex] = livro;
+        return novoCarrinho;
+      }
+      return prevCarrinho;
+    });
   };
 
   const removerDoCarrinho = (livroId) => {
@@ -33,7 +59,9 @@ function App() {
   const carrinhoContextValue = {
     carrinho,
     adicionarAoCarrinho,
-    removerDoCarrinho
+    removerDoCarrinho,
+    atualizarLivro,
+    setCarrinho
   };
 
   return (
@@ -48,6 +76,7 @@ function App() {
           <Route path='/autor/:id' element={<Autor />} />
         </Routes>
       </BrowserRouter>
+      <Footer />
     </CarrinhoContext.Provider>
   );
 }

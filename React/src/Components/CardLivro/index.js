@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { HiShoppingCart } from 'react-icons/hi2'
 import { useState, useEffect, useContext } from 'react'
 
-import { CarrinhoContext } from '../../App'; 
+import { CarrinhoContext } from '../../App';
 
 import { formatarPreco } from '../../Assets/Utils'
 
@@ -44,19 +44,19 @@ export default function Card(props) {
 
         {autores.map((autor, index) => (
           <a className="autor" href={"/autor/" + autor.id} target="_blank">
-            { index === 0 && 'by' } {autor.nome}
-            { (autores.length > 1 && index < autores.length - 1) && ', '}
+            {index === 0 && 'by'} {autor.nome}
+            {(autores.length > 1 && index < autores.length - 1) && ', '}
           </a>
         ))}
       </h3>
 
-      <p className="preco">
-        {desconto > 0 && <span>{formatarPreco(preco)}</span>}
+      <p className="preco">   
         {formatarPreco(preco - desconto)}
+        {desconto > 0 && <span>{formatarPreco(preco)}</span>}
       </p>
 
-      <Link to="/carrinho" className="btn" onClick={() => {adicionarAoCarrinho({...props, qtd: 1})}}>
-        Adicionar ao carrinho
+      <Link to="/carrinho" className="btn" onClick={() => { adicionarAoCarrinho({ ...props, qtd: 1 }) }}>
+        Comprar
         <HiShoppingCart />
       </Link>
     </article>

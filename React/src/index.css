@@ -30,7 +30,7 @@ header h1{
 }
 
 .container{
-  padding: 100px 50px;
+  padding: 150px 50px;
 }
 
 .btn{
@@ -48,6 +48,9 @@ header h1{
   align-items: center;
   gap: .8em;
   cursor: pointer;
+  border: none;
+  font-family: 'Inter';
+  transition: .3s;
 }
 
 .btn:hover{
