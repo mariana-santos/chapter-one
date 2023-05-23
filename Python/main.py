@@ -9,7 +9,7 @@ from fastapi import FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
 
 # CRIANDO CONEXÃO COM O BANCO
-cx_Oracle.init_oracle_client(lib_dir=r"C:\instantclient_21_10")
+cx_Oracle.init_oracle_client(lib_dir=r"C:\Program Files\instantclient_21_9")
 dsn = cx_Oracle.makedsn(host='oracle.fiap.com.br', port=1521, sid='ORCL')
 
 # INSTANCIANDO FASTAPI
