@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 
 import './style.css'
@@ -6,8 +6,8 @@ import './style.css'
 import editoras from '../../Data/editoras.json'
 import livros from '../../Data/livros.json'
 import categorias from '../../Data/categorias.json'
-
 import Header from '../../Components/Header';
+import { CarrinhoContext } from '../../App';
 
 import { BiShareAlt, BiBuildings } from 'react-icons/bi'
 import { HiShoppingCart } from 'react-icons/hi2'
@@ -18,7 +18,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function Livro(){
-
+    
     //Resgatando o id do livro enviado pelas rotas
     const { id } = useParams()
     
@@ -43,6 +43,8 @@ export default function Livro(){
         .then(data => setCategoria(data.nome))
         .catch(error => console.error(error))
     }
+
+    const { adicionarAoCarrinho, carrinho } = useContext(CarrinhoContext);
 
     //A cada vez que o id do parâmetro da rota é atualizado, o
     //useState "setLivro" é alterado com o livro correspondente
@@ -115,7 +117,9 @@ export default function Livro(){
                             {formatarPreco(preco - desconto)}
                         </p>
 
-                        <a href="/carrinho" className="btn">
+                        <a href="/carrinho" 
+                           onClick={() => { adicionarAoCarrinho({ ...livro, qtd: 1 }) }}
+                           className="btn">
                             Adicionar ao carrinho
                             <HiShoppingCart />
                         </a>
