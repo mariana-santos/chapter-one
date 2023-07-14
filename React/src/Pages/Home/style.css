@@ -1,9 +1,18 @@
+
 #sobre{
     display: flex;
     width: 90%;
     margin: auto;
     margin-bottom: 5em;
     align-items: center;
+    height: 80vh;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#sobre .coluna{
+    width: 50%;
+    height: fit-content !important;
 }
 
 #sobre p{
@@ -11,7 +20,7 @@
 }
 
 #sobre .img{
-    width: 100%;
+    width: 50%;
     display: flex;
 }
 
