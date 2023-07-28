@@ -33,3 +33,18 @@
     margin-right: 1em;
     font-weight: 300;
 }
+
+@media screen and (max-width: 768px) {
+    .autor{
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .info_autor{
+        width: 100%;
+    }
+
+    .img_autor {
+        width: 50%;
+    }
+}

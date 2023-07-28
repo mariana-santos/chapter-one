@@ -110,3 +110,36 @@
 .desconto{
     font-size: .75em !important;
 }
+
+.livro .btn_secondary{
+    padding: 0;
+    background: transparent;
+    border: none;
+    font-weight: bold;
+}
+
+.livro .preco{
+    width: 100% !important;
+}
+
+@media screen and (max-width: 768px) {
+    .livro{
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .livro .coluna{
+        width: 100%;
+    }
+
+    .livro .info_livro{
+        padding: 2em;
+        flex-wrap: wrap;
+    }
+
+    .livro .info_livro p{
+        margin: 0.3em 0;
+        width: auto;
+        margin-right: auto;
+    }
+}

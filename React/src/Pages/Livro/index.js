@@ -105,11 +105,11 @@ export default function Livro(){
                             { resumo }
                         </p>
   
-                        <a  href="#" 
+                        <button  href="#" 
                             onClick={() => { setVerMais(!verMais) }}
                             className="btn_secondary">
                                 { verMais ? 'ver menos' : 'ver mais' }
-                        </a>
+                        </button>
 
                         <p className="preco">
                             {desconto > 0 && <span className='desconto'>{formatarPreco(preco)}</span>}
