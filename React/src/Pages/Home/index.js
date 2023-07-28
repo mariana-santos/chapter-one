@@ -14,6 +14,8 @@ import './style.css'
 import ListaAutores from "../../Components/ListaAutores"
 import { useState, useEffect } from "react"
 
+import api from "../../services/api"
+
 export default function Home(){
 
     const [livros, setLivros] = useState([])
@@ -21,20 +23,19 @@ export default function Home(){
 
     useEffect(() => {
 
-        fetch('http://localhost:8000/livros')
-        .then(resp => resp.json())
-        .then((data) => {
-            setLivros(data.slice(0, 4))
-        })
-        .catch(error => console.error(error))
+        api
+            .get("/livros")
+            .then((response) => setLivros(response.data?.slice(0, 4)))
+            .catch((err) => {
+                console.error("ops! ocorreu um erro" + err);
+        });
 
-        
-        fetch('http://localhost:8000/autores')
-        .then(resp => resp.json())
-        .then((data) => {
-            setAutores(data)
-        })
-        .catch(error => console.error(error))
+        api
+            .get("/autores")
+            .then((response) => setAutores(response.data))
+            .catch((err) => {
+                console.error("ops! ocorreu um erro" + err);
+        });
 
     }, [])
 

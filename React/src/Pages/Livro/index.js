@@ -17,6 +17,8 @@ import { BsPersonFill, BsTextParagraph } from 'react-icons/bs'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import api from '../../services/api';
+
 export default function Livro(){
     
     //Resgatando o id do livro enviado pelas rotas
@@ -31,16 +33,14 @@ export default function Livro(){
     const [verMais, setVerMais] = useState(false)
 
     const getEditora = (id) => {
-        fetch(`http://localhost:8000/editora/${id}`)
-        .then(resp => resp.json())
-        .then(data => setEditora(data.nome))
+        api.get(`/editora/${id}`)
+        .then(resp => setEditora(resp.data.nome))
         .catch(error => console.error(error))
     }
 
     const getCategoria = (id) => {
-        fetch(`http://localhost:8000/categoria/${id}`)
-        .then(resp => resp.json())
-        .then(data => setCategoria(data.nome))
+        api.get(`/categoria/${id}`)
+        .then(resp => setCategoria(resp.data.nome))
         .catch(error => console.error(error))
     }
 
@@ -49,9 +49,8 @@ export default function Livro(){
     //A cada vez que o id do parâmetro da rota é atualizado, o
     //useState "setLivro" é alterado com o livro correspondente
     useEffect(() => {
-        fetch(`http://localhost:8000/livro/${id}`)
-        .then(resp => resp.json())
-        .then(data => setLivro(data))
+        api.get(`/livro/${id}`)
+        .then(resp => setLivro(resp.data))
         .catch(error => console.error(error))
 
         // const livro_obj = livros.find((livro) => livro.id === parseInt(id))
@@ -68,7 +67,7 @@ export default function Livro(){
 
     }, [livro])
 
-    if (!livro) return <h2>Livro não encontrado</h2>
+    if (!livro) return <section className='container' style={{minHeight: 700}}><h2>Livro não encontrado</h2></section>
 
     const { titulo, ano, imagem, paginas, resumo, isbn, desconto, preco } = livro
 

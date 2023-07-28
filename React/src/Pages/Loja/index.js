@@ -2,10 +2,9 @@ import { useEffect, useState } from "react"
 import Header from "../../Components/Header"
 import ListaLivros from "../../Components/ListaLivros"
 
-import livros from '../../Data/livros.json'
-import categorias from '../../Data/categorias.json'
-
 import img_erro from '../../Assets/illustr_search.svg'
+
+import api from "../../services/api"
 
 import './style.css'
 
@@ -23,19 +22,16 @@ export default function Loja() {
     const [categorias, setCategorias] = useState([])
 
     useEffect(() => {
-        fetch('http://localhost:8000/livros')
-            .then(resp => resp.json())
-            .then((data) => {
-                setLivros(data)
-                setLivrosFiltrados(data)
-                console.log(data)
+        api.get('/livros')
+            .then((resp) => {
+                setLivros(resp.data)
+                setLivrosFiltrados(resp.data)
                 setCarregando(false)
             })
             .catch(error => console.error(error))
 
-        fetch(`http://localhost:8000/categorias`)
-            .then(resp => resp.json())
-            .then(categorias => setCategorias(categorias))
+        api.get(`/categorias`)
+            .then(resp => setCategorias(resp.data))
             .catch(error => console.error(error))
     }, [])
 

@@ -12,6 +12,8 @@ import { AiFillPhone, AiFillMail } from 'react-icons/ai'
 
 import ListaLivros from '../../Components/ListaLivros'
 
+import api from '../../services/api';
+
 export default function Autor(){
 
     //Resgatando o id do autor enviado pelas rotas
@@ -21,9 +23,8 @@ export default function Autor(){
     const [livrosBy, setLivros] = useState([])
 
     const getLivros = (autor) => {
-        fetch(`http://localhost:8000/livros_por_autor/${id}`)
-        .then(resp => resp.json())
-        .then(data => setLivros(data))
+        api.get(`/livros_por_autor/${id}`)
+        .then(resp => setLivros(resp.data))
         .catch(error => console.error(error))
     }
 
@@ -31,9 +32,8 @@ export default function Autor(){
     //useState "setAutor" é alterado com o livro correspondente
     useEffect(() => {
 
-        fetch(`http://localhost:8000/autor/${id}`)
-        .then(resp => resp.json())
-        .then(data => setAutor(data))
+        api.get(`/autor/${id}`)
+        .then(resp => setAutor(resp.data))
         .catch(error => console.error(error))
 
     }, [id])
@@ -45,7 +45,7 @@ export default function Autor(){
 
     }, [autor])
 
-    if (!autor) return <h2>Autor não encontrado</h2>
+    if (!autor) return <section className='container' style={{minHeight: 700}}><h2>Autor não encontrado</h2></section>
 
     const { nome, imagem, email, telefone, bio } = autor
 

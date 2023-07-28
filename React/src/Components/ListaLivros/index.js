@@ -13,6 +13,7 @@ export default function ListaLivros(props){
             { livros.map((livro) => {
                 return(
                     <Card 
+                        key={livro.id}
                         id={livro.id} 
                         titulo={livro.titulo} 
                         preco={livro.preco} 
