@@ -1,4 +1,4 @@
-import cx_Oracle
+import oracledb
 
 from pydantic import BaseModel
 from typing import Optional
@@ -30,7 +30,7 @@ class Categoria(BaseModel):
 
             return lista_categorias
 
-        except cx_Oracle.DatabaseError as e:
+        except oracledb.DatabaseError as e:
             print(f"OCORREU UM ERRO DE BANCO DE DADOS AO BUSCAR AS CATEGORIAS: {str(e)}")
             return None
 

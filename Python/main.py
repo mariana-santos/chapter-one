@@ -1,5 +1,5 @@
 # IMPORTANDO BIBLIOTECAS
-import cx_Oracle
+import oracledb
 from Autor import Autor
 from Categoria import Categoria
 from Editora import Editora
@@ -9,8 +9,14 @@ from fastapi import FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
 
 # CRIANDO CONEXÃO COM O BANCO
-cx_Oracle.init_oracle_client(lib_dir=r"C:\Program Files\instantclient_21_9")
-dsn = cx_Oracle.makedsn(host='oracle.fiap.com.br', port=1521, sid='ORCL')
+user = "RM96466"
+password = "220693"
+dsn = "oracle.fiap.com.br/ORCL"
+
+connection = oracledb.connect(
+    user=user,
+    password=password,
+    dsn=dsn)
 
 # INSTANCIANDO FASTAPI
 app = FastAPI()
@@ -65,7 +71,7 @@ def incluir_autor(novo_autor: Autor):
 
         return Response(content="Autor cadastrado com sucesso!", media_type="text/plain")
 
-    except cx_Oracle.DatabaseError as e:
+    except oracledb.DatabaseError as e:
         print(f"OCORREU UM ERRO DE BANCO DE DADOS AO CADASTRAR NOVO AUTOR: {str(e)}")
         return Response(content="Erro de banco de dados ao cadastrar novo autor.", media_type="text/plain", status_code=500)
     
@@ -93,7 +99,7 @@ def atualizar_autor(autor_atualizar: Autor, id):
 
         return Response(content="Autor atualizado com sucesso!", media_type="text/plain")
 
-    except cx_Oracle.DatabaseError as e:
+    except oracledb.DatabaseError as e:
         print(f"OCORREU UM ERRO DE BANCO DE DADOS AO ATUALIZAR AUTOR: {str(e)}")
         return Response(content="Erro de banco de dados ao atualizar autor.", media_type="text/plain", status_code=500)
     
@@ -127,7 +133,7 @@ def deletar_autor(id):
         
         return Response(content=f"Autor com ID {id} deletado com sucesso.", media_type="text/plain", status_code=200)
 
-    except cx_Oracle.DatabaseError as e:
+    except oracledb.DatabaseError as e:
         print(f"OCORREU UM ERRO DE BANCO DE DADOS AO DELETAR AUTOR: {str(e)}")
         return Response(content="Erro ao deletar autor.", media_type="text/plain", status_code=500)
     
@@ -184,7 +190,7 @@ def incluir_categoria(nova_categoria: Categoria):
 
         return Response(content="Categoria cadastrada com sucesso!", media_type="text/plain")
 
-    except cx_Oracle.DatabaseError as e:
+    except oracledb.DatabaseError as e:
         print(f"OCORREU UM ERRO DE BANCO DE DADOS AO CADASTRAR NOVA CATEGORIA: {str(e)}")
         return Response(content="Erro de banco de dados ao cadastrar nova categoria.", media_type="text/plain", status_code=500)
     
@@ -212,7 +218,7 @@ def atualizar_categoria(categoria_atualizar: Categoria, id):
 
         return Response(content="Categoria atualizada com sucesso!", media_type="text/plain")
     
-    except cx_Oracle.DatabaseError as e:
+    except oracledb.DatabaseError as e:
         print(f"OCORREU UM ERRO DE BANCO DE DADOS AO ATUALIZAR CATEGORIA: {str(e)}")
         return Response(content="Erro de banco de dados ao atualizar categoria.", media_type="text/plain", status_code=500)
     
@@ -242,7 +248,7 @@ def deletar_categoria(id):
         
         return Response(content=f"Categoria com ID {id} deletada com sucesso.", media_type="text/plain", status_code=200)
    
-    except cx_Oracle.DatabaseError as e:
+    except oracledb.DatabaseError as e:
         print(f"OCORREU UM ERRO DE BANCO DE DADOS AO DELETAR CATEGORIA: {str(e)}")
         return Response(content="Erro ao deletar categoria.", media_type="text/plain", status_code=500)
     
@@ -299,7 +305,7 @@ def incluir_editora(nova_editora: Editora):
 
         return Response(content="Editora cadastrada com sucesso!", media_type="text/plain")
     
-    except cx_Oracle.DatabaseError as e:
+    except oracledb.DatabaseError as e:
         print(f"OCORREU UM ERRO DE BANCO DE DADOS AO CADASTRAR NOVA EDITORA: {str(e)}")
         return Response(content="Erro de banco de dados ao cadastrar nova editora.", media_type="text/plain", status_code=500)
     
@@ -327,7 +333,7 @@ def atualizar_editora(editora_atualizar: Editora, id):
 
         return Response(content="Editora atualizado com sucesso!", media_type="text/plain")
    
-    except cx_Oracle.DatabaseError as e:
+    except oracledb.DatabaseError as e:
         print(f"OCORREU UM ERRO DE BANCO DE DADOS AO ATUALIZAR EDITORA: {str(e)}")
         return Response(content="Erro de banco de dados ao atualizar editora.", media_type="text/plain", status_code=500)
     
@@ -357,7 +363,7 @@ def deletar_editora(id):
         
         return Response(content=f"Editora com ID {id} deletada com sucesso.", media_type="text/plain", status_code=200)
     
-    except cx_Oracle.DatabaseError as e:
+    except oracledb.DatabaseError as e:
         print(f"OCORREU UM ERRO DE BANCO DE DADOS AO DELETAR EDITORA: {str(e)}")
         return Response(content="Erro ao deletar editora.", media_type="text/plain", status_code=500)
     
@@ -430,7 +436,7 @@ def incluir_livro(novo_livro: Livro):
 
         return Response(content="Livro cadastrado com sucesso!", media_type="text/plain")
     
-    except cx_Oracle.DatabaseError as e:
+    except oracledb.DatabaseError as e:
         print(f"OCORREU UM ERRO DE BANCO DE DADOS AO CADASTRAR NOVO LIVRO: {str(e)}")
         return Response(content="Erro de banco de dados ao cadastrar novo livro.", media_type="text/plain", status_code=500)
     
@@ -458,7 +464,7 @@ def atualizar_livro(livro_atualizar: Livro, id):
 
         return Response(content="Livro atualizado com sucesso!", media_type="text/plain")
     
-    except cx_Oracle.DatabaseError as e:
+    except oracledb.DatabaseError as e:
         print(f"OCORREU UM ERRO DE BANCO DE DADOS AO ATUALIZAR LIVRO: {str(e)}")
         return Response(content="Erro de banco de dados ao atualizar livro.", media_type="text/plain", status_code=500)
     
@@ -492,7 +498,7 @@ def deletar_livro(id):
             
         return Response(content=f"Livro com ID {id} deletado com sucesso.", media_type="text/plain", status_code=200)
     
-    except cx_Oracle.DatabaseError as e:
+    except oracledb.DatabaseError as e:
         print(f"OCORREU UM ERRO DE BANCO DE DADOS AO DELETAR LIVRO: {str(e)}")
         return Response(content="Erro ao deletar livro.", media_type="text/plain", status_code=500)
     

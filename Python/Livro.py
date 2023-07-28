@@ -1,4 +1,4 @@
-import cx_Oracle
+import oracledb
 
 from pydantic import BaseModel
 from typing import Optional, List, Dict
@@ -61,7 +61,7 @@ class Livro(BaseModel):
 
             return lista_livros
 
-        except cx_Oracle.DatabaseError as e:
+        except oracledb.DatabaseError as e:
             print(f"OCORREU UM ERRO DE BANCO DE DADOS AO BUSCAR OS LIVROS: {str(e)}")
             return None
 

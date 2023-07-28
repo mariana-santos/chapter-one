@@ -1,4 +1,4 @@
-import cx_Oracle
+import oracledb
 
 from pydantic import BaseModel
 from typing import Optional
@@ -34,7 +34,7 @@ class Editora(BaseModel):
 
             return lista_editoras
 
-        except cx_Oracle.DatabaseError as e:
+        except oracledb.DatabaseError as e:
             print(f"OCORREU UM ERRO DE BANCO DE DADOS AO BUSCAR AS EDITORAS: {str(e)}")
             return None
 
